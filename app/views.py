@@ -110,7 +110,7 @@ def create_r():
             conn.execute('INSERT INTO recipes (name, type, descr) VALUES (?, ?, ?)',
                         (r_name, type, descr))
             rec_id = conn.execute('SELECT id FROM recipes WHERE name=?',
-                                    (r_name,)).fetchall()
+                                    (r_name,)).fetchone()
             rec_id = rec_id[0]
             for i in range(len(ingreds['names'])):
                 conn.execute('INSERT INTO ingredients (rec_id, prod_name, weight) VALUES (?, ?, ?)',
@@ -147,4 +147,8 @@ def recipes():
 @app.route('/<int:recipe_id>')
 def recipe(recipe_id):
     recipe = get_recipe(recipe_id)
-    return render_template('recipe.html', recipe=recipe)
+    conn = get_db_connection()
+    ingreds = conn.execute('SELECT * FROM ingredients WHERE rec_id=?',
+                            (recipe_id,)).fetchall()
+    conn.close()
+    return render_template('recipe.html', recipe=recipe, ingreds=ingreds)

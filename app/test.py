@@ -9,9 +9,10 @@ def run():
     conn = get_db_connection()
     #conn.execute('INSERT INTO recipes (name, type, descr) VALUES (?, ?, ?)',
     #            (r_name, type, descr))
-    conn.execute('SELECT id FROM recipes WHERE name=?',
-                        ('Some1',))
-    rec_id = conn.fetchall()
+
+    rec_id = conn.execute('SELECT id FROM recipes WHERE name=?',
+                        ('Some1',)).fetchone()
+    print (rec_id[0])
     #rec_id = rec_id[0]
     #for i in range(len(ingreds['names'])):
     #    conn.execute('INSERT INTO ingredients (rec_id, prod_name, weight) VALUES (?, ?, ?)',
@@ -19,6 +20,6 @@ def run():
     conn.commit()
     conn.close()
 
-    return rec_id
+    
 
-print(run())
+run()
