@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{% block title %} Welcome to DietCreation {% endblock %}</h1>
+    <a href="{{url_for('products')}}">
+        <h2> Products</h2>
+    </a>
+    <hr>
+    <a href="{{url_for('recipes')}}">
+        <h2> Recipes</h2>
+    </a>
+{% endblock %}

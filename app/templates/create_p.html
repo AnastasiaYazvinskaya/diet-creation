@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %} Create a New Product {% endblock %}</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" name="name"
+               placeholder="Product name" class="form-control"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="weight">Weight (gram)</label>
+        <input type="number" name="weight" placeholder="0.00"
+                  class="form-control"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="price">Price (rubles)</label>
+        <input type="number" name="price" placeholder="0.00"
+                  class="form-control"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="shop">Shop</label>
+        <input list="shops" name="shop" class="form-control"></input>
+        <datalist id="shops">
+            <option value="Магнит"></option>
+            <option value="Пятёрочка"></option>
+            <option value="Светофор"></option>
+        </datalist>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+{% endblock %}

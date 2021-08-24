@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div>
+        <h2>{% block title %} {{recipe['name']}} {% endblock %}</h2>
+        ({{recipe['type']}})
+    </div>
+    <br>
+    <h5>Ingredients:</h5>
+    
+    
+{% endblock %}
