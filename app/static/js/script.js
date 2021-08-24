@@ -1,19 +1,4 @@
 var i = 2;
-//ex = "#ingred"
-//var val1 = "{{ request.form['name_"+i+"'] }}";
-//var val2 = "{{ request.form['weight_"+i+"'] }}";
-/*
-$(document).ready(function() {
-    $("button#add").click(function() {
-        tag = ex + i;
-        i += 1;
-        $(tag).show();
-        if (i == 29){
-            $(this).hide();
-        }
-    });
-});
-*/
 
 $(document).ready(function() {
     $("#add").click(function() {
