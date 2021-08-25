@@ -14,22 +14,34 @@
 
     <div class="form-group">
         <label for="type">Type</label>
-        <input list="types" name="type" class="form-control"></input>
+        <input list="types" name="type" class="form-control" placeholder="Завтрак/Обед/Ужин/Напиток/другое"></input>
         <datalist id="types">
-            <option value="Завтрак"></option>
-            <option value="Обед"></option>
-            <option value="Ужин"></option>
-            <option value="Десерт"></option>
-            <option value="Напиток"></option>
+            {% for type in types %}
+                <option value="{{type['type']}}"></option>
+            {% endfor %}
         </datalist>
     </div>
 
     <h5>Ingredients:</h5>
     <div class="form-group">
         <label for="name_0">Name</label>
-        <input type="text" name="name_0"
-            placeholder="1 product name" class="form-control"></input>
-        
+        <input list="products" name="name_0" class="form-control" placeholder="1 product name" id="product"></input>
+        <datalist id="products">
+            {% for product in prods %}
+                {% for shop in shops %}
+                    {% if product['shop_id'] == shop['id'] %}
+                        <option value="{{product['name']}}"></option>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </datalist>
+        <!--
+        {% for error in errors %}
+            {% while added %}
+                <div id="addProduct"></div>
+            {% endwhile %}
+        {% endfor %}
+        -->
         <label for="weight_0">Weight (gram)</label>
         <input type="number" name="weight_0"
             placeholder="0.00" class="form-control"></input>

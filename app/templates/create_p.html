@@ -24,11 +24,11 @@
 
     <div class="form-group">
         <label for="shop">Shop</label>
-        <input list="shops" name="shop" class="form-control"></input>
+        <input list="shops" name="shop" class="form-control" placeholder="Shop name"></input>
         <datalist id="shops">
-            <option value="Магнит"></option>
-            <option value="Пятёрочка"></option>
-            <option value="Светофор"></option>
+            {% for shop in shops %}
+            <option value="{{shop['name']}}"></option>
+            {% endfor %}
         </datalist>
     </div>
 

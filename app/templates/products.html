@@ -20,12 +20,18 @@
                     <td scope="row"> {{ product['name']}} </td>
                     <td> {{ product['weight']}} </td>
                     <td> {{ product['price']}} </td>
-                    <td> {{ product['shop']}} </td>
+                    <td> 
+                        {% for shop in shops %}
+                            {% if product['shop_id'] == shop['id'] %}
+                                {{ shop['name']}} 
+                            {% endif %}
+                        {% endfor %}
+                    </td>
                     <td> 
                         <form action="{{ url_for('delete_p', id=product['id']) }}" method="POST">
                             <input type="submit" value="Delete"
                                     class="btn btn-outline-danger btn-sm"
-                                    onclick="return confirm('Are you sure you want to delete this post?')">
+                                    onclick="return confirm('Are you sure you want to delete this product?')">
                         </form>
                     </td>
                 </tr>

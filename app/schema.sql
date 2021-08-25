@@ -13,8 +13,14 @@ CREATE TABLE products (
     name TEXT NOT NULL,
     weight NUMERIC(10, 2) NOT NULL,
     price NUMERIC(10, 2) NOT NULL,
-    shop TEXT NOT NULL
-    --shop_id INTEGER REFERENCES shops (id)
+    shop_id INTEGER REFERENCES shops (id)
+);
+
+DROP TABLE IF EXISTS recipeTypes;
+
+CREATE TABLE recipeTypes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    type TEXT NOT NULL
 );
 
 DROP TABLE IF EXISTS recipes;
@@ -23,7 +29,7 @@ CREATE TABLE recipes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     name TEXT NOT NULL,
-    type TEXT,
+    type_id INTEGER REFERENCES recipeTypes (id),
     descr TEXT NOT NULL
 );
 
