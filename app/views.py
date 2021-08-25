@@ -93,7 +93,6 @@ def create_r():
     types = conn.execute('SELECT * FROM recipeTypes').fetchall()
     prods = conn.execute('SELECT * FROM products').fetchall()
     shops = conn.execute('SELECT * FROM shops').fetchall()
-    #errors = []
 
     if request.method == 'POST':
         r_name = request.form['r_name']
@@ -117,16 +116,7 @@ def create_r():
                 name = "name_"+str(i)
                 weight = "weight_"+str(i)
                 ingreds['names'].append(request.form[name])
-
-                #prod_exist = conn.execute('SELECT * FROM products WHERE name=?',
-                #                            (ingreds['names'][i],)).fetchall()
-                #if not prod_exist:
-                #    errors.append(ingreds['names'][i])
-
                 ingreds['weights'].append(request.form[weight])
-                i += 1
-
-                #added = request.form['added']
         except BadRequest:
             pass
         

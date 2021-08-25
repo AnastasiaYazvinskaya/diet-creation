@@ -30,7 +30,7 @@
             {% for product in prods %}
                 {% for shop in shops %}
                     {% if product['shop_id'] == shop['id'] %}
-                        <option value="{{product['name']}}"></option>
+                        <option value="{{product['name']}} [{{shop['name']}}]"></option>
                     {% endif %}
                 {% endfor %}
             {% endfor %}
