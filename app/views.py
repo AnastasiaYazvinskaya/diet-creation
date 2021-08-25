@@ -90,9 +90,9 @@ def create():
 @app.route('/create_recipe', methods=('GET', 'POST'))
 def create_r():
     conn = get_db_connection()
-    types = conn.execute('SELECT * FROM recipeTypes').fetchall()
-    prods = conn.execute('SELECT * FROM products').fetchall()
-    shops = conn.execute('SELECT * FROM shops').fetchall()
+    #types = conn.execute('SELECT * FROM recipeTypes').fetchall()
+    #prods = conn.execute('SELECT * FROM products').fetchall()
+    #shops = conn.execute('SELECT * FROM shops').fetchall()
 
     if request.method == 'POST':
         r_name = request.form['r_name']
@@ -134,7 +134,7 @@ def create_r():
             conn.commit()
             conn.close()
             return redirect(url_for('recipes'))
-    return render_template('create_r.html', prods=prods, shops=shops, types=types)#, errors=errors, added=added)
+    return render_template('create_r.html')#, prods=prods, shops=shops, types=types)#, errors=errors, added=added)
 
 @app.route('/<int:id>/delete_recipe', methods=('POST',))
 def delete_r(id):
