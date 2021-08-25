@@ -16,10 +16,9 @@
         <label for="type">Type</label>
         <input list="types" name="type" class="form-control" placeholder="Завтрак/Обед/Ужин/Напиток/другое"></input>
         <datalist id="types">
-            <option value="Ашан"></option>
-            <!--{% for type in types %}
+            {% for type in types %}
                 <option value="{{type['type']}}"></option>
-            {% endfor %}-->
+            {% endfor %}
         </datalist>
     </div>
 
@@ -28,14 +27,13 @@
         <label for="name_0">Name</label>
         <input list="products" name="name_0" class="form-control" placeholder="1 product name" id="product"></input>
         <datalist id="products">
-            <option value="Здесь должен быть список продуктов"></option>
-            <!--{% for product in prods %}
+            {% for product in prods %}
                 {% for shop in shops %}
                     {% if product['shop_id'] == shop['id'] %}
                         <option value="{{product['name']}} [{{shop['name']}}]"></option>
                     {% endif %}
                 {% endfor %}
-            {% endfor %}-->
+            {% endfor %}
         </datalist>
         <!--
         {% for error in errors %}
