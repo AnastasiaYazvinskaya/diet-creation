@@ -1,3 +1,4 @@
+from types import MethodType
 from app import app
 from flask import render_template, request, url_for, flash, redirect
 import sqlite3
@@ -19,8 +20,10 @@ def get_product(product_id):
 
 def get_recipe(recipe_id):
     conn = get_db_connection()
-    recipe = conn.execute('SELECT * FROM recipes WHERE id = ?',
-                        (recipe_id,)).fetchone()
+    recipe = conn.execute('''SELECT r.id AS id, r.name AS name, rt.type AS type, r.descr AS descr
+FROM recipes r JOIN recipeTypes rt
+ON r.type_id = rt.id
+WHERE r.id = ?''', (recipe_id,)).fetchone()
     conn.close()
     if recipe is None:
         abort(404)
@@ -82,22 +85,24 @@ def delete_p(id):
     flash('"{}" was successfully deleted!'.format(product['name']))
     return redirect(url_for('products'))
 
-def create():
-    i = 0
-    create_r(i)
-    i += 1
+@app.route('/adding_new_products')#, methods=('GET', 'POST'))
+def add_ps():
+    pass
+    #return render_template('add_ps.html')#, prods=prods, types=types)#, shops=shops, errors=errors, added=added)
 
 @app.route('/create_recipe', methods=('GET', 'POST'))
 def create_r():
     conn = get_db_connection()
     types = conn.execute('SELECT * FROM recipeTypes').fetchall()
-    prods = conn.execute('SELECT * FROM products').fetchall()
-    shops = conn.execute('SELECT * FROM shops').fetchall()
+    prods = conn.execute('''SELECT p.id AS id, p.name AS name, p.weight AS weight, p.price AS price, s.name AS shop
+FROM products p JOIN shops s
+ON p.shop_id = s.id''').fetchall()
 
     if request.method == 'POST':
         r_name = request.form['r_name']
         type = request.form['type']
         descr = request.form['descr']
+        error_p = []
 
         type_exist = conn.execute('SELECT * FROM recipeTypes WHERE type=?',
                                     (type,)).fetchone()
@@ -116,12 +121,23 @@ def create_r():
                 name = "name_"+str(i)
                 weight = "weight_"+str(i)
                 ingreds['names'].append(request.form[name])
+
+                #prod_exist = conn.execute('SELECT * FROM products WHERE name=?',
+                #                        (ingreds['names'][i],)).fetchone()
+                #if not prod_exist:
+                    #error_p.append(ingreds['names'][i])
+
                 ingreds['weights'].append(request.form[weight])
         except BadRequest:
             pass
         
         if not r_name:
             flash('Name is required!')
+        elif error_p:
+            data = []
+            data.extend((r_name, type, descr, ingreds))
+            shops = conn.execute('SELECT * FROM shops').fetchall()
+            return render_template('create_r.html',shops=shops, data=data, errors=error_p)
         else:
             conn.execute('INSERT INTO recipes (name, type_id, descr) VALUES (?, ?, ?)',
                         (r_name, type_id[0], descr))
@@ -134,7 +150,7 @@ def create_r():
             conn.commit()
             conn.close()
             return redirect(url_for('recipes'))
-    return render_template('create_r.html', prods=prods, shops=shops, types=types)#, errors=errors, added=added)
+    return render_template('create_r.html', prods=prods, types=types)#, shops=shops, errors=errors, added=added)
 
 @app.route('/<int:id>/delete_recipe', methods=('POST',))
 def delete_r(id):
@@ -149,18 +165,20 @@ def delete_r(id):
 @app.route('/products')
 def products():
     conn = get_db_connection()
-    products = conn.execute('SELECT * FROM products').fetchall()
-    shops = conn.execute('SELECT * FROM shops').fetchall()
+    products = conn.execute('''SELECT p.id AS id, p.name AS name, p.weight AS weight, p.price AS price, s.name AS shop
+FROM products p JOIN shops s
+ON p.shop_id = s.id''').fetchall()
     conn.close()
-    return render_template('products.html', products = products, shops=shops)
+    return render_template('products.html', products = products)#, shops=shops)
 
 @app.route('/recipes')
 def recipes():
     conn = get_db_connection()
-    recipes = conn.execute('SELECT * FROM recipes').fetchall()
-    types = conn.execute('SELECT * FROM recipeTypes').fetchall()
+    recipes = conn.execute('''SELECT r.id AS id, r.name AS name, rt.type AS type, r.descr AS descr
+FROM recipes r JOIN recipeTypes rt
+ON r.type_id = rt.id''').fetchall()
     conn.close()
-    return render_template('recipes.html', recipes = recipes, types=types)
+    return render_template('recipes.html', recipes = recipes)
 
 @app.route('/<int:recipe_id>')
 def recipe(recipe_id):
@@ -168,6 +186,6 @@ def recipe(recipe_id):
     conn = get_db_connection()
     ingreds = conn.execute('SELECT * FROM ingredients WHERE rec_id=?',
                             (recipe_id,)).fetchall()
-    types = conn.execute('SELECT * FROM recipeTypes').fetchall()
+    #types = conn.execute('SELECT * FROM recipeTypes').fetchall()
     conn.close()
-    return render_template('recipe.html', recipe=recipe, types=types, ingreds=ingreds)
+    return render_template('recipe.html', recipe=recipe, ingreds=ingreds)

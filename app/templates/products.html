@@ -17,16 +17,10 @@
         <tbody>
             {% for product in products %}
                 <tr>
-                    <td scope="row"> {{ product['name']}} </td>
-                    <td> {{ product['weight']}} </td>
-                    <td> {{ product['price']}} </td>
-                    <td> 
-                        {% for shop in shops %}
-                            {% if product['shop_id'] == shop['id'] %}
-                                {{ shop['name']}} 
-                            {% endif %}
-                        {% endfor %}
-                    </td>
+                    <td scope="row"> {{ product['name'] }} </td>
+                    <td> {{ product['weight'] }} </td>
+                    <td> {{ product['price'] }} </td>
+                    <td> {{ product['shop'] }} </td>
                     <td> 
                         <form action="{{ url_for('delete_p', id=product['id']) }}" method="POST">
                             <input type="submit" value="Delete"

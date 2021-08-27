@@ -9,12 +9,18 @@
     <div class="form-group">
         <label for="r_name">Name</label>
         <input type="text" name="r_name"
-            placeholder="Recipe name" class="form-control"></input>
+            placeholder="Recipe name" class="form-control"
+            {% if data %}
+                value="{{data[0]}}"
+            {% endif %}></input>
     </div>
 
     <div class="form-group">
         <label for="type">Type</label>
-        <input list="types" name="type" class="form-control" placeholder="Завтрак/Обед/Ужин/Напиток/другое"></input>
+        <input list="types" name="type" class="form-control" placeholder="Завтрак/Обед/Ужин/Напиток/другое"
+            {% if data %}
+                value="{{data[1]}}"
+            {% endif %}></input>
         <datalist id="types">
             {% for type in types %}
                 <option value="{{type['type']}}"></option>
@@ -23,22 +29,19 @@
     </div>
 
     <h5>Ingredients:</h5>
+
     <div class="form-group">
         <label for="name_0">Name</label>
-        <input list="products" name="name_0" class="form-control" placeholder="1 product name" id="product"></input>
+        <input list="products" name="name_0" class="form-control" placeholder="1 product name" id="product" value="{{ request.form['name_0'] }}"></input>
         <datalist id="products">
             {% for product in prods %}
-                {% for shop in shops %}
-                    {% if product['shop_id'] == shop['id'] %}
-                        <option value="{{product['name']}} [{{shop['name']}}]"></option>
-                    {% endif %}
-                {% endfor %}
+                <option value="{{product['name']}} [{{product['shop']}}]"></option>
             {% endfor %}
         </datalist>
         
         <label for="weight_0">Weight (gram)</label>
         <input type="number" name="weight_0"
-            placeholder="0.00" class="form-control"></input>
+            placeholder="0.00" class="form-control" value="{{ request.form['weight_0'] }}"></input>
     </div>
 
     <div id="ingredientAdd"></div>
@@ -50,7 +53,10 @@
     <div class="form-group">
         <label for="descr">Description</label>
         <textarea name="descr" placeholder="Recipe description"
-                  class="form-control"></textarea>
+            class="form-control"
+            {% if data %}
+                value="{{data[2]}}"
+            {% endif %}></textarea>
     </div>
 
     <div class="form-group">

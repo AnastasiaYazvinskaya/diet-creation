@@ -3,11 +3,7 @@
 {% block content %}
     <div>
         <h2>{% block title %} {{recipe['name']}} {% endblock %}</h2>
-        {% for type in types %}
-            {% if recipe['type_id'] == type['id'] %}
-                ({{ type['type']}})
-            {% endif %}
-        {% endfor %}
+        ({{ recipe['type'] }})
     </div>
     <br>
     <div style="width: 300px;">
@@ -23,7 +19,7 @@
     </div>
     <hr>
     <div>
-        <h5>Description</h5>
+        <h5>Description:</h5>
         <p>{{recipe['descr']}}</p>
     </div>
 {% endblock %}

@@ -8,21 +8,19 @@ def get_db_connection():
 def run():
     """conn = get_db_connection()
 
-    rec_id = conn.execute('SELECT * FROM recipes').fetchall()
+    test = conn.execute('''SELECT r.id AS id, r.name AS name, rt.type AS type, r.descr AS descr
+FROM recipes r JOIN recipeTypes rt
+ON r.type_id = rt.id
+WHERE r.id = ?''', (6,)).fetchone()
 
-    print (rec_id)
+    print(test['type'])
 
     conn.commit()
     conn.close()"""
-    while True:
-        try:
-            integ1 = int(input("Integer1: "))
-            try:
-                integ2 = int(input("Integer2: "))
-            except ValueError:
-                print("integ2 error")
-        except ValueError:
-            print("integ1 error")
-    
+    test = []
+    if test:
+        print('Not empty')
+    else:
+        print('Empty')
 
 run()

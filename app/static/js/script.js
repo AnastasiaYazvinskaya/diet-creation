@@ -1,17 +1,13 @@
-var i = 2;
+var i = 1;
 
 $(document).ready(function() {
     $("#add").click(function() {
         $("#ingredientAdd").append('<div class="form-group">' +
 '        <label for="name_'+i+'">Name</label>' +
-'        <input list="products" name="name'+i+'" class="form-control" placeholder="'+i+' product name"></input>' +
+'        <input list="products" name="name_'+i+'" class="form-control" placeholder="'+(i+1)+' product name"></input>' +
 '        <datalist id="types">' +
 '            {% for product in prods %}' +
-'                {% for shop in shops %}' +
-'                    {% if product["shop_id"] = shop["id"] %}' +
-'                        <option value="{{product["name"]}}"></option>' +
-'                    {% endif %}' +
-'                {% endfor %}' +
+'                <option value="{{product["name"]}} [{{product["shop"]}}]"></option>' +
 '            {% endfor %}' +
 '        </datalist>' +     
 '        <label for="weight_'+i+'">Weight (gram)</label>' +
@@ -23,26 +19,31 @@ $(document).ready(function() {
             $(this).hide();
         }
     });
-/*
-    $("#addProduct").append('<!-- Modal -->' +
-'    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">' +
-'      <div class="modal-dialog" role="document">' +
-'        <div class="modal-content">' +
-'          <div class="modal-header">' +
-'            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>' +
-'            <button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
-'              <span aria-hidden="true">&times;</span>' +
-'            </button>' +
-'          </div>' +
-'          <div class="modal-body">' +
-'            ' +
-'          </div>' +
-'          <div class="modal-footer">' +
-'            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>' +
-'            <button type="button" class="btn btn-primary">Save changes</button>' +
-'          </div>' +
-'        </div>' +
-'      </div>' +
-'    </div>');
-*/
+
+    $("#addProduct").append('<div class="form-group">' +
+'    <label for="name">Name</label>' +
+'    <input type="text" name="name"' +
+'           placeholder="Product name" class="form-control" value="'+$("span#product").text()+'"></input>' +
+'</div>' +
+'<div class="form-group">' +
+'    <label for="weight">Weight (gram)</label>' +
+'    <input type="number" name="weight" placeholder="0.00"' +
+'              class="form-control"></input>' +
+'</div>' +
+'<div class="form-group">' +
+'    <label for="price">Price (rubles)</label>' +
+'    <input type="number" name="price" placeholder="0.00"' +
+'              class="form-control"></input>' +
+'</div>' +
+'<div class="form-group">' +
+'    <label for="shop">Shop</label>' +
+'    <input list="shops" name="shop" class="form-control" placeholder="Shop name"  value="{{ request.form["shop"] }}"></input>' +
+'    <datalist id="shops">' +
+'        {% for shop in shops %}' +
+'        <option value="{{shop["name"]}}"></option>' +
+'        {% endfor %}' +
+'    </datalist>' +
+'</div>');
+        
+       // '<div>'+$("span#product").text()+'</div>');
 });

@@ -7,24 +7,24 @@
     <div class="form-group">
         <label for="name">Name</label>
         <input type="text" name="name"
-               placeholder="Product name" class="form-control"></input>
+               placeholder="Product name" class="form-control" value="{{ request.form['name'] }}"></input>
     </div>
 
     <div class="form-group">
         <label for="weight">Weight (gram)</label>
         <input type="number" name="weight" placeholder="0.00"
-                  class="form-control"></input>
+                  class="form-control" value="{{ request.form['weight'] }}"></input>
     </div>
 
     <div class="form-group">
         <label for="price">Price (rubles)</label>
         <input type="number" name="price" placeholder="0.00"
-                  class="form-control"></input>
+                  class="form-control" value="{{ request.form['price'] }}"></input>
     </div>
 
     <div class="form-group">
         <label for="shop">Shop</label>
-        <input list="shops" name="shop" class="form-control" placeholder="Shop name"></input>
+        <input list="shops" name="shop" class="form-control" placeholder="Shop name"  value="{{ request.form['shop'] }}"></input>
         <datalist id="shops">
             {% for shop in shops %}
             <option value="{{shop['name']}}"></option>

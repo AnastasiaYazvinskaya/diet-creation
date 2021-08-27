@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block script %}
+<script src="static/js/script.js"></script>
+{% endblock %}
+
+{% block content %}
+<h1>{% block title %} Create new Products {% endblock %}</h1>
+<p>Some products you tried to add to the recipe aren't listed </p>
+
+<form method="post">
+    {% for product in errors %}
+        <span id="product" style="display: none;">{{product}}</span>
+        <div id="addProduct"></div>
+    {% endfor %}
+</form>
+{% endblock %}
