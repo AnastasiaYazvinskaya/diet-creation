@@ -1,12 +1,16 @@
 {% extends "base.html" %}
-
+<!-- Content for displaying list of recipes -->
 {% block content %}
+<!-- Title -->
     <h1>{% block title %} List of Recipes {% endblock %}</h1>
+    <!-- Badge (button) for creating new product -->
     <a href="{{url_for('create_r')}}">
         <span class="badge badge-primary">New Recipe</span>
     </a>
     <br>
+    <!-- Displaying a list of recipes in a table (col: name, type, actions)-->
     <table class="table">
+        <!-- Table head -->
         <thead class="thead-light">
             <tr>
                 <th scope="col"> Name </th>
@@ -14,7 +18,9 @@
                 <th scope="col"></th>
             </tr>
         </thead>
+        <!-- Table body -->
         <tbody>
+            <!-- For each recipe in data create a new row in a table -->
             {% for recipe in recipes %}
                 <tr>
                     <td scope="row">

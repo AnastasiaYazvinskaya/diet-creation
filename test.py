@@ -6,21 +6,16 @@ def get_db_connection():
     return conn
 
 def run():
-    """conn = get_db_connection()
+    conn = get_db_connection()
 
-    test = conn.execute('''SELECT r.id AS id, r.name AS name, rt.type AS type, r.descr AS descr
-FROM recipes r JOIN recipeTypes rt
-ON r.type_id = rt.id
-WHERE r.id = ?''', (6,)).fetchone()
+    test = conn.execute('''SELECT * FROM products''').fetchall()
 
-    print(test['type'])
+    for prod in test:
+        print(f"{prod[0]}. {prod[2]} ({prod[3]}) - {prod[4]} [{prod[5]}]")
+
 
     conn.commit()
-    conn.close()"""
-    test = []
-    if test:
-        print('Not empty')
-    else:
-        print('Empty')
+    conn.close()
+    print(test)
 
 run()

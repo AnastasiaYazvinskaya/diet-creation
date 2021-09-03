@@ -1,11 +1,14 @@
 {% extends "base.html" %}
-
+<!-- Content for starting page -->
 {% block content %}
+    <!-- Welcome title -->
     <h1>{% block title %} Welcome to DietCreation {% endblock %}</h1>
+    <!-- Look at the products list -->
     <a href="{{url_for('products')}}">
         <h2> Products</h2>
     </a>
     <hr>
+    <!-- Look at the recipes list -->
     <a href="{{url_for('recipes')}}">
         <h2> Recipes</h2>
     </a>

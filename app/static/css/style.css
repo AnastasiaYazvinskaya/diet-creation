@@ -1,0 +1,12 @@
+.modal-body {
+    background-color: rgb(245, 245, 245);
+}
+.modal-footer {
+    padding-top: 30px; 
+}
+.carousel-indicators {
+    bottom: -60px;
+}
+.carousel-indicators li{
+    background-color: rgb(149, 233, 205);
+}

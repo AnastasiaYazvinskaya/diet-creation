@@ -112,6 +112,25 @@ ON p.shop_id = s.id''').fetchall()
         type_id = conn.execute('SELECT * FROM recipeTypes WHERE type=?',
                                 (type,)).fetchone()
 
+        try:
+            for i in range(0, 30):
+                p_name = request.form["p_name_"+str(i)]
+                p_weight = request.form["p_weight_"+str(i)]
+                p_price = request.form["p_price_"+str(i)]
+                p_shop = request.form["p_shop_"+str(i)]
+                if p_weight and p_price and p_shop:
+                    shop_exist = conn.execute('SELECT id FROM shops WHERE name=?',
+                                        (p_shop,)).fetchone()
+                    if not shop_exist:
+                        add = conn.execute('INSERT INTO shops (name) VALUES (?)',
+                                            (p_shop,))
+                    shop_id = conn.execute('SELECT id FROM shops WHERE name=?',
+                                            (p_shop,)).fetchone()
+                    conn.execute('INSERT INTO products (name, weight, price, shop_id) VALUES (?, ?, ?, ?)',
+                                (p_name, p_weight, p_price, shop_id[0]))
+        except BadRequest:
+            pass
+
         ingreds = {
             'names': [],
             'weights': []
@@ -122,10 +141,10 @@ ON p.shop_id = s.id''').fetchall()
                 weight = "weight_"+str(i)
                 ingreds['names'].append(request.form[name])
 
-                #prod_exist = conn.execute('SELECT * FROM products WHERE name=?',
-                #                        (ingreds['names'][i],)).fetchone()
-                #if not prod_exist:
-                    #error_p.append(ingreds['names'][i])
+                prod_exist = conn.execute('SELECT * FROM products WHERE name=?',
+                                        (ingreds['names'][i],)).fetchone()
+                if not prod_exist:
+                    error_p.append(ingreds['names'][i])
 
                 ingreds['weights'].append(request.form[weight])
         except BadRequest:

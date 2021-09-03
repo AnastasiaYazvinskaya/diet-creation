@@ -1,11 +1,12 @@
 {% extends "base.html" %}
-
+<!-- Content for displaying chosen recipe -->
 {% block content %}
-    <div>
-        <h2>{% block title %} {{recipe['name']}} {% endblock %}</h2>
-        ({{ recipe['type'] }})
-    </div>
+    <!-- Recipe name -->
+    <h2>{% block title %} {{recipe['name']}} {% endblock %}</h2>
+    <!-- Recipe type -->
+    <span>({{ recipe['type'] }})</span>
     <br>
+    <!-- List of ingredients-->
     <div style="width: 300px;">
         <h5>Ingredients:</h5>
         <ul class="list-group list-group-flush">
@@ -18,8 +19,7 @@
         </ul>
     </div>
     <hr>
-    <div>
-        <h5>Description:</h5>
-        <p>{{recipe['descr']}}</p>
-    </div>
+    <!-- Recipe description -->
+    <h5>Description:</h5>
+    <p>{{recipe['descr']}}</p>
 {% endblock %}
