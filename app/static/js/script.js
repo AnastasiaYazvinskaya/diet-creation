@@ -1,15 +1,21 @@
 var i = 1;
 
+function find_prod_index() {
+    // Finding the next index of product (if page was refreshed)
+    index=0;
+    for (let j=0; j<30; j++) {
+        var check=document.getElementById('repeate_'+j);
+        if (check) {
+           index=j+1;
+        }
+    }
+    return index;
+}
+
 $(document).ready(function() {
     // "Add ingredient" button click handling
+    i=find_prod_index()
     $("#add").click(function() {
-        // Finding the next index of product (if page was refreshed)
-        for (let j=1; j<30; j++) {
-            var check=document.getElementById('repeate_'+j);
-            if (check) {
-               i=j+1;
-            }
-        }
         // Adding new fields for nex ingredient (ingredient name and weight)
         $("#ingredientAdd").append('<div class="form-group">' +
 '        <label for="name_'+i+'">Name</label>' +
