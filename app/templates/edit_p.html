@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 <!-- Content for editing product -->
 {% block content %}
+    <!-- Button trigger modal -->
+    {% if prod_exist %}
+        <p class="border border-danger text-center" style="margin: 5px 30%;"> A product with the same name already exists
+            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#Modal">
+                See more
+            </button>
+        </p>
+    {% endif %}
     <!-- Title -->
     <h1>{% block title %} Edit "{{product['name']}}" {% endblock %}</h1>
     <!-- Form -->
@@ -39,5 +47,40 @@
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Save changes</button>
         </div>
+        <!-- Modal for creating new products used in recipe -->
+        {% if prod_exist %}  
+            <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <!-- Modal header with close button -->
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{data['name']}} ({{data['weight']}}) - {{data['price']}} [{{data['shop']}}]</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <p>The product(-s) with the same name already exists. Choose one of the next:</p>
+                            <div class="form-group">
+                                {% for product in prod_exist %}
+                                    <input type="radio" name="exist" id="{{product['id']}}"
+                                        value="{{product['id']}}"></input>
+                                    <label for="{{product['id']}}">{{product['name']}} ({{product['weight']}}) - {{product['price']}} [{{product['shop']}}]</label>
+                                    <br>
+                                {% endfor %}
+                                <input type="radio" name="exist" id="new"
+                                    value="new"></input>
+                                <label for="new">Create new</label>
+                            </div>
+                        </div>
+                        <!-- Controls with submiting form button -->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </form>
 {% endblock %}

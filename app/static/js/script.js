@@ -14,7 +14,7 @@ function find_prod_index() {
 
 $(document).ready(function() {
     // "Add ingredient" button click handling
-    i=find_prod_index()
+    i=find_prod_index()+1
     $("#add").click(function() {
         // Adding new fields for nex ingredient (ingredient name and weight)
         $("#ingredientAdd").append('<div class="form-group">' +
