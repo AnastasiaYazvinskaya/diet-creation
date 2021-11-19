@@ -1,5 +1,7 @@
 import app.recipes as r
 import app.products as p
+import app.menu as m
+#import app.test as t
 import app.connect as c
 from app import app
 # Starting-welcome page (just open)

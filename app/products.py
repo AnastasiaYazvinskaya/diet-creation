@@ -28,7 +28,10 @@ class ProductAct:
                                          WHERE p.name=? AND s.name=?''',
                                         (self.data['name'], self.data['shop'])).fetchall()
             try:
-                new = c.request.form['exist'] # id or 'new'
+                if self.prod_exist:
+                    new = c.request.form['exist'] # id or 'new'
+                else:
+                    new = 'new'
             except c.BadRequest:
                 pass
             # If one of the field is empty then refresh page with saving data in the fields

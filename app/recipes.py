@@ -132,7 +132,7 @@ def recipes():
     conn.close()
     return c.render_template('recipes.html', recipes = recipes)
 # Recipe information page (open)
-@app.route('/<int:recipe_id>')
+@app.route('/recipe<int:recipe_id>')
 def recipe(recipe_id):
     recipe = get_recipe(recipe_id)
     conn = c.get_db_connection()

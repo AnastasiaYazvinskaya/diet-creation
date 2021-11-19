@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+<!-- Styles -->
+{% block style %}
+    <link rel="stylesheet" href="static/css/menu_style.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+{% endblock %}
+<!-- Scripts-->
+{% block script %}
+    <!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="static/js/menu_script.js"></script>
+{% endblock %}
+<!---->
+{% block navigation %}
+<div id="menu-nav">
+    {% for menu in menus %}
+        <a href="{{url_for('menu', menu_id=menu['id'])}}">{{ menu['menu_name'] }}</a>
+    {% endfor %}
+</div>
+{% endblock %}
+<!-- Content for displaying chosen recipe -->
+{% block content %}
+    <!-- Title -->
+    <h2>{% block title %} {{menu['menu_name']}} {% endblock %}</h2>
+    <hr>
+    <div id="container">
+        <table class="table table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">№ Week</th>
+                    <th scope="col">Monday</th>
+                    <th scope="col">Tuesday</th>
+                    <th scope="col">Wednesday</th>
+                    <th scope="col">Thursday</th>
+                    <th scope="col">Friday</th>
+                    <th scope="col">Saturday</th>
+                    <th scope="col">Sunday</th>
+                </tr>
+            </thead>
+            {% for week in weeks%}
+                <tbody>
+                    <tr>
+                        <th scope="row" rowspan="3">{{week}}</th>
+                        {% for d in range(7) %}
+                        <td>
+                            {% for place in range(5) %}
+                                {% for recipe in menu_info if recipe[2] == d and recipe[3] == week and recipe[5] == 1 and recipe[6] == place %}
+                                    <div>{{recipe[1]}}<!--Breakfast--></div>
+                                {% endfor %}
+                            {% endfor %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        {% for d in range(7) %}
+                        <td >
+                            {% for place in range(5) %}
+                                {% for recipe in menu_info if recipe[2] == d and recipe[3] == week and recipe[5] == 2 and recipe[6] == place %}
+                                    <div>{{recipe[1]}}<!--Lunch--></div>
+                                {% endfor %}
+                            {% endfor %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        {% for d in range(7) %}
+                        <td >
+                            {% for place in range(5) %}
+                                {% for recipe in menu_info if recipe[2] == d and recipe[3] == week and recipe[5] == 3 and recipe[6] == place %}
+                                    <div>{{recipe[1]}}<!--Dinner--></div>
+                                {% endfor %}
+                            {% endfor %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+        <br><br>
+        <div>
+            <form action="{{ url_for('delete_m', id=menu['id']) }}" method="POST"style="display: inline-block;">
+                <input type="submit" value="Delete"
+                        class="btn btn-outline-danger btn-sm"
+                        onclick="return confirm('Are you sure you want to delete this recipe?')">
+            </form>
+            <a href="{{ url_for('edit_m', id=menu['id']) }}" style="display: inline-block;">
+                <span class="btn btn-outline-warning btn-sm">Edit</span>
+            </a>
+        </div>
+    </div>
+{% endblock %}

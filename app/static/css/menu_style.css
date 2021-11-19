@@ -1,0 +1,71 @@
+@import "base_style.css";
+
+/**/
+#menu-nav {
+    display: flex;
+    flex-flow: row nowrap;
+    background-color: rgba(218, 216, 216, 0.479);
+}
+#menu-nav a {
+    margin: 0 15px;
+    color: #000;
+}
+
+/* Menu page */
+.recipe { 
+    padding: 0.5em;  
+    margin: 10px 10px 10px 0;
+    border: thin solid black;
+    background-color: rgb(204, 219, 219);
+    text-align: center; 
+    display: inline-block;
+    cursor: all-scroll;
+    border-radius: 3px;
+}
+.drop-meal_1, .drop-meal_2, .drop-meal_3 {
+    background-color: rgba(252, 51, 29, 0.308)/*rgba(252, 248, 29, 0.308)*/;
+    text-align: center;
+}
+.drop-meal_4 {
+    background-color: rgba(252, 180, 172, 0.308);
+    text-align: center; 
+}
+tr>* {
+    width: 12.5%;
+}
+
+td {
+    height: auto;
+    padding: 0;
+    margin: 0;
+}
+td div {
+    padding: 0;
+    margin: 0 -10px;
+}
+td div:first-child {
+    margin-top: -10px;
+}
+
+.addItem {
+    text-align: center;
+}
+.addItem td {
+    padding: 0;
+    margin: 0;
+}
+.addItem button {
+    padding: 0;
+    margin: 0;
+    margin-top: -5px;
+    font-size: smaller;
+}
+
+/* Testing part */
+
+#response {
+    padding:10px;
+    background-color:#9F9;
+    border:2px solid #396;
+    margin-bottom:20px;
+}

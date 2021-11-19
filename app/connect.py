@@ -1,5 +1,5 @@
 import sqlite3
-from flask import render_template, request, url_for, flash, redirect
+from flask import render_template, request, url_for, flash, redirect, jsonify
 from werkzeug.exceptions import BadRequest, InternalServerError, abort
 
 # Get connection to db

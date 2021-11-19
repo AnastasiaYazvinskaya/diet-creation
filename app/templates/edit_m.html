@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+<!-- Styles -->
+{% block style %}
+    <link rel="stylesheet" href="static/css/menu_style.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+{% endblock %}
+<!-- Scripts-->
+{% block script %}
+    <!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="static/js/menu_script.js"></script>
+{% endblock %}
+<!-- Content for displaying chosen recipe -->
+{% block content %}
+    <!-- Title -->
+    <h2>{% block title %} Edit "{{ menu['menu_name'] }}" {% endblock %}</h2>
+    <hr>
+    <div id="edit" class="create-edit">
+    <form method="post">
+        <div id="menu_id" style="display: none;">{{ menu['id'] }}</div>
+        <!-- Text field for menu name -->
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input id="menu_name" type="text" name="name" placeholder="Menu name"
+                class="form-control" value="{{ menu['menu_name'] }}"></input>
+        </div>
+        
+        {% if recipes %}
+            <!-- Buttons for types of recipes -->
+            {% for type in types %}
+                <button type="button" id="show_{{ type['id'] }}"
+                    class="btn btn-info">{{ type['type'] }}</button>
+                <div id="type_id" style="display: none;">{{type['id']}}</div>
+            {% endfor %}
+        <div id="container">
+                <!-- List of recipes -->
+                {% for type in types %}
+                    <div id="{{type['id']}}_hide" style="display: none;">
+                        {% for recipe in recipes if recipe['type']==type['type'] %} 
+                            <div class="recipe">
+                                {% if type['id'] < 4 %}
+                                    <div class="drag meal_{{type['id']}}">{{recipe['name']}}</div>
+                                {% else %}
+                                    <div class="drag meal_4">{{recipe['name']}}</div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div><p> If you do not find a recipe: <a href="{{url_for('create_r')}}">Add recipe</a></p></div>
+                    </div>
+                {% endfor %}
+            {% else %}
+            <div><p> You do not have recipes. <a href="{{url_for('create_r')}}">Add recipe</a></p></div>
+            {% endif %}
+            <!-- Table for creating menu -->
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">№ Week</th>
+                        <th scope="col">Monday</th>
+                        <th scope="col">Tuesday</th>
+                        <th scope="col">Wednesday</th>
+                        <th scope="col">Thursday</th>
+                        <th scope="col">Friday</th>
+                        <th scope="col">Saturday</th>
+                        <th scope="col">Sunday</th>
+                    </tr>
+                </thead>
+                {% for week in range(1, 5) %}{% if week in weeks %}
+                <!-- Week with data -->
+                <tbody id="week_{{week}}" class="week">
+                    <!--Breakfast-->
+                    <tr>
+                        <th scope="row" rowspan="6">{{week}}</th>
+                        {% for d in range(7) %}
+                            <td id="day_{{d}}">
+                                {% for place in range(5) %}
+                                    {% if place == 0 %}
+                                        {% for recipe in menu_info if recipe[2] == d and recipe[3] == week and recipe[5] == 1 and recipe[6] == place %}
+                                            <div id="place_{{place}}" class="drop drop-meal_1" style="background-color: rgba(252, 200, 29, 0.479);">{{recipe[1]}}</div>
+                                        {% else %}
+                                            <div id="place_{{place}}" class="drop drop-meal_1">Breakfast</div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for recipe in menu_info if recipe[2] == d and recipe[3] == week and recipe[5] == 1 and recipe[6] == place %}
+                                            <div id="meal_1-place_{{place}}" class="drop drop-meal_4 meal_1-place_{{place}}" style="background-color: rgba(255, 229, 142, 0.521);">{{recipe[1]}}</div>
+                                        {% else %}
+                                            <div id="meal_1-place_{{place}}" class="drop drop-meal_4 meal_1-place_{{place}}" style="display: none;">Other</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    <tr id="meal_1" class="addItem"><td scope="col" colspan="7"><button type="button" class="btn btn-link">+Item to Breakfast<div style="display: none;">1</div></button></td></tr>
+                    <!--Lunch-->
+                    <tr>
+                        {% for d in range(7) %}
+                            <td id="day_{{d}}">
+                                {% for place in range(5) %}
+                                    {% if place == 0 %}
+                                        {% for recipe in menu_info if recipe[2] == d and recipe[3] == week and recipe[5] == 2 and recipe[6] == place %}
+                                            <div id="place_{{place}}" class="drop drop-meal_2" style="background-color: rgba(252, 200, 29, 0.479);">{{recipe[1]}}</div>
+                                        {% else %}
+                                            <div id="place_{{place}}" class="drop drop-meal_2">Lunch</div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for recipe in menu_info if recipe[2] == d and recipe[3] == week and recipe[5] == 2 and recipe[6] == place %}
+                                            <div id="meal_2-place_{{place}}" class="drop drop-meal_4 meal_2-place_{{place}}" style="background-color: rgba(255, 229, 142, 0.521);">{{recipe[1]}}</div>
+                                        {% else %}
+                                            <div id="meal_2-place_{{place}}" class="drop drop-meal_4 meal_2-place_{{place}}" style="display: none;">Other</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    <tr id="meal_2" class="addItem"><td scope="col" colspan="7"><button type="button" class="btn btn-link">+Item to Lunch<div style="display: none;">1</div></button></td></tr>
+                    <!--Dinner-->
+                    <tr>
+                        {% for d in range(7) %}
+                            <td id="day_{{d}}">
+                                {% for place in range(5) %}
+                                    {% if place == 0 %}
+                                        {% for recipe in menu_info if recipe[2] == d and recipe[3] == week and recipe[5] == 3 and recipe[6] == place %}
+                                            <div id="place_{{place}}" class="drop drop-meal_3" style="background-color: rgba(252, 200, 29, 0.479);">{{recipe[1]}}</div>
+                                        {% else %}
+                                            <div id="place_{{place}}" class="drop drop-meal_3">Dinner</div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for recipe in menu_info if recipe[2] == d and recipe[3] == week and recipe[5] == 3 and recipe[6] == place %}
+                                            <div id="meal_3-place_{{place}}" class="drop drop-meal_4 meal_3-place_{{place}}" style="background-color: rgba(255, 229, 142, 0.521);">{{recipe[1]}}</div>
+                                        {% else %}
+                                            <div id="meal_3-place_{{place}}" class="drop drop-meal_4 meal_3-place_{{place}}" style="display: none;">Other</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    <tr id="meal_3" class="addItem"><td scope="col" colspan="7"><button type="button" class="btn btn-link">+Item to Dinner<div style="display: none;">1</div></button></td></tr>
+                </tbody>
+                {% else %}
+                <!-- Week without data -->
+                <tbody id="week_{{week}}" class="week" style="display: none;">
+                    <!--Breakfast-->
+                    <tr>
+                        <th scope="row" rowspan="6">{{week}}</th>
+                        {% for d in range(7) %}
+                            <td id="day_{{d}}">
+                                <div id="place_0" class="drop drop-meal_1">Breakfast</div>
+                                <div id="meal_1-place_1" class="drop drop-meal_4 meal_1-place_1" style="display: none;">Other</div>
+                                <div id="meal_1-place_2" class="drop drop-meal_4 meal_1-place_2" style="display: none;">Other</div>
+                                <div id="meal_1-place_3" class="drop drop-meal_4 meal_1-place_3" style="display: none;">Other</div>
+                                <div id="meal_1-place_4" class="drop drop-meal_4 meal_1-place_4" style="display: none;">Other</div>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    <tr id="meal_1" class="addItem"><td scope="col" colspan="7"><button type="button" class="btn btn-link">+Item to Breakfast<div style="display: none;">1</div></button></td></tr>
+                    <!--Lunch-->
+                    <tr>
+                        {% for d in range(7) %}
+                            <td id="day_{{d}}">
+                                <div id="place_0" class="drop drop-meal_2">Lunch</div>
+                                <div id="meal_2-place_1" class="drop drop-meal_4 meal_2-place_1" style="display: none;">Other</div>
+                                <div id="meal_2-place_2" class="drop drop-meal_4 meal_2-place_2" style="display: none;">Other</div>
+                                <div id="meal_2-place_3" class="drop drop-meal_4 meal_2-place_3" style="display: none;">Other</div>
+                                <div id="meal_2-place_4" class="drop drop-meal_4 meal_2-place_4" style="display: none;">Other</div>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    <tr id="meal_2" class="addItem"><td scope="col" colspan="7"><button type="button" class="btn btn-link">+Item to Lunch<div style="display: none;">1</div></button></td></tr>
+                    <!--Dinner-->
+                    <tr>
+                        {% for d in range(7) %}
+                            <td id="day_{{d}}">
+                                <div id="place_0" class="drop drop-meal_3">Dinner</div>
+                                <div id="meal_3-place_1" class="drop drop-meal_4 meal_3-place_1" style="display: none;">Other</div>
+                                <div id="meal_3-place_2" class="drop drop-meal_4 meal_3-place_2" style="display: none;">Other</div>
+                                <div id="meal_3-place_3" class="drop drop-meal_4 meal_3-place_3" style="display: none;">Other</div>
+                                <div id="meal_3-place_4" class="drop drop-meal_4 meal_3-place_4" style="display: none;">Other</div>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    <tr id="meal_3" class="addItem"><td scope="col" colspan="7"><button type="button" class="btn btn-link">+Item to Dinner<div style="display: none;">1</div></button></td></tr>
+                </tbody>
+                {% endif %}
+                {% endfor %}
+            </table>
+            <br><br>
+        </div> <!--End of container-->
+        <button type="button" id="addWeek" class="btn btn-secondary">Add week</button>
+        <button id="send" type="submit" class="btn btn-primary">Save Menu</button>
+        <div id="check">Recipe name</div>
+        <div id="response"></div>
+    </form></div>
+{% endblock %}
