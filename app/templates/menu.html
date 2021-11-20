@@ -42,7 +42,7 @@
                     <tr>
                         <th scope="row" rowspan="3">{{week}}</th>
                         {% for d in range(7) %}
-                        <td>
+                        <td style="background-color: rgba(114, 18, 143, 0.253);">
                             {% for place in range(5) %}
                                 {% for recipe in menu_info if recipe[2] == d and recipe[3] == week and recipe[5] == 1 and recipe[6] == place %}
                                     <div>{{recipe[1]}}<!--Breakfast--></div>
@@ -53,7 +53,7 @@
                     </tr>
                     <tr>
                         {% for d in range(7) %}
-                        <td >
+                        <td style="background-color: rgba(114, 18, 143, 0.192);">
                             {% for place in range(5) %}
                                 {% for recipe in menu_info if recipe[2] == d and recipe[3] == week and recipe[5] == 2 and recipe[6] == place %}
                                     <div>{{recipe[1]}}<!--Lunch--></div>
@@ -64,7 +64,7 @@
                     </tr>
                     <tr>
                         {% for d in range(7) %}
-                        <td >
+                        <td style="background-color: rgba(114, 18, 143, 0.123);">
                             {% for place in range(5) %}
                                 {% for recipe in menu_info if recipe[2] == d and recipe[3] == week and recipe[5] == 3 and recipe[6] == place %}
                                     <div>{{recipe[1]}}<!--Dinner--></div>
