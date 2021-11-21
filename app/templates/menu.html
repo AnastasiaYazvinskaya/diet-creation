@@ -8,13 +8,13 @@
 {% block script %}
     <!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="static/js/menu_script.js"></script>
+    <script src="static/js/script.js"></script>
 {% endblock %}
 <!---->
 {% block navigation %}
 <div id="menu-nav">
     {% for menu in menus %}
-        <a href="{{url_for('menu', menu_id=menu['id'])}}">{{ menu['menu_name'] }}</a>
+        <a href="{{url_for('menu', menu_id=menu['id'])}}">{{ menu['menu_name'] }}</a> 
     {% endfor %}
 </div>
 {% endblock %}
@@ -42,10 +42,10 @@
                     <tr>
                         <th scope="row" rowspan="3">{{week}}</th>
                         {% for d in range(7) %}
-                        <td style="background-color: rgba(114, 18, 143, 0.253);">
+                        <td {# style="background-color: rgba(114, 18, 143, 0.253);" #}>
                             {% for place in range(5) %}
-                                {% for recipe in menu_info if recipe[2] == d and recipe[3] == week and recipe[5] == 1 and recipe[6] == place %}
-                                    <div>{{recipe[1]}}<!--Breakfast--></div>
+                                {% for recipe in menu_info if recipe['weekday_id'] == d and recipe['week'] == week and recipe['type'] == 1 and recipe['place'] == place %}
+                                    <div><a href="{{ url_for('recipe', recipe_id=recipe['rec_id']) }}">{{recipe['recipe']}}</a><!--Breakfast--></div>{#{{ url_for('recipe', recipe_id=recipe['rec_id']) }}#}
                                 {% endfor %}
                             {% endfor %}
                         </td>
@@ -53,10 +53,10 @@
                     </tr>
                     <tr>
                         {% for d in range(7) %}
-                        <td style="background-color: rgba(114, 18, 143, 0.192);">
+                        <td {# style="background-color: rgba(114, 18, 143, 0.192);" #}>
                             {% for place in range(5) %}
-                                {% for recipe in menu_info if recipe[2] == d and recipe[3] == week and recipe[5] == 2 and recipe[6] == place %}
-                                    <div>{{recipe[1]}}<!--Lunch--></div>
+                                {% for recipe in menu_info if recipe['weekday_id'] == d and recipe['week'] == week and recipe['type'] == 2 and recipe['place'] == place %}
+                                    <div>{{recipe['recipe']}}<!--Lunch--></div>
                                 {% endfor %}
                             {% endfor %}
                         </td>
@@ -64,10 +64,10 @@
                     </tr>
                     <tr>
                         {% for d in range(7) %}
-                        <td style="background-color: rgba(114, 18, 143, 0.123);">
+                        <td {# style="background-color: rgba(114, 18, 143, 0.123);" #}>
                             {% for place in range(5) %}
-                                {% for recipe in menu_info if recipe[2] == d and recipe[3] == week and recipe[5] == 3 and recipe[6] == place %}
-                                    <div>{{recipe[1]}}<!--Dinner--></div>
+                                {% for recipe in menu_info if recipe['weekday_id'] == d and recipe['week'] == week and recipe['type'] == 3 and recipe['place'] == place %}
+                                    <div>{{recipe['recipe']}}<!--Dinner--></div>
                                 {% endfor %}
                             {% endfor %}
                         </td>
@@ -76,7 +76,23 @@
                 </tbody>
             {% endfor %}
         </table>
-        <br><br>
+        <br>
+        <!--
+        <section>
+            <div><p>Show a product list for: 
+                <button type="button" id="list_1" class="btn btn-link">1 Week</button>
+                <button type="button" id="list_2" class="btn btn-link">2 Weeks</button>
+                {# <button type="button" id="list_3" class="btn btn-link"></button> #}
+                <button type="button" id="list_4" class="btn btn-link">1 month (4 Weeks)</button>
+            </p></div>
+            <div id="products_1" style="display: none;">List of products for 1 week</div>
+            <div id="products_2" style="display: none;">List of products for 2 weeks</div>
+            {# <div id="products_3" style="display: none;">List of products for 1 week</div> #}
+            <div id="products_4" style="display: none;">List of products for 1 month (4 weeks)</div>
+        </section>
+    -->
+
+        <br>
         <div>
             <form action="{{ url_for('delete_m', id=menu['id']) }}" method="POST"style="display: inline-block;">
                 <input type="submit" value="Delete"

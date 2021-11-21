@@ -8,7 +8,10 @@
 }
 #menu-nav a {
     margin: 0 15px;
+    padding: 0 5px;
     color: #000;
+    font-size: small;
+    border-right: 0.5px solid rgba(66, 66, 66, 0.521)
 }
 
 thead {
@@ -64,6 +67,13 @@ td div:first-child {
     margin: 0;
     margin-top: -5px;
     font-size: smaller;
+}
+
+
+.btn-link {
+    color: rgb(9, 8, 80);
+    padding: 0;
+    text-decoration: underline;
 }
 
 /* Testing part */

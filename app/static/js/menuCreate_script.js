@@ -1,5 +1,4 @@
 var week = 2;
-var item = 1;
 
 $(document).ready(function() {
     /* Menu Creation */
