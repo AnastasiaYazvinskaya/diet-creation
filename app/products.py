@@ -35,9 +35,10 @@ class ProductAct:
             except c.BadRequest:
                 pass
             # If one of the field is empty then refresh page with saving data in the fields
+            print(new)
             if not self.data['name'] or not self.data['weight'] or not self.data['price'] or not self.data['shop']:
                 c.flash('Name is requered!')
-            elif new == 'new':
+            elif new == 'new' or new == '':
                 shop_exist = self.conn.execute('SELECT id FROM shops WHERE name=?',
                                             (self.data['shop'],)).fetchone()
                 if not shop_exist:
@@ -58,6 +59,7 @@ class ProductAct:
         return True
     def edit(self, shop_id):
         # Updating product information
+        print("Updated")
         self.conn.execute('''UPDATE products SET name=?, weight=?, price=?, shop_id=?
                             WHERE id=?''',
                          (self.data['name'], self.data['weight'], self.data['price'], shop_id[0], self.product['id']))
