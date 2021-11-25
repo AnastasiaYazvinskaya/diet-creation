@@ -46,7 +46,7 @@ $(document).ready(function() {
     }
     /* Create draggable objects */
     $(".drag").draggable({
-        containment: "#container",
+        containment: "#menu-container",
         helper: "clone",
         revert: "invalid"
     });

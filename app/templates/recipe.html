@@ -12,7 +12,7 @@
         <ul class="list-group list-group-flush">
             {% for ingred in ingreds %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{ingred['prod_name']}}
+                        {{ingred['name']}}
                         <span class="badge badge-primary badge-pill">{{ingred['weight']}}</span>
                     </li>
             {% endfor %}

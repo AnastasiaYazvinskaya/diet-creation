@@ -104,8 +104,9 @@ class RecipeAct:
                             (self.data['r_name'],)).fetchone()
         rec_id = rec_id[0]
         for i in range(len(self.data['ingreds']['names'])):
-            self.conn.execute('INSERT INTO ingredients (rec_id, prod_name, weight) VALUES (?, ?, ?)',
-                        (rec_id , self.data['ingreds']['names'][i], self.data['ingreds']['weights'][i]))
+            prod_id =self.conn.execute('SELECT id FROM products WHERE name=?', (self.data['ingreds']['names'][i],)).fetchone()
+            self.conn.execute('INSERT INTO ingredients (rec_id, prod_id, weight) VALUES (?, ?, ?)',
+                        (rec_id , prod_id[0], self.data['ingreds']['weights'][i]))
         self.conn.commit()
         self.conn.close()
         return True
@@ -117,8 +118,9 @@ class RecipeAct:
                                 (self.data['r_name'],)).fetchone()
         rec_id = rec_id[0]
         for i in range(len(self.data['ingreds']['names'])):
-            self.conn.execute('INSERT INTO ingredients (rec_id, prod_name, weight) VALUES (?, ?, ?)',
-                        (rec_id , self.data['ingreds']['names'][i], self.data['ingreds']['weights'][i]))
+            prod_id =self.conn.execute('SELECT id FROM products WHERE name=?', (self.data['ingreds']['names'][i],)).fetchone()
+            self.conn.execute('INSERT INTO ingredients (rec_id, prod_id, weight) VALUES (?, ?, ?)',
+                        (rec_id , prod_id[0], self.data['ingreds']['weights'][i]))
         self.conn.commit()
         self.conn.close()
         return True
@@ -136,7 +138,9 @@ def recipes():
 def recipe(recipe_id):
     recipe = get_recipe(recipe_id)
     conn = c.get_db_connection()
-    ingreds = conn.execute('SELECT * FROM ingredients WHERE rec_id=?',
+    ingreds = conn.execute('''SELECT i.rec_id AS rec_id, i.prod_id AS prod_id, p.name AS name, i.weight AS weight
+                            FROM ingredients i JOIN products p ON i.prod_id = p.id 
+                            WHERE i.rec_id=?''',
                             (recipe_id,)).fetchall()
     conn.close()
     return c.render_template('recipe.html', recipe=recipe, ingreds=ingreds)

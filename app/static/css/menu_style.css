@@ -68,12 +68,40 @@ td div:first-child {
     margin-top: -5px;
     font-size: smaller;
 }
+.products-list {
+    font-size: small;
+}
+.products-list ul {
+    width: 300px;
+}
+.full-list-of-prods {
+    height: auto;
+    max-height: 320px;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+}
+.full-list-of-prods::-webkit-scrollbar {
+    width: 3px;
+}
+.full-list-of-prods::-webkit-scrollbar-thumb {
+    background: rgb(192, 192, 192);
+    border-radius: 30px;
+}
+.products-list .btn-link {
+    font-size: small;
+}
+.badge {
+    width: 50px;
+}
 
 
 .btn-link {
-    color: rgb(9, 8, 80);
+    color: #000;
     padding: 0;
     text-decoration: underline;
+}
+td a {
+    color: #000;
 }
 
 /* Testing part */
@@ -83,4 +111,5 @@ td div:first-child {
     background-color:#9F9;
     border:2px solid #396;
     margin-bottom:20px;
+    color: rgb(253, 238, 198);
 }

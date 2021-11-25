@@ -69,11 +69,17 @@ def get_menu(menu_id):
         c.abort(404)
     return menu
 def get_weeks(info):
-    weeks = []
-    weeks.append(info[0][3])
+    weeks = [ info[0][3] ]
+    new = ''
     for row in info:
-        if row[3] != weeks[0]:
-            weeks.append(row[3])
+        for i in range(len(weeks)):
+            if row[3] != weeks[i]:
+                new = row[3]
+            else:
+                new = ''
+                break
+            if i == len(weeks)-1 and new != '':
+                weeks.append(new)
     return weeks
 
 # List of menu page (open)
@@ -92,8 +98,25 @@ def menu(menu_id):
     menu_info = conn.execute("""SELECT m.id AS id, r.name AS recipe, m.weekday_id AS weekday_id, m.week AS week, m.menu_id AS menu_id, m.type AS type, m.place AS place, m.rec_id AS rec_id
                                 FROM meal m JOIN recipes r  ON m.rec_id = r.id WHERE m.menu_id=?""", (menu_id,)).fetchall()
     weeks = get_weeks(menu_info)
+    products = conn.execute("""SELECT m.week AS week, m.rec_id AS rec_id, p.id AS prod_id, p.name AS prod_name, SUM(i.weight) AS weight, 
+                                p.price*SUM(i.weight)/p.weight AS price, s.name AS shop_name
+                                FROM meal m JOIN ingredients i ON m.rec_id=i.rec_id
+                                JOIN products p ON i.prod_id=p.id
+                                JOIN shops s ON p.shop_id=s.id
+                                WHERE m.menu_id=?
+                                GROUP BY m.week, p.id""", (menu_id,)).fetchall()
+    total_price = [0, 0, 0, 0]
+    for product in products:
+        if product['week'] == 1:
+            total_price[0] += product['price']
+        elif product['week'] == 2:
+            total_price[1] += product['price']
+        elif product['week'] == 3:
+            total_price[2] += product['price']
+        elif product['week'] == 4:
+            total_price[3] += product['price']
     conn.close()
-    return c.render_template('menu.html', menus=menus, menu=menu, menu_info=menu_info, weeks=weeks)
+    return c.render_template('menu.html', menus=menus, menu=menu, menu_info=menu_info, weeks=weeks, products=products, price=total_price)
 # Create menu
 @app.route('/create_menu', methods=('GET', 'POST'))
 def create_m():
@@ -159,8 +182,8 @@ def update_m():
         if menuAct.data.menu['breakfast'] or menuAct.data.menu['lunch'] or menuAct.data.menu['dinner']:
             if act == "create":
                 if menuAct.act(menuAct.create):
-                    finish = c.url_for('menus')
+                    finish = c.url_for('menu', menu_id=menuAct.data.id)
             elif act == "edit":
                 if menuAct.act(menuAct.edit):
-                    finish = c.url_for('menus')
+                    finish = c.url_for('menu', menu_id=menuAct.data.id)
     return finish

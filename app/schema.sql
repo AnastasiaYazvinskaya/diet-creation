@@ -26,7 +26,7 @@ CREATE TABLE recipeTypes (
 DROP TABLE IF EXISTS recipes;
 CREATE TABLE recipes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    --created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     name TEXT NOT NULL,
     type_id INTEGER REFERENCES recipeTypes (id),
     descr TEXT NOT NULL
@@ -36,8 +36,8 @@ DROP TABLE IF EXISTS ingredients;
 CREATE TABLE ingredients (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     rec_id INTEGER REFERENCES recipеs (id),
-    --prod_id INTEGER REFERENCES products (id),
-    prod_name TEXT NOT NULL,
+    prod_id INTEGER REFERENCES products (id),
+    --prod_name TEXT NOT NULL,
     weight NUMERIC(10, 2) NOT NULL
 );
 

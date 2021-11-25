@@ -1,16 +1,18 @@
 {% extends "base.html" %}
-<!-- Styles -->
+
+{#<!-- Styles -->#}
 {% block style %}
-    <link rel="stylesheet" href="static/css/menu_style.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="static/css/menu_style.css">
 {% endblock %}
-<!-- Scripts-->
+
+{#<!-- Scripts-->#}
 {% block script %}
-    <!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="static/js/script.js"></script>
 {% endblock %}
-<!---->
+
+{#<!-- Navigating through the available menus -->#}
 {% block navigation %}
 <div id="menu-nav">
     {% for menu in menus %}
@@ -18,13 +20,17 @@
     {% endfor %}
 </div>
 {% endblock %}
-<!-- Content for displaying chosen recipe -->
+
+{#<!-- Content for displaying chosen recipe -->#}
 {% block content %}
-    <!-- Title -->
-    <h2>{% block title %} {{menu['menu_name']}} {% endblock %}</h2>
+    {#<!-- Title -->#}
+    <h2>{% block title %} {{ menu['menu_name'] }} {% endblock %}</h2>
     <hr>
-    <div id="container">
+    {#<!-- Menu container -->#}
+    <div id="menu-container">
+        {#<!-- Table with base menu information -->#}
         <table class="table table-bordered">
+            {#<!-- Head of the table (Names of the columns) -->#}
             <thead class="thead-light">
                 <tr>
                     <th scope="col">№ Week</th>
@@ -37,68 +43,174 @@
                     <th scope="col">Sunday</th>
                 </tr>
             </thead>
-            {% for week in weeks%}
+            {#<!-- Bodies of the table (One week = one Body) -->#}
+            {% for week in weeks %}
                 <tbody>
+                    {#<!-- Breakfast row -->#}
                     <tr>
-                        <th scope="row" rowspan="3">{{week}}</th>
+                        {#<!-- Number of week (Concatenates all three rows) -->#}
+                        <th scope="row" rowspan="3">{{ week }}</th>
+                        {#<!-- List of the dishes for Breakfast for each day of the week-->#}
                         {% for d in range(7) %}
-                        <td {# style="background-color: rgba(114, 18, 143, 0.253);" #}>
-                            {% for place in range(5) %}
-                                {% for recipe in menu_info if recipe['weekday_id'] == d and recipe['week'] == week and recipe['type'] == 1 and recipe['place'] == place %}
-                                    <div><a href="{{ url_for('recipe', recipe_id=recipe['rec_id']) }}">{{recipe['recipe']}}</a><!--Breakfast--></div>{#{{ url_for('recipe', recipe_id=recipe['rec_id']) }}#}
-                                {% endfor %}
-                            {% endfor %}
-                        </td>
+                            <td>{% for place in range(5) %}{% for recipe in menu_info if recipe['weekday_id'] == d and recipe['week'] == week and recipe['type'] == 1 and recipe['place'] == place %}
+                                <div><a href="{{ url_for('recipe', recipe_id=recipe['rec_id']) }}">{{ recipe['recipe'] }}</a></div>
+                            {% endfor %}{% endfor %}</td>
                         {% endfor %}
                     </tr>
+                    {#<!-- Lunch row -->#}
                     <tr>
+                        {#<!-- List of the dishes for Lunch for each day of the week -->#}
                         {% for d in range(7) %}
-                        <td {# style="background-color: rgba(114, 18, 143, 0.192);" #}>
-                            {% for place in range(5) %}
-                                {% for recipe in menu_info if recipe['weekday_id'] == d and recipe['week'] == week and recipe['type'] == 2 and recipe['place'] == place %}
-                                    <div>{{recipe['recipe']}}<!--Lunch--></div>
-                                {% endfor %}
-                            {% endfor %}
-                        </td>
+                            <td>{% for place in range(5) %}{% for recipe in menu_info if recipe['weekday_id'] == d and recipe['week'] == week and recipe['type'] == 2 and recipe['place'] == place %}
+                                <div><a href="{{ url_for('recipe', recipe_id=recipe['rec_id']) }}">{{ recipe['recipe'] }}</a></div>
+                            {% endfor %}{% endfor %}</td>
                         {% endfor %}
                     </tr>
+                    {#<!-- Dinner row -->#}
                     <tr>
+                        {#<!-- List of dishes for Dinner for each day of the week -->#}
                         {% for d in range(7) %}
-                        <td {# style="background-color: rgba(114, 18, 143, 0.123);" #}>
-                            {% for place in range(5) %}
-                                {% for recipe in menu_info if recipe['weekday_id'] == d and recipe['week'] == week and recipe['type'] == 3 and recipe['place'] == place %}
-                                    <div>{{recipe['recipe']}}<!--Dinner--></div>
-                                {% endfor %}
-                            {% endfor %}
-                        </td>
+                            <td>{% for place in range(5) %}{% for recipe in menu_info if recipe['weekday_id'] == d and recipe['week'] == week and recipe['type'] == 3 and recipe['place'] == place %}
+                                <div><a href="{{ url_for('recipe', recipe_id=recipe['rec_id']) }}">{{ recipe['recipe'] }}</a></div>
+                            {% endfor %}{% endfor %}</td>
                         {% endfor %}
                     </tr>
                 </tbody>
             {% endfor %}
         </table>
         <br>
-        <!--
+        {#<!-- Section for showing product list for 1-4 weeks depends on what user will choose -->#}
         <section>
+            {#<!-- Line with buttons for selecting the number of weeks to form a list of products -->#}
             <div><p>Show a product list for: 
-                <button type="button" id="list_1" class="btn btn-link">1 Week</button>
-                <button type="button" id="list_2" class="btn btn-link">2 Weeks</button>
-                {# <button type="button" id="list_3" class="btn btn-link"></button> #}
-                <button type="button" id="list_4" class="btn btn-link">1 month (4 Weeks)</button>
+                <button type="button" id="list_1" class="btn btn-link week-num">1 Week</button>
+                <button type="button" id="list_2" class="btn btn-link week-num">2 Weeks</button>
+                <button type="button" id="list_3" class="btn btn-link week-num">3 Weeks</button>
+                <button type="button" id="list_4" class="btn btn-link week-num">1 month (4 Weeks)</button>
             </p></div>
-            <div id="products_1" style="display: none;">List of products for 1 week</div>
-            <div id="products_2" style="display: none;">List of products for 2 weeks</div>
-            {# <div id="products_3" style="display: none;">List of products for 1 week</div> #}
-            <div id="products_4" style="display: none;">List of products for 1 month (4 weeks)</div>
+            {#<!-- Creating product list for ONE week -->#}
+            <div id="products_1" class="products-list" style="display: none;">
+                {#<!-- If in menu just one week, show the product list -->#}
+                {% if weeks|length == 1 %}
+                    List of products for <b>1 week</b>
+                    <ul class="list-group list-group-flush">
+                        {#<!-- List height will be fixed Scrollbar will be here -->#}
+                        <div class="full-list-of-prods">
+                            {% for prod in products %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ prod['prod_name'] }}
+                                    <div>
+                                        <span class="badge badge-primary badge-pill">{{ '%0.2f' % prod['weight'] }}g</span>
+                                        <span class="badge badge-warning badge-pill">{{ '%0.2f' % prod['price'] }}</span>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </div>
+                        {#<!-- Total price will be fixed and visiable always -->#}
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="font-weight: bold; background-color: rgb(231, 231, 231);">
+                            Total price
+                            <div>
+                                <span class="badge badge-warning badge-pill">{{ '%0.2f' % price[0] }}</span>
+                            </div>
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+            {#<!-- Creating product list for TWO weeks -->#}
+            <div id="products_2" class="products-list" style="display: none;">
+                {#<!-- If in menu just one week, show the product list -->#}
+                {% if weeks|length == 1 %}
+                    List of products for <b>2 weeks</b>
+                    <ul class="list-group list-group-flush">
+                        {#<!-- List height will be fixed Scrollbar will be here -->#}
+                        <div class="full-list-of-prods">
+                            {% for prod in products %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ prod['prod_name'] }}
+                                    <div>
+                                        <span class="badge badge-primary badge-pill">{{ '%0.2f' % (prod['weight'] * 2) }}g</span>
+                                        <span class="badge badge-warning badge-pill">{{ '%0.2f' % (prod['price'] * 2) }}</span>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </div>
+                        {#<!-- Total price will be fixed and visiable always -->#}
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="font-weight: bold; background-color: rgb(231, 231, 231);">
+                            Total price
+                            <div>
+                                <span class="badge badge-warning badge-pill">{{ '%0.2f' % (price[0] * 2) }}</span>
+                            </div>
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+            {#<!-- Creating product list for three weeks -->#}
+            <div id="products_3" class="products-list" style="display: none;">
+                {#<!-- If in menu just one week, show the product list -->#}
+                {% if weeks|length == 1 %}
+                    List of products for <b>3 weeks</b>
+                    <ul class="list-group list-group-flush">
+                        {#<!-- List height will be fixed Scrollbar will be here -->#}
+                        <div class="full-list-of-prods">
+                            {% for prod in products %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ prod['prod_name'] }}
+                                    <div>
+                                        <span class="badge badge-primary badge-pill">{{ '%0.2f' % (prod['weight'] * 3) }}g</span>
+                                        <span class="badge badge-warning badge-pill">{{ '%0.2f' % (prod['price'] * 3) }}</span>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </div>
+                        {#<!-- Total price will be fixed and visiable always -->#}
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="font-weight: bold; background-color: rgb(231, 231, 231);">
+                            Total price
+                            <div>
+                                <span class="badge badge-warning badge-pill">{{ '%0.2f' % (price[0] * 3) }}</span>
+                            </div>
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+            {#<!-- Creating product list for one month (four weeks) -->#}
+            <div id="products_4" class="products-list" style="display: none;">
+                {#<!-- If in menu just one week, show the product list -->#}
+                {% if weeks|length == 1 %}
+                    List of products for <b>1 month (4 weeks)</b>
+                    <ul class="list-group list-group-flush">
+                        {#<!-- List height will be fixed Scrollbar will be here -->#}
+                        <div class="full-list-of-prods">
+                            {% for prod in products %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ prod['prod_name'] }}
+                                    <div>
+                                        <span class="badge badge-primary badge-pill">{{ '%0.2f' % (prod['weight'] * 4) }}g</span>
+                                        <span class="badge badge-warning badge-pill">{{ '%0.2f' % (prod['price'] * 4) }}</span>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </div>
+                        {#<!-- Total price will be fixed and visiable always -->#}
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="font-weight: bold; background-color: rgb(231, 231, 231);">
+                            Total price
+                            <div>
+                                <span class="badge badge-warning badge-pill">{{ '%0.2f' % (price[0] * 4) }}</span>
+                            </div>
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
         </section>
-    -->
-
         <br>
+        {#<!-- Buttons for action with menu -->#}
         <div>
+            {#<!-- Button to delete -->#}
             <form action="{{ url_for('delete_m', id=menu['id']) }}" method="POST"style="display: inline-block;">
                 <input type="submit" value="Delete"
                         class="btn btn-outline-danger btn-sm"
                         onclick="return confirm('Are you sure you want to delete this recipe?')">
             </form>
+            {#<!-- Button to edit -->#}
             <a href="{{ url_for('edit_m', id=menu['id']) }}" style="display: inline-block;">
                 <span class="btn btn-outline-warning btn-sm">Edit</span>
             </a>
