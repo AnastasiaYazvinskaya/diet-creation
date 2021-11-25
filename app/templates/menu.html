@@ -114,6 +114,41 @@
                             </div>
                         </li>
                     </ul>
+                    {#<!-- If in menu there are more than one week create additional line with buttons for choosing needed week -->#}
+                    {% else %}
+                        {#<!-- Line with buttons for choosing needed week -->#}
+                        <div><p>You have more than 1 week in menu. Choose the week: 
+                            {% for week in weeks %}
+                            <button type="button" id="list-one-week_{{ week }}" class="btn btn-link one-week">{{ week }} Week</button>
+                            {% endfor %}
+                        </p></div>
+                        {#<!-- Product lists for each week -->#}
+                        {% for week in weeks %}
+                        <div id="one-week_{{ week }}" style="display: none;">
+                            List of products for <b>{{ week }} week</b>
+                            <ul class="list-group list-group-flush">
+                                {#<!-- List height will be fixed Scrollbar will be here -->#}
+                                <div class="full-list-of-prods">
+                                    {% for prod in products if prod['week'] == week %}
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            {{ prod['prod_name'] }}
+                                            <div>
+                                                <span class="badge badge-primary badge-pill">{{ '%0.2f' % prod['weight'] }}g</span>
+                                                <span class="badge badge-warning badge-pill">{{ '%0.2f' % prod['price'] }}</span>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </div>
+                                {#<!-- Total price will be fixed and visiable always -->#}
+                                <li class="list-group-item d-flex justify-content-between align-items-center" style="font-weight: bold; background-color: rgb(231, 231, 231);">
+                                    Total price
+                                    <div>
+                                        <span class="badge badge-warning badge-pill">{{ '%0.2f' % price[week-1] }}</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        {% endfor %}
                 {% endif %}
             </div>
             {#<!-- Creating product list for TWO weeks -->#}
