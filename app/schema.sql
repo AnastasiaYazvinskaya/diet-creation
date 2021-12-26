@@ -11,8 +11,8 @@ CREATE TABLE products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     name TEXT NOT NULL,
-    weight NUMERIC(10, 2) NOT NULL,
-    price NUMERIC(10, 2) NOT NULL,
+    weight NUMERIC(10, 4) NOT NULL,
+    price NUMERIC(10, 4) NOT NULL,
     shop_id INTEGER REFERENCES shops (id)
 );
 
@@ -38,7 +38,7 @@ CREATE TABLE ingredients (
     rec_id INTEGER REFERENCES recipеs (id),
     prod_id INTEGER REFERENCES products (id),
     --prod_name TEXT NOT NULL,
-    weight NUMERIC(10, 2) NOT NULL
+    weight NUMERIC(10, 4) NOT NULL
 );
 
 -- Menu INFO

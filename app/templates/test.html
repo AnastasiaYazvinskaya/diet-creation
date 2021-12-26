@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{#<!-- Styles -->#}
+{% block style %}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="static/css/menu_style.css">
+{% endblock %}
+
+{#<!-- Scripts-->#}
+{% block script %}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript">
+        var weeks_num = '{{ weeks }}';
+    </script>
+    <script type="text/javascript" src="static/js/script.js"></script>
+{% endblock %}
+
+{#<!-- Content for displaying chosen recipe -->#}
+{% block content %}
+    {#<!-- Title -->#}
+    <h2>{% block title %} {{ menu['menu_name'] }} {% endblock %}<span id="menu-id">{{ menu['id'] }}</span></h2>
+    <hr>
+    {#<!-- Section for showing product list for 1-4 weeks depends on what user will choose -->#}
+    <section>
+        {#<!-- Line with buttons for selecting the number of weeks to form a list of products -->#}
+        <div><p>Show a product list for: 
+            <button type="button" id="list_1" class="btn btn-link weeks-choose week-num">1 Week</button>
+            <button type="button" id="list_2" class="btn btn-link weeks-choose week-num">2 Weeks</button>
+            <button type="button" id="list_3" class="btn btn-link weeks-choose week-num">3 Weeks</button>
+            <button type="button" id="list_4" class="btn btn-link weeks-choose week-num">1 month (4 Weeks)</button>
+        </p></div>
+        {#<!-- Line with buttons for choosing needed week -->#}
+        <div class="choose-week-btns" style="display: none;">
+            <p>You have more than 1 week in menu. Choose the week: 
+            {% for week in weeks %}
+                <button type="button" id="list-choose_{{ week }}" class="btn btn-link week-choose">{{ week }} Week<sup></sup></button>
+            {% endfor %}
+            </p>
+        </div>
+        {#<!-- Creating product list -->#}
+        <div id="check">Line for checks</div>
+        <div id="prod-list" class="products-list-2">
+            <ul class="list-group list-group-flush">
+                {#<!-- Total price will be fixed and visiable always -->#}
+                <li class="list-group-item d-flex justify-content-between align-items-center" style="font-weight: bold; background-color: rgb(231, 231, 231);">
+                    Total price
+                    <div>
+                        <span class="badge badge-warning badge-pill"></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+<br>
+
+        
+{% endblock %}

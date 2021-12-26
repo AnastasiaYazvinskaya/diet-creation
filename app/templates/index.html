@@ -18,14 +18,14 @@
         <h2> Menu</h2>
     </a>
     <hr>
-    {# 
-        <!-- Test before implementing to the page -->
-        <a href="{{url_for('test')}}">
-            <h2> Test </h2>
-        </a>
-        <hr>
+    {#
+    <!-- Test before implementing to the page -->
+    <a href="{{url_for('test', menu_id=1)}}">
+        <h2> Test </h2>
+    </a>
+    <hr>
+    
         <!-- Other tests -->
-        
         <a href="{{url_for('tests')}}">
             <h2> Other Tests</h2>
         </a>

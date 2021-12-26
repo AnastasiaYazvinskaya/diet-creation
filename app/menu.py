@@ -69,12 +69,12 @@ def get_menu(menu_id):
         c.abort(404)
     return menu
 def get_weeks(info):
-    weeks = [ info[0][3] ]
+    weeks = [ info[0]['week'] ]
     new = ''
     for row in info:
         for i in range(len(weeks)):
-            if row[3] != weeks[i]:
-                new = row[3]
+            if row['week'] != weeks[i]:
+                new = row['week']
             else:
                 new = ''
                 break
@@ -187,3 +187,64 @@ def update_m():
                 if menuAct.act(menuAct.edit):
                     finish = c.url_for('menu', menu_id=menuAct.data.id)
     return finish
+
+
+@app.route("/create_list",methods=('GET', 'POST'))
+def createList():
+    conn = c.get_db_connection()
+    if c.request.method == 'POST':    
+        getorder = c.request.form['data']
+        orders = getorder.split(",") # 0-menu_id, 1-weeks_amount, 2-5-choosen_weeks
+        #print(f"orders={orders}")
+        week = {
+            'type': [1, 2, 3, 4],
+            'amount': [0, 0, 0, 0],
+            'finish': ""
+        }
+        for i in range(2, 6):
+            if i < len(orders):
+                #print(f"orders[i] exist: {int(orders[i]) in week['type']}")
+                if int(orders[i]) in week['type']:
+                    week['amount'][week['type'].index(int(orders[i]))] += 1
+        for i in range(len(week['amount'])):
+            if week['amount'][i] != 0:
+                if len(week['finish']) != 0:
+                    week['finish'] += ", "
+                week['finish'] += str(week['type'][i])
+        #print(f"week[amount]={week['amount']}    week[finish]={week['finish']}")
+        #print(f"menu_id={orders[0]}    num_of_weeks={orders[1]}    week={week['finish']}")
+        data = {
+            'total_weeks': len(get_weeks(conn.execute("SELECT id, week FROM meal WHERE menu_id=?", (int(orders[0]),)).fetchall())),
+            'weeks': int(orders[1]),
+            'week': week['finish'],
+            'rec_id': [],
+            'prod_id': [],
+            'prod_name': [],
+            'weight': [],
+            'price': [],
+            'shop_name': [],
+            'total_price': 0,
+            'num': 0
+        }
+        if week['finish'] != "":
+            products = conn.execute("""SELECT m.week AS week, m.rec_id AS rec_id, p.id AS prod_id, p.name AS prod_name, SUM(i.weight) AS weight, 
+                                    p.price*SUM(i.weight)/p.weight AS price, s.name AS shop_name
+                                    FROM meal m JOIN ingredients i ON m.rec_id=i.rec_id
+                                    JOIN products p ON i.prod_id=p.id
+                                    JOIN shops s ON p.shop_id=s.id
+                                    WHERE m.menu_id=? AND m.week IN ("""+week['finish']+""")
+                                    GROUP BY p.id""", (int(orders[0]),)).fetchall()
+            data['num'] = len(products)
+            for product in products:
+                data['rec_id'].append(product['rec_id'])
+                data['prod_id'].append(product['prod_id'])
+                data['prod_name'].append(product['prod_name'])
+                data['shop_name'].append(product['shop_name'])
+                for i in range(len(week['amount'])):
+                    if product['week'] == i+1:
+                        data['weight'].append(product['weight']*week['amount'][i])
+                        #print(product['price'])
+                        data['price'].append(product['price']*week['amount'][i])
+                        data['total_price'] += product['price']*week['amount'][i]
+            
+    return c.jsonify(data)
