@@ -9,10 +9,10 @@ h1 {
     /*background-image: url("../images/frame.png");*/
 }
 .container a div {
-    margin: 15px auto;
+    margin: 5px auto;
     padding: 30px 25px;
     width: 85%;
-    height: 150px;
+    height: 180px;
     background-image: url("../images/frame.png");
     background-size: 100%;
     background-repeat: no-repeat;
