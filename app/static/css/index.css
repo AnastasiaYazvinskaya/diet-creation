@@ -3,19 +3,54 @@ h1 {
     text-align: center;
     font-size: 3.8em;
 }
-.container a {
+.container div {
     text-align: center;
-    color: black;
-    /*background-image: url("../images/frame.png");*/
-}
-.container a div {
-    margin: 5px auto;
-    padding: 30px 25px;
-    width: 85%;
-    height: 180px;
+    /*background-color: aqua;*/
     background-image: url("../images/frame.png");
     background-size: 100%;
     background-repeat: no-repeat;
+    margin: 5px 7%;
+    height: 42vw;
+}
+.container div a {
+    color: black;
+}
+.container div a:hover {
+    text-decoration: none;
+}
+.container div a:hover h2 {
+    color: #5b6919;
+    font-weight: bold;
+}
+.container div a h2 {
+    font-family: 'Comfortaa', cursive;
+    color: #697a1c;
+    font-size: 1.4em;
+    padding-top: 33px;
+}
+.container div a p {
+    font-size: 0.9em;
+    padding: 0 30px;
+}
+/*
+.container a {
+    text-align: center;
+    color: black;
+    /*padding: 30px 25px;
+    width: 85%;
+    margin: 0 50%;
+    /*background-image: url("../images/frame.png");
+}
+.container a div {
+    margin: 5px 7%;
+    
+    /*width: 85%;
+    padding: 30px 25px;
+    height: 165px;
+    background-image: url("../images/frame.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-color: aqua;
 }
 .container a h2 {
     font-family: 'Comfortaa', cursive;
@@ -32,3 +67,4 @@ h1 {
     color: #5b6919;
     font-weight: bold;
 }
+*/

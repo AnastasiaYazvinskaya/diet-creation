@@ -7,26 +7,26 @@
     <!-- Welcome title -->
     <h1>{% block title %} DietCreation {% endblock %}</h1>
     <!-- Look at the products list -->
-    <a href="{{url_for('products')}}" class="link">
-        <div>
+    <div>
+        <a href="{{url_for('products')}}">
             <h2>Продукты</h2>
             <p>Сохраните список продуктов, которые вы используете.</p>
-        </div>
-    </a>
+        </a>
+    </div>
     <!-- Look at the recipes list -->
-    <a href="{{url_for('recipes')}}" class="link">
-        <div>
+    <div>
+        <a href="{{url_for('recipes')}}">
             <h2>Рецепты</h2>
             <p>Создайте книгу своих рецептов.</p>
-        </div>
-    </a>
+        </a>
+    </div>
     <!-- Look at the menu -->
-    <a href="{{url_for('menus')}}" class="link">
-        <div>
+    <div>
+        <a href="{{url_for('menus')}}">
             <h2>Меню</h2>
             <p>Создавайте меню на неделю, две или целый месяц.</p>
-        </div>
-    </a>
+        </a>
+    </div>
     {#
     <!-- Test before implementing to the page -->
     <a href="{{url_for('test', menu_id=1)}}">

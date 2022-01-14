@@ -4,7 +4,7 @@ button {
 /*@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');*/
 
 body {
-    width: auto;
+    width: 100vw;
     max-width: 428px;
     height: auto;
     min-height: 100vh;
@@ -24,8 +24,8 @@ a img {
     width: 45px;
 }
 footer {
-    position: absolute;
-    top: 100%;
+    /*position: absolute;
+    top: 100%;*/
     font-size: small;
     text-align: center;
 }
