@@ -20,6 +20,10 @@ h1 {
 .container a h2 {
     font-family: 'Comfortaa', cursive;
     color: #697a1c;
+    font-size: 1.4em;
+}
+.container a p {
+    font-size: 0.9em;
 }
 .container a:hover {
     text-decoration: none;
