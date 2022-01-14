@@ -11,4 +11,6 @@ body {
 }
 .navbar-toggler {
     border: none;
+    font-size: x-large;
+    margin-left: -10px;
 }

@@ -1,7 +1,7 @@
 h1 {
     font-family: 'Pacifico', cursive;
     text-align: center;
-    font-size: 3.5em;
+    font-size: 3.8em;
 }
 .container a {
     text-align: center;
@@ -10,8 +10,8 @@ h1 {
 }
 .container a div {
     margin: 15px auto;
-    padding: 25px 25px;
-    width: 75%;
+    padding: 30px 25px;
+    width: 85%;
     height: 150px;
     background-image: url("../images/frame.png");
     background-size: 100%;
