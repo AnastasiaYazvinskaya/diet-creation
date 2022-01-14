@@ -1,0 +1,30 @@
+h1 {
+    font-family: 'Pacifico', cursive;
+    text-align: center;
+    font-size: 3.5em;
+}
+.container a {
+    text-align: center;
+    color: black;
+    /*background-image: url("../images/frame.png");*/
+}
+.container a div {
+    margin: 15px auto;
+    padding: 25px 25px;
+    width: 75%;
+    height: 150px;
+    background-image: url("../images/frame.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+.container a h2 {
+    font-family: 'Comfortaa', cursive;
+    color: #697a1c;
+}
+.container a:hover {
+    text-decoration: none;
+}
+.container a:hover h2 {
+    color: #5b6919;
+    font-weight: bold;
+}

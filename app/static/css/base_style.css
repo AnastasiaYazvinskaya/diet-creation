@@ -1,3 +1,14 @@
 button {
     margin: 5px;
 }
+/*@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');*/
+
+body {
+    width: auto;
+    max-width: 428px;
+    margin: 0 auto;
+    background-color: #e8feda;
+}
+.navbar-toggler {
+    border: none;
+}
