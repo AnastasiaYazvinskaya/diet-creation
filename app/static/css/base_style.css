@@ -6,6 +6,8 @@ button {
 body {
     width: auto;
     max-width: 428px;
+    height: auto;
+    min-height: 100vh;
     margin: 0 auto;
     /*background-color: #e8feda;*/
     background-image: url("../images/bg.jpg");
@@ -22,6 +24,12 @@ a img {
     width: 45px;
 }
 footer {
+    position: absolute;
+    top: 100%;
     font-size: small;
     text-align: center;
+}
+footer div {
+    margin: 0 auto;
+    margin-top: -15px;
 }
