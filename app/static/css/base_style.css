@@ -71,7 +71,7 @@ footer div {
     font-size: 2em;
     text-decoration: none;
     color: black;
-    position: fixed;
+    position: absolute;
     left: 50%;
     transform: translateX(-50%);
     top: 12.5px;
