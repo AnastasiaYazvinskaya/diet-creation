@@ -9,3 +9,7 @@ from app import app
 @app.route('/index')
 def index():
     return c.render_template('index.html')
+
+@app.route('/about')
+def about():
+    return c.render_template('about.html')

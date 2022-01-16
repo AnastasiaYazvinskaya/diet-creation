@@ -1,5 +1,5 @@
 h1 {
-    font-family: 'Pacifico', cursive;
+    font-family: 'Satisfy', cursive;
     text-align: center;
     font-size: 3.8em;
 }
@@ -32,39 +32,3 @@ h1 {
     font-size: 0.9em;
     padding: 0 30px;
 }
-/*
-.container a {
-    text-align: center;
-    color: black;
-    /*padding: 30px 25px;
-    width: 85%;
-    margin: 0 50%;
-    /*background-image: url("../images/frame.png");
-}
-.container a div {
-    margin: 5px 7%;
-    
-    /*width: 85%;
-    padding: 30px 25px;
-    height: 165px;
-    background-image: url("../images/frame.png");
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-color: aqua;
-}
-.container a h2 {
-    font-family: 'Comfortaa', cursive;
-    color: #697a1c;
-    font-size: 1.4em;
-}
-.container a p {
-    font-size: 0.9em;
-}
-.container a:hover {
-    text-decoration: none;
-}
-.container a:hover h2 {
-    color: #5b6919;
-    font-weight: bold;
-}
-*/

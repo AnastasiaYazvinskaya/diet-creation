@@ -50,3 +50,14 @@ footer div {
     margin: 0 auto;
     margin-top: -15px;
 }
+
+#cname {
+    font-family: 'Satisfy', cursive;
+    font-size: 2em;
+    text-decoration: none;
+    color: black;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 12.5px;
+}
