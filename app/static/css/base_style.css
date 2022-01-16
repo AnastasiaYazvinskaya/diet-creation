@@ -12,13 +12,30 @@ body {
     /*background-color: #e8feda;*/
     background-image: url("../images/bg.jpg");
     background-repeat: no-repeat;
-    background-size: 100% 100vh;
+    background-size: 100vw 100vh;
     background-attachment: fixed;
 }
 .navbar-toggler {
     border: none;
     font-size: x-large;
     margin-left: -10px;
+}
+.navbar-nav {
+    position: relative;
+    width: auto;
+    text-align: center;
+    /*margin-bottom: -100px;*/
+    /*background-color: #e8fedad0;*/
+}
+.navbar-nav a {
+    margin: 2px 0;
+    background-color: #bacaad91;
+}
+/* Login */
+.navbar-brand {
+    position: absolute;
+    right: 15px;
+    top: 10px;
 }
 a img {
     width: 45px;
