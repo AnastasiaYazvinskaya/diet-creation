@@ -10,10 +10,25 @@ body {
     min-height: 100vh;
     margin: 0 auto;
     /*background-color: #e8feda;*/
+    /*background-image: url("../images/bg.jpg");
+    background-repeat: no-repeat;
+    background-size: 100vw 100vh;
+    background-attachment: fixed;
+    */
+}
+#background {
+    width: 100vw;
+    height: auto;
+    min-height: 100vh;
     background-image: url("../images/bg.jpg");
     background-repeat: no-repeat;
     background-size: 100vw 100vh;
     background-attachment: fixed;
+    
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
 }
 .navbar-toggler {
     border: none;
