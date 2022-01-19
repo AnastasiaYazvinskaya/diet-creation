@@ -30,6 +30,62 @@ body {
     top: 0;
     left: 0;
 }
+
+.menu-icon {
+    position: relative;
+    z-index: 1;
+}
+.menu-icon:before, .menu-icon:after, .menu-icon span {
+      transition: all 0.2s linear;
+      background: #5a5a5a;
+      content: "";
+      display: block;
+      height: 5px;
+      width: 40px;
+      border-radius: 3px;
+      margin: 7px 0;
+    }
+.menu-icon:hover:before, .menu-icon:hover:after, .menu-icon:hover span {
+    /*background: #292929;*/
+    cursor: pointer;
+}
+
+.open {
+    height: 30px;
+    width: 250px;
+}
+.open:before{
+    transition: all 0.2s linear;
+    transform: translate(0, 12px) rotate(135deg);
+}
+.open:after {
+    transition: all 0.2s linear;
+    transform:  rotate(-135deg);
+}
+.open span {
+    display: none;
+}
+.open:hover:before, .open:hover:after, .open:hover span {
+    background: #5a5a5a;
+    cursor: pointer;
+}
+
+.sidebar {
+    display: none;
+}
+.navbar .open-sidebar {
+    display: block;
+    position: relative;
+    width: 100vw;
+    text-align: center;
+    margin: 15px 5px 5px 5px;
+}
+.sidebar a {
+    margin: 2px 0;
+    background-color: #bacaad91;
+    color: black;
+}
+/*
 .navbar-toggler {
     border: none;
     font-size: x-large;
@@ -40,7 +96,7 @@ body {
     width: auto;
     text-align: center;
     /*margin-bottom: -100px;*/
-    /*background-color: #e8fedad0;*/
+    /*background-color: #e8fedad0;*//*
 }
 .navbar-nav a {
     margin: 2px 0;
@@ -49,15 +105,13 @@ body {
 /* Login */
 .navbar-brand {
     position: absolute;
-    right: 15px;
-    top: 10px;
+    right: 0;
+    top: 0;
 }
 a img {
     width: 45px;
 }
 footer {
-    /*position: absolute;
-    top: 100%;*/
     font-size: small;
     text-align: center;
 }
@@ -68,13 +122,13 @@ footer div {
 
 #cname {
     font-family: 'Satisfy', cursive;
-    font-size: 2em;
+    font-size: 1.5em;
     text-decoration: none;
-    color: black;
+    color: rgba(0, 0, 0, 0.788);
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    top: 12.5px;
+    top: 20px;
 }
 
 h1 {

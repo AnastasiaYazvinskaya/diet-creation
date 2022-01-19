@@ -17,26 +17,36 @@
         <title>{% block title %} {% endblock %}</title>
         <!-- Favicon -->
         <link rel = "shortcut icon" href = "static/images/favicon.ico">
+        <script>
+            function toggleNav() {
+                var updateElement = document.getElementById("menu-icon");
+                var openSidebar = document.getElementById("sidebar");
+                //toggle adds a class if it's not there or removes it if it is.
+                updateElement.classList.toggle("open");
+                openSidebar.classList.toggle("open-sidebar");
+            } 
+        </script>
         {% block script1 %}{% endblock %}
     </head>
     <body>
         <div id="background"><img src="../static/images/bg.jpg"></div>
         <!-- Navigation (home, about)-->
-        {#
-        <nav>
+        
+        <nav class="navbar">
+            {% block name %}{% endblock %}
             <div class="menu-icon" id="menu-icon" onclick="toggleNav()">
                 <span></span>
             </div>
             <div class="sidebar" id="sidebar">
-                <a class="nav-link" href="{{ url_for('index')}}">Home</a>
+                <a class="nav-link" href="{{ url_for('index')}}">Домашняя</a>
                 <a class="nav-link" href="{{url_for('products')}}">Продукты</a>
                 <a class="nav-link" href="{{url_for('recipes')}}">Рецепты</a>
                 <a class="nav-link" href="{{url_for('menus')}}">Меню</a>
-                <a class="nav-link" href="#">О нас</a>
+                <a class="nav-link" href="{{url_for('about')}}">О нас</a>
             </div>
-            <a class="navbar-brand" href="#"><img src ="../static/images/login.png" alt = "LogIn icon"></a>
+            <a class="navbar-brand" href="#"><img src ="../static/images/LogIn.png" alt = "LogIn icon"></a>
         </nav>
-        #}
+        {#
         <nav class="navbar navbar-expand-md navbar-light">
             {% block name %}{% endblock %}
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,6 +65,7 @@
             </div>
             <a class="navbar-brand" href="#"><img src ="../static/images/login.png" alt = "LogIn icon"></a>
         </nav>
+        #}
         {% block navigation %} {% endblock %}
         <!-- Content -->
         <div class="container">
