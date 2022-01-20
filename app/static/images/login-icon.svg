@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg x="-0.499997pt" y="-0.5pt" width="46pt" height="46pt" viewBox="-0.499997 -0.5 46 46" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <title>Path</title>
+    <g id="1">
+      <defs>
+        <path id="2" d="M22.5,-3.5247e-07 C34.9264,-3.5247e-07,45,10.0736,45,22.5 C45,34.9264,34.9264,45,22.5,45 C10.0736,45,2.60461e-06,34.9264,2.60461e-06,22.5 C2.60461e-06,10.0736,10.0736,-3.5247e-07,22.5,-3.5247e-07 z"/>
+      </defs>
+      <use xlink:href="#2" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:1;"/>
+    </g>
+  </defs>
+  <use xlink:href="#1"/>
+  <defs>
+    <title>Path</title>
+    <g id="3">
+      <defs>
+        <path id="4" d="M5.75973,37.4581 C5.75973,32.8224,13.2546,29.0645,22.5,29.0645 C31.7454,29.0645,39.2403,32.8224,39.2403,37.4581"/>
+      </defs>
+      <use xlink:href="#4" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:1;"/>
+    </g>
+  </defs>
+  <use xlink:href="#3"/>
+  <defs>
+    <title>Path</title>
+    <g id="5">
+      <defs>
+        <path id="6" d="M22.5,7.7046 C28.6933,7.7046,33.7139,12.4862,33.7139,18.3845 C33.7139,24.2829,28.6933,29.0645,22.5,29.0645 C16.3067,29.0645,11.2861,24.2829,11.2861,18.3845 C11.2861,12.4862,16.3067,7.7046,22.5,7.7046 z"/>
+      </defs>
+      <use xlink:href="#6" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:1;"/>
+    </g>
+  </defs>
+  <use xlink:href="#5"/>
+</svg>
