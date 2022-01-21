@@ -6,7 +6,7 @@ h1 {
 .container div {
     text-align: center;
     /*background-color: aqua;*/
-    background-image: url("../images/frame3.png");
+    background-image: url("../images/border.svg");
     background-size: 100%;
     background-repeat: no-repeat;
     margin: 5px 7%;
@@ -30,5 +30,5 @@ h1 {
 }
 .container div a p {
     font-size: 0.9em;
-    padding: 0 30px;
+    padding: 0 35px;
 }
