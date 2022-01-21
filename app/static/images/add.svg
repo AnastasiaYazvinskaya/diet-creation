@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg x="1037.19pt" y="293.221pt" width="37.2981pt" height="37.298pt" viewBox="1037.19 293.221 37.2981 37.298" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <title>Path</title>
+    <g id="1">
+      <defs>
+        <path id="2" d="M1053.37,293.221 C1053.37,293.221,1058.31,293.221,1058.31,293.221 C1058.31,293.221,1058.31,330.519,1058.31,330.519 C1058.31,330.519,1053.37,330.519,1053.37,330.519 C1053.37,330.519,1053.37,293.221,1053.37,293.221 z"/>
+      </defs>
+      <use xlink:href="#2" style="fill:#000000;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+      <use xlink:href="#2" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:0;"/>
+    </g>
+  </defs>
+  <use xlink:href="#1"/>
+  <defs>
+    <title>Path Copy</title>
+    <g id="3">
+      <defs>
+        <path id="4" d="M1074.49,309.4 C1074.49,309.4,1074.49,314.34,1074.49,314.34 C1074.49,314.34,1037.19,314.34,1037.19,314.34 C1037.19,314.34,1037.19,309.4,1037.19,309.4 C1037.19,309.4,1074.49,309.4,1074.49,309.4 z"/>
+      </defs>
+      <use xlink:href="#4" style="fill:#000000;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+      <use xlink:href="#4" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:0;"/>
+    </g>
+  </defs>
+  <use xlink:href="#3"/>
+</svg>

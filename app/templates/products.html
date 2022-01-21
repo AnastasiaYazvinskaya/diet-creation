@@ -1,20 +1,36 @@
 {% extends "base.html" %}
+{% block script %}
+    <script>
+        function openHint() {
+            var hint = document.getElementById("hint");
+            //toggle adds a class if it's not there or removes it if it is.
+            hint.classList.toggle("open-hint");
+        }
+    </script>
+{% endblock %}
 {% block name %}<a id="cname" href="{{ url_for('index')}}">DietCreation</a>{% endblock %}
 <!-- Content for displaying list of products -->
 {% block content %}
     <!-- Title -->
     <h1>{% block title %}Список продуктов{% endblock %}</h1>
+    <p id="hint" class="hint">Создайте список продуктов, которыми вы пользуетесь, указав их название и количество в упаковке (кг, г, л, шт и тд).</p>
     <!-- Badge (button) for creating new product -->
     <div class="list-icons">
         <a href="{{url_for('create_p')}}">
-            <span class="badge badge-primary">N</span>
+            {#<span class="badge badge-primary">N</span>#}
+            <img src="../static/images/add.svg" alt="Add new item icon">
         </a>
         {#
         <div id="search">
+            <img src="../static/images/search.svg" alt="Search icon">
             <span type="button" class="badge badge-primary">S</span>
             <input></input>
         </div>
         #}
+        <div class="show-hint">
+            <img id="show-hint" src="../static/images/black-hint.svg" alt="Hint icon"
+                onclick="openHint()">
+        </div>
     </div>
     <!-- Displaying a list of products in a table (col: name, weight, price, shop, actions)-->
     <table class="table">
@@ -35,14 +51,14 @@
                     <td> {{ product['weight'] }} </td>
                     {#<td> {{ product['price'] }} </td>
                     <td> {{ product['shop'] }} </td>#}
-                    <td> 
-                        <form action="{{ url_for('delete_p', id=product['id']) }}" method="POST" style="display: inline-block;">
-                            <input type="submit" value="D"
-                                    class="btn btn-outline-danger btn-sm"
+                    <td class="buttons"> 
+                        <form action="{{ url_for('delete_p', id=product['id']) }}" method="POST">
+                            <input type="image" src="../static/images/trash.svg" value="Delete" id="delete"
                                     onclick="return confirm('Вы уверены, что хотите удалить этот продукт?')">
                         </form>
-                        <a href="{{ url_for('edit_p', id=product['id']) }}" style="display: inline-block;">
-                            <span class="btn btn-outline-warning btn-sm">E</span>
+                        <a href="{{ url_for('edit_p', id=product['id']) }}">
+                            <img id="edit" src="../static/images/edit.svg" alt="Edit icon">
+                            {#<span class="btn btn-outline-warning btn-sm">E</span>#}
                         </a>
                     </td>
                 </tr>

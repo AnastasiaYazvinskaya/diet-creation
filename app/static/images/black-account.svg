@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg x="1032.84pt" y="102.444pt" width="46pt" height="46pt" viewBox="1032.84 102.444 46 46" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <title>Path</title>
+    <g id="1">
+      <defs>
+        <path id="2" d="M1055.84,102.944 C1068.27,102.944,1078.34,113.017,1078.34,125.444 C1078.34,137.87,1068.27,147.944,1055.84,147.944 C1043.42,147.944,1033.34,137.87,1033.34,125.444 C1033.34,113.017,1043.42,102.944,1055.84,102.944 z"/>
+      </defs>
+      <use xlink:href="#2" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:1;"/>
+    </g>
+  </defs>
+  <use xlink:href="#1"/>
+  <defs>
+    <title>Path</title>
+    <g id="3">
+      <defs>
+        <path id="4" d="M1039.1,139.55 C1043.46,144.232,1046.6,147.944,1055.84,147.944 C1065.09,147.944,1068.17,144.269,1072.58,139.55"/>
+      </defs>
+      <use xlink:href="#4" style="fill:#000000;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+      <use xlink:href="#4" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:1;"/>
+    </g>
+  </defs>
+  <use xlink:href="#3"/>
+  <defs>
+    <title>Path Copy</title>
+    <g id="5">
+      <defs>
+        <path id="6" d="M1039.1,140.402 C1039.1,135.766,1046.6,132.008,1055.84,132.008 C1065.09,132.008,1072.58,135.766,1072.58,140.402"/>
+      </defs>
+      <use xlink:href="#6" style="fill:#000000;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+      <use xlink:href="#6" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:1;"/>
+    </g>
+  </defs>
+  <use xlink:href="#5"/>
+  <defs>
+    <title>Path</title>
+    <g id="7">
+      <defs>
+        <path id="8" d="M1055.84,110.648 C1062.04,110.648,1067.06,115.43,1067.06,121.328 C1067.06,127.227,1062.04,132.008,1055.84,132.008 C1049.65,132.008,1044.63,127.227,1044.63,121.328 C1044.63,115.43,1049.65,110.648,1055.84,110.648 z"/>
+      </defs>
+      <use xlink:href="#8" style="fill:#000000;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+      <use xlink:href="#8" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:1;"/>
+    </g>
+  </defs>
+  <use xlink:href="#7"/>
+</svg>

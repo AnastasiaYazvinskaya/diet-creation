@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg x="925.611pt" y="291.221pt" width="36.7622pt" height="41.0254pt" viewBox="925.611 291.221 36.7622 41.0254" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <title>Path</title>
+    <g id="1">
+      <defs>
+        <path id="2" d="M950.87,293.221 C956.119,293.221,960.373,297.589,960.373,302.976 C960.373,308.364,956.119,312.731,950.87,312.731 C945.622,312.731,941.368,308.364,941.368,302.976 C941.368,297.589,945.622,293.221,950.87,293.221 z"/>
+      </defs>
+      <use xlink:href="#2" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:4;"/>
+    </g>
+  </defs>
+  <use xlink:href="#1"/>
+  <defs>
+    <title>Path</title>
+    <g id="3">
+      <defs>
+        <path id="4" d="M945.043,310.682 C945.043,310.682,928.353,330.519,928.353,330.519"/>
+      </defs>
+      <use xlink:href="#4" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:4;"/>
+    </g>
+  </defs>
+  <use xlink:href="#3"/>
+  <defs>
+    <title>Path</title>
+    <g id="5">
+      <defs>
+        <path id="6" d="M938.14,318.887 C939.429,320.038,940.498,320.895,935.659,326.313 C930.82,331.732,930.183,330.286,928.894,329.135 C927.605,327.984,926.152,327.563,930.991,322.145 C935.831,316.726,936.851,317.736,938.14,318.887 z"/>
+      </defs>
+      <use xlink:href="#6" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:4;"/>
+    </g>
+  </defs>
+  <use xlink:href="#5"/>
+</svg>

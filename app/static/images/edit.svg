@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg x="887.171pt" y="272.321pt" width="35.9097pt" height="36.8683pt" viewBox="887.171 272.321 35.9097 36.8683" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <title>Path</title>
+    <g id="1">
+      <defs>
+        <path id="2" d="M889.171,279.483 C889.171,279.483,889.171,309.177,889.171,309.177"/>
+      </defs>
+      <use xlink:href="#2" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:4;"/>
+    </g>
+  </defs>
+  <use xlink:href="#1"/>
+  <defs>
+    <title>Path Copy</title>
+    <g id="3">
+      <defs>
+        <path id="4" d="M915.128,289.227 C915.128,289.227,915.128,309.177,915.128,309.177"/>
+      </defs>
+      <use xlink:href="#4" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:4;"/>
+    </g>
+  </defs>
+  <use xlink:href="#3"/>
+  <defs>
+    <title>Path Copy Copy</title>
+    <g id="5">
+      <defs>
+        <path id="6" d="M916.923,307.187 C916.923,307.187,887.444,307.189,887.444,307.189"/>
+      </defs>
+      <use xlink:href="#6" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:4;"/>
+    </g>
+  </defs>
+  <use xlink:href="#5"/>
+  <defs>
+    <title>Path Copy Copy Copy</title>
+    <g id="7">
+      <defs>
+        <path id="8" d="M905.789,281.484 C905.789,281.484,887.358,281.484,887.358,281.484"/>
+      </defs>
+      <use xlink:href="#8" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:4;"/>
+    </g>
+  </defs>
+  <use xlink:href="#7"/>
+  <defs>
+    <title>Shape 29</title>
+    <g id="9">
+      <defs>
+        <path id="10" d="M906.403,286.071 C906.403,286.071,904.233,288.446,904.233,288.446 C904.233,288.446,902.57,294.33,902.57,294.33 C902.57,294.33,908.28,292.146,908.28,292.146 C908.28,292.146,910.138,290.114,910.138,290.114 C910.138,290.114,909.023,291.334,909.023,291.334 C909.023,291.334,922.711,276.358,922.711,276.358 C922.711,276.358,922.085,277.043,922.085,277.043 C922.085,277.043,918.037,273.343,918.037,273.343 C918.037,273.343,918.663,272.658,918.663,272.658 C918.663,272.658,904.984,287.624,904.984,287.624"/>
+      </defs>
+      <use xlink:href="#10" style="fill:#000000;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+      <use xlink:href="#10" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:1;"/>
+    </g>
+  </defs>
+  <use xlink:href="#9"/>
+</svg>
