@@ -46,7 +46,6 @@ body {
       margin: 7px 0;
     }
 .menu-icon:hover:before, .menu-icon:hover:after, .menu-icon:hover span {
-    /*background: #292929;*/
     cursor: pointer;
 }
 
@@ -84,23 +83,6 @@ body {
     margin: 2px 0;
     background-color: #bacaad91;
     color: black;
-}
-/*
-.navbar-toggler {
-    border: none;
-    font-size: x-large;
-    margin-left: -10px;
-}
-.navbar-nav {
-    position: relative;
-    width: auto;
-    text-align: center;
-    /*margin-bottom: -100px;*/
-    /*background-color: #e8fedad0;*//*
-}
-.navbar-nav a {
-    margin: 2px 0;
-    background-color: #bacaad91;
 }
 /* Login */
 .navbar-brand {
@@ -199,4 +181,19 @@ tbody tr td:first-of-type {
 }
 tbody tr td:nth-of-type(2) {
     text-align: center;
+}
+.empty-list {
+    text-align: center;
+}
+.empty-list span.badge-primary {
+    padding: 5px;
+    background-color: #6c6aff;
+    font-weight: 400;
+    font-size: small;
+}
+
+/* Create Product */
+#weight {
+    display: flex;
+    flex-direction: row;
 }

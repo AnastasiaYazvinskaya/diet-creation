@@ -44,11 +44,12 @@
         </tr></thead>
         <!-- Table body -->
         <tbody>
+            {% if products %}
             <!-- For each product in data create a new row in a table -->
             {% for product in products %}
                 <tr>
                     <td scope="row"> {{ product['name'] }} </td>
-                    <td> {{ product['weight'] }} </td>
+                    <td> {{ product['weight'] }} {{ product['weightType'] }} </td>
                     {#<td> {{ product['price'] }} </td>
                     <td> {{ product['shop'] }} </td>#}
                     <td class="buttons"> 
@@ -63,6 +64,13 @@
                     </td>
                 </tr>
             {% endfor %}
+            {% else %}
+                <tr class="empty-list"><td scope="row" colspan="3">Ваш список продуктов пуст.<br>
+                    <a href="{{url_for('create_p')}}">
+                        <span class="badge badge-primary">Добавить продукт</span>
+                    </a>
+                </td></tr>
+            {% endif %}
         </tbody>
     </table>
 {% endblock %}

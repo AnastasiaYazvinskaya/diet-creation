@@ -5,28 +5,30 @@ class ProductAct:
     def __init__(self, product_id=None):
         self.conn = c.get_db_connection()
         self.shops = self.conn.execute('SELECT * FROM shops').fetchall()
-        self.data = {'name': '', 'weight': '', 'price': '', 'shop': ''}
+        self.data = {'name': None, 'weight': None, 'weight-type': None, 'price': None, 'shop': None}
         self.prod_exist = None
         if product_id:
             self.product = get_product(product_id)
             self.data = {'name': self.product['name'], 
-                         'weight': self.product['weight'], 
+                         'weight': self.product['weight'],
+                         'weight-type': self.product['weightType'], 
                          'price': self.product['price'], 
                          'shop': self.product['shop']}
     def act(self, func):
         finish = False
         new = ''
         if c.request.method == 'POST':
-            self.data['name'] = c.request.form['name']
-            self.data['weight'] = c.request.form['weight']
-            self.data['price'] = c.request.form['price']
-            self.data['shop'] = c.request.form['shop']
+            self.data['name'] = c.request.form['name'] # REQUIRED
+            self.data['weight'] = c.request.form['weight'] # REQUIRED
+            self.data['weight-type'] = c.request.form['weight-type'] # REQUIRED
+            self.data['price'] = c.request.form['price'] # ADDITIONAL
+            self.data['shop'] = c.request.form['shop'] # ADDITIONAL (GOES WITH PRICE)
             # (HERE) Checking for the presence of the same product
-            self.prod_exist = self.conn.execute('''SELECT p.id AS id, p.name AS name, weight, price, s.name AS shop
+            self.prod_exist = self.conn.execute('''SELECT p.id AS id, p.name AS name, weight, weightType price, s.name AS shop
                                          FROM products p JOIN shops s
                                          ON p.shop_id = s.id 
-                                         WHERE p.name=? AND s.name=?''',
-                                        (self.data['name'], self.data['shop'])).fetchall()
+                                         WHERE p.name=?''',
+                                        (self.data['name'],)).fetchall()
             try:
                 if self.prod_exist:
                     new = c.request.form['exist'] # id or 'new'
@@ -34,42 +36,45 @@ class ProductAct:
                     new = 'new'
             except c.BadRequest:
                 pass
-            # If one of the field is empty then refresh page with saving data in the fields
+            # If one of the REQUIRED field is empty then refresh page with saving data in the fields
             print(new)
-            if not self.data['name'] or not self.data['weight'] or not self.data['price'] or not self.data['shop']:
-                c.flash('Name is requered!')
+            if not self.data['name'] or not self.data['weight'] or not self.data['weight-type']:
+                c.flash('Name and weight information is requered!')
             elif new == 'new' or new == '':
-                shop_exist = self.conn.execute('SELECT id FROM shops WHERE name=?',
+                if self.data['shop']:
+                    shop_exist = self.conn.execute('SELECT id FROM shops WHERE name=?',
+                                                (self.data['shop'],)).fetchone()
+                    if not shop_exist:
+                        add = self.conn.execute('INSERT INTO shops (name) VALUES (?)',
+                                            (self.data['shop'],))
+                    shop_id = self.conn.execute('SELECT id FROM shops WHERE name=?',
                                             (self.data['shop'],)).fetchone()
-                if not shop_exist:
-                    add = self.conn.execute('INSERT INTO shops (name) VALUES (?)',
-                                        (self.data['shop'],))
-                shop_id = self.conn.execute('SELECT id FROM shops WHERE name=?',
-                                        (self.data['shop'],)).fetchone()
-                finish = func(shop_id)
+                    finish = func(shop_id[0])
+                else:
+                    finish = func()
             elif new.isnumeric():
                 finish = True
         return finish
-    def create(self, shop_id):
+    def create(self, shop_id=None):
         # Inserting product to the db
-        self.conn.execute('INSERT INTO products (name, weight, price, shop_id) VALUES (?, ?, ?, ?)',
-                    (self.data['name'], self.data['weight'], self.data['price'], shop_id[0]))
+        self.conn.execute('INSERT INTO products (name, weight, weightType, price, shop_id) VALUES (?, ?, ?, ?, ?)',
+                    (self.data['name'], self.data['weight'], self.data['weight-type'], self.data['price'], shop_id))
         self.conn.commit()
         self.conn.close()
         return True
-    def edit(self, shop_id):
+    def edit(self, shop_id=None):
         # Updating product information
         print("Updated")
-        self.conn.execute('''UPDATE products SET name=?, weight=?, price=?, shop_id=?
+        self.conn.execute('''UPDATE products SET name=?, weight=?, weightType=?, price=?, shop_id=?
                             WHERE id=?''',
-                         (self.data['name'], self.data['weight'], self.data['price'], shop_id[0], self.product['id']))
+                         (self.data['name'], self.data['weight'], self.data['weight-type'], self.data['price'], shop_id, self.product['id']))
         self.conn.commit()
         self.conn.close()
         return True
 # Get product information by id (id, name, weight, price, shop_name)
 def get_product(product_id):
     conn = c.get_db_connection()
-    product = conn.execute('''SELECT p.id AS id, p.name AS name, weight, price, s.name AS shop
+    product = conn.execute('''SELECT p.id AS id, p.name AS name, weight, weightType, price, s.name AS shop
                               FROM products p JOIN shops s
                               ON p.shop_id = s.id
                               WHERE p.id = ?''', (product_id,)).fetchone()
@@ -81,7 +86,7 @@ def get_product(product_id):
 @app.route('/products')
 def products():
     conn = c.get_db_connection()
-    products = conn.execute('''SELECT p.id AS id, p.name AS name, weight, price, s.name AS shop
+    products = conn.execute('''SELECT p.id AS id, p.name AS name, weight, weightType, price, s.name AS shop
                                FROM products p JOIN shops s
                                ON p.shop_id = s.id''').fetchall()
     conn.close()

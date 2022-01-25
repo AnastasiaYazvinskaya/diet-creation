@@ -2,6 +2,14 @@
 {% block style %}
 <link rel="stylesheet" href="static/css/create_style.css">
 {% endblock %}
+{% block script %}
+    <script>
+        $("#add-info").click(function(){
+            $("#adding-info").show();
+            $(this).hide();
+        });
+    </script>
+{% endblock %}
 {% block name %}<a id="cname" href="{{ url_for('index')}}">DietCreation</a>{% endblock %}
 <!-- Content for creating new product -->
 {% block content %}
@@ -20,19 +28,43 @@
         <!-- Text field for product name -->
         <div class="form-group">
             <label for="name">Название</label>
+            {% if data['name'] %}
             <input type="text" name="name" placeholder="Название продукта"
                 class="form-control" value="{{data['name']}}"></input>
+            {% else %}
+            <input type="text" name="name" placeholder="Название продукта"
+                class="form-control" value=""></input>
+            {% endif %}
         </div>
         <!-- Text (number) field for product weight -->
-        <div class="form-group">
-            <label for="weight">Количество</label>
-            <input type="number" step="0.01" name="weight" placeholder="0.00"
-                class="form-control" value="{{data['weight']}}"></input>
+        <div id="weight">
+            <div class="form-group">
+                <label for="weight">Количество</label>
+                <input type="number" step="0.01" name="weight" placeholder="0.00"
+                    class="form-control" value="{{data['weight']}}"></input>
+            </div>
+            <div class="form-group">
+                <label for="weight-type">Измерение</label>
+                {% if data['weight-type'] %}
+                <input list="weight-types" name="weight-type" placeholder="кг, г, л, мл, шт и т.д."
+                    class="form-control" value="{{data['weight-type']}}"></input>
+                {% else %}
+                <input list="weight-types" name="weight-type" placeholder="кг, г, л, мл, шт и т.д."
+                    class="form-control" value=""></input>
+                {% endif %}
+                <datalist id="weight-types">
+                    <option value="кг"></option>
+                    <option value="г"></option>
+                    <option value="л"></option>
+                    <option value="мл"></option>
+                    <option value="шт"></option>
+                </datalist>
+            </div>
         </div>
         <div class="form-group">
-            <button type="button" class="btn btn-link">Дополнительные сведения</button>
+            <button type="button" class="btn btn-link" id="add-info">Дополнительные сведения</button>
         </div>
-        <div style="display: none;">
+        <div id="adding-info" style="display: none;">
             <!-- Text (number) field for product price -->
             <div class="form-group">
                 <label for="price">Цена</label>
@@ -42,8 +74,13 @@
             <!-- Text field for product shop with a list of availiable items -->
             <div class="form-group">
                 <label for="shop">Магазин</label>
+                {% if data['shop'] %}
                 <input list="shops" name="shop" class="form-control"
-                    placeholder="Shop name" value="{{data['shop']}}"></input>
+                    placeholder="Название магазина" value="{{data['shop']}}"></input>
+                {% else %}
+                <input list="shops" name="shop" class="form-control"
+                    placeholder="Название магазина" value=""></input>
+                {% endif %}
                 <datalist id="shops">
                     {% for shop in shops %}
                         <option value="{{shop['name']}}"></option>
@@ -53,7 +90,7 @@
         </div>
         <!-- Button for submiting form -->
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Create Product</button>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
         </div>
         <!-- Modal for creating new products used in recipe -->
         {% if prod_exist %}  
@@ -69,7 +106,7 @@
                         </div>
                         <!-- Modal body -->
                         <div class="modal-body">
-                            <p>The product(-s) with the same name already exists. Choose one of the next:</p>
+                            <p>Продукт(-ы) с таким же названием уже существует. Выберите одно из следующих действий:</p>
                             <div class="form-group">
                                 {% for product in prod_exist %}
                                     <input type="radio" name="exist" id="{{product['id']}}"
@@ -79,12 +116,12 @@
                                 {% endfor %}
                                 <input type="radio" name="exist" id="new"
                                     value="new"></input>
-                                <label for="new">Create new</label>
+                                <label for="new">Создать новый</label>
                             </div>
                         </div>
                         <!-- Controls with submiting form button -->
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Continue</button>
+                            <button type="submit" class="btn btn-primary">Продолжить</button>
                         </div>
                     </div>
                 </div>

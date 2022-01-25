@@ -12,7 +12,8 @@ CREATE TABLE products (
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     name TEXT NOT NULL,
     weight NUMERIC(10, 4) NOT NULL,
-    price NUMERIC(10, 4) NOT NULL,
+    weightType TEXT NOT NULL,
+    price NUMERIC(10, 4),
     shop_id INTEGER REFERENCES shops (id)
 );
 

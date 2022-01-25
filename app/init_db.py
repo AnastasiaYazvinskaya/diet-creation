@@ -7,8 +7,9 @@ with open('app/schema.sql') as f:
 
 cur = connection.cursor()
 
+recipeTypes = ["Завтрак", "Обед", "Ужин"]
 connection.execute('INSERT INTO recipeTypes (id, type) VALUES (?, ?), (?, ?), (?, ?)',
-                    (1, "Breakfast", 2, "Lunch", 3, "Dinner"))
+                    (1, recipeTypes[0], 2, recipeTypes[1], 3, recipeTypes[2]))
 
 connection.commit()
 connection.close()
