@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 import app.connect as c
 from app import app
 # Class for creating and editing product information
