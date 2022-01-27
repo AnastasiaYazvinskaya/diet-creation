@@ -46,7 +46,7 @@
             {% for product in products %}
                 <tr>
                     <td scope="row"><a href="{{url_for('product', product_id=product['id'])}}">{{ product['name'] }}</a></td>
-                    <td> {{ product['weight'] }} {{ product['weightType'] }} </td>\
+                    <td> {{ product['weight'] }} {{ product['weightType'] }} </td>
                     <td class="buttons"> 
                         <form action="{{ url_for('delete_p', id=product['id']) }}" method="POST">
                             <input type="image" src="../static/images/trash.svg" value="Удалить" id="delete"
