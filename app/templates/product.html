@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+<!-- Content for displaying chosen product -->
+{% block content %}
+    <!-- Product name -->
+    <h1>{% block title %} {{product['name']}} {% endblock %}</h1>
+    <!-- Product info -->
+    <div class="prod-info">
+        <span>
+            <b>Информация:</b> {{ product['weight'] }} {{ product['weightType']}}{% if product['price'] != ''%} - {{ product['price'] }} &#8381{% endif %}{% if product['shop'] != 'unknown'%} [{{ product['shop'] }}]{% endif %}
+        </span>
+        <br><br>
+        <!-- List of recipes where this product is used -->
+        <div style="width: 300px;">
+            {% if recipes %}
+            <h6>Рецепты с использованием этого продукта:</h6>
+            <ul class="list-group list-group-flush">
+                {% for recipe in recipes %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{recipe['name']}} ({{ recipe['type'] }})
+                        </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>Пока этот продукт не используется в ваших рецептах.</p>
+            {% endif %}
+        </div>
+        <br>
+        <div>
+            <form action="{{ url_for('delete_p', id=product['id']) }}" method="POST"style="display: inline-block;">
+                <input type="submit" value="Удалить"
+                        class="btn btn-outline-danger btn-sm"
+                        onclick="return confirm('Подтвердите удаление')">
+            </form>
+            <a href="{{ url_for('edit_p', id=product['id']) }}" style="display: inline-block;">
+                <span class="btn btn-outline-warning btn-sm">Изменить</span>
+            </a>
+        </div>
+    </div>
+{% endblock %}

@@ -15,7 +15,7 @@
 {% block content %}
     <!-- Button trigger modal -->
     {% if prod_exist %}
-        <p class="border border-danger text-center" style="margin: 5px 30%;"> A product with the same name already exists
+        <p class="product-exist"> A product with the same name already exists
             <button type="button" class="btn btn-link" data-toggle="modal" data-target="#Modal">
                 See more
             </button>
@@ -99,7 +99,7 @@
                     <div class="modal-content">
                         <!-- Modal header with close button -->
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">{{data['name']}} ({{data['weight']}}) - {{data['price']}} [{{data['shop']}}]</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">{{data['name']}} ({{data['weight']}} {{data['weight-type']}}){% if data['price'] != ''  %} - {{data['price']}} &#8381{% endif %}{% if data['shop'] != 'unknown' %} [{{data['shop']}}]{% endif %}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -111,7 +111,7 @@
                                 {% for product in prod_exist %}
                                     <input type="radio" name="exist" id="{{product['id']}}"
                                         value="{{product['id']}}"></input>
-                                    <label for="{{product['id']}}">{{product['name']}} ({{product['weight']}}) - {{product['price']}} [{{product['shop']}}]</label>
+                                    <label for="{{product['id']}}">{{product['name']}} ({{product['weight']}} {{product['weightType']}}){% if data['price'] != ''  %} - {{product['price']}} &#8381{% endif %}{% if data['shop'] != 'unknown' %} [{{product['shop']}}]{% endif %}</label>
                                     <br>
                                 {% endfor %}
                                 <input type="radio" name="exist" id="new"

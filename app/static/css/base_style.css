@@ -191,9 +191,19 @@ tbody tr td:nth-of-type(2) {
     font-weight: 400;
     font-size: small;
 }
+td a{
+    color: black;
+}
 
 /* Create Product */
 #weight {
     display: flex;
     flex-direction: row;
+}
+
+/* Product */
+.prod-info {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 5px;
 }

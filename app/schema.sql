@@ -5,6 +5,8 @@ CREATE TABLE shops (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL
 );
+INSERT INTO shops (id, name) VALUES
+(1, "unknown");
 
 DROP TABLE IF EXISTS products;
 CREATE TABLE products (
@@ -38,7 +40,6 @@ CREATE TABLE ingredients (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     rec_id INTEGER REFERENCES recipеs (id),
     prod_id INTEGER REFERENCES products (id),
-    --prod_name TEXT NOT NULL,
     weight NUMERIC(10, 4) NOT NULL
 );
 
