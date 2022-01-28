@@ -20,21 +20,21 @@ $(document).ready(function() {
     $("#add").click(function() {
         // Adding new fields for nex ingredient (ingredient name and weight)
         $("#ingredientAdd").append('<div class="form-group">' +
-'        <label for="name_'+i+'">Name</label>' +
-'        <input list="products" name="name_'+i+'" class="form-control" placeholder="'+(i+1)+' product name"></input>' +
+'        <label for="name_'+i+'">Название '+(i+1)+'-го продукта</label>' +
+'        <input list="products" name="name_'+i+'" class="form-control" placeholder="Название продукта"></input>' +
 '        <datalist id="types">' +
 '            {% for product in prods %}' +
 '                <option value="{{product["name"]}} [{{product["shop"]}}]"></option>' +
 '            {% endfor %}' +
 '        </datalist>' +     
-'        <label for="weight_'+i+'">Weight (gram)</label>' +
+'        <label for="weight_'+i+'">Количество</label>' +
 '        <input type="number" step="0.01" name="weight_'+i+'"' +
 '            placeholder="0.00" class="form-control"></input>' +
 '    </div>');
         // Changing index
         i += 1;
         // Hide adding button if 30 ingredients was added
-        if (i > 30) {
+        if (i = 30) {
             $(this).hide();
         }
     });

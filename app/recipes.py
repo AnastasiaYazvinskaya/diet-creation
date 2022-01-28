@@ -21,22 +21,27 @@ class RecipeAct:
         self.shops = self.conn.execute('SELECT * FROM shops').fetchall()
         self.data = {'r_name': '', 'type': '', 'descr': '', 
                     'ingreds': {'names' : [],
-                                'weights': []}
+                                'weights': [],
+                                'weight_type': []}
                     }
         self.error_p = []
         if recipe_id:
             self.recipe = get_recipe(recipe_id)
-            ingredients = self.conn.execute('''SELECT * FROM ingredients
-                WHERE rec_id=?''', (self.recipe['id'],)).fetchall()
+            ingredients = self.conn.execute('''SELECT i.rec_id AS rec_id, i.prod_id AS prod_id, p.name AS prod_name, i.weight AS weight, p.weightType AS weight_type
+                                               FROM ingredients i JOIN products p
+                                               ON i.prod_id = p.id
+                                               WHERE i.rec_id=?''', (self.recipe['id'],)).fetchall()
             self.data = {'r_name': self.recipe['name'], 
                          'type': self.recipe['type'], 
                          'descr': self.recipe['descr'],
                          'ingreds': {'names': [],
-                                     'weights': []}
+                                     'weights': [],
+                                     'weight_type': []}
                         }
             for ingred in ingredients:
                 self.data['ingreds']['names'].append(ingred['prod_name'])
                 self.data['ingreds']['weights'].append(ingred['weight'])
+                self.data['ingreds']['weight_type'].append(ingred['weight_type'])
             self.conn.execute('DELETE FROM ingredients WHERE rec_id=?', (self.recipe['id'],))
     def act(self, func):
         finish = False
@@ -140,7 +145,7 @@ def recipes():
 def recipe(recipe_id):
     recipe = get_recipe(recipe_id)
     conn = c.get_db_connection()
-    ingreds = conn.execute('''SELECT i.rec_id AS rec_id, i.prod_id AS prod_id, p.name AS name, i.weight AS weight
+    ingreds = conn.execute('''SELECT i.rec_id AS rec_id, i.prod_id AS prod_id, p.name AS name, i.weight AS weight, p.weightType as weight_type 
                             FROM ingredients i JOIN products p ON i.prod_id = p.id 
                             WHERE i.rec_id=?''',
                             (recipe_id,)).fetchall()
@@ -154,19 +159,19 @@ def create_r():
         return c.redirect(c.url_for('recipes'))
     return c.render_template('create_r.html', prods=recipeAct.prods, types=recipeAct.types, shops=recipeAct.shops, data=recipeAct.data, errors=recipeAct.error_p)
 # Edit recipe (open, form handling)
-@app.route('/<int:id>_recipe_edit', methods=('GET', 'POST'))
-def edit_r(id):
-    recipeAct = RecipeAct(id)
+@app.route('/<int:recipe_id>_recipe_edit', methods=('GET', 'POST'))
+def edit_r(recipe_id):
+    recipeAct = RecipeAct(recipe_id)
     if recipeAct.act(recipeAct.edit):
         return c.redirect(c.url_for('recipes'))
     return c.render_template('edit_r.html', prods=recipeAct.prods, types=recipeAct.types, shops=recipeAct.shops, recipe=recipeAct.data, errors=recipeAct.error_p)
 # Delete recipe
-@app.route('/<int:id>/delete_recipe', methods=('POST',))
-def delete_r(id):
-    recipe = get_recipe(id)
+@app.route('/<int:recipe_id>/delete_recipe', methods=('POST',))
+def delete_r(recipe_id):
+    recipe = get_recipe(recipe_id)
     conn = c.get_db_connection()
-    conn.execute('DELETE FROM recipes WHERE id = ?', (id,))
-    conn.execute('DELETE FROM ingredients WHERE rec_id=?', (id,))
+    conn.execute('DELETE FROM recipes WHERE id = ?', (recipe_id,))
+    conn.execute('DELETE FROM ingredients WHERE rec_id=?', (recipe_id,))
     conn.commit()
     conn.close()
     c.flash('"{}" was successfully deleted!'.format(recipe['name']))

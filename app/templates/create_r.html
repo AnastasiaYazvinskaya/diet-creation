@@ -2,6 +2,7 @@
 <!-- Styles -->
 {% block style %}
     <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/create_style.css">
 {% endblock %}
 <!-- Scripts-->
 {% block script %}
@@ -18,18 +19,18 @@
         </p>
     {% endif %}
     <!-- Title -->
-    <h1>{% block title %} Create a New recipe {% endblock %}</h1>
+    <h1>{% block title %} Новый рецепт {% endblock %}</h1>
     <!-- Form for recipe detiels (if it has new products, then after refreshing all data will be on it's place) -->
     <form method="post">
         <!-- Text field for recipe name-->
         <div class="form-group">
-            <label for="r_name">Name</label>
-            <input type="text" name="r_name" placeholder="Recipe name" 
+            <label for="r_name">Название</label>
+            <input type="text" name="r_name" placeholder="Название рецепта" 
                 class="form-control" value="{{data['r_name']}}"></input>
         </div>
         <!-- Text field for recipe type with list of availiable variants -->
         <div class="form-group">
-            <label for="type">Type</label>
+            <label for="type">Тип</label>
             <input list="types" name="type" class="form-control" 
                 placeholder="Завтрак/Обед/Ужин/Напиток/другое" 
                 value="{{data['type']}}"></input>
@@ -40,13 +41,13 @@
             </datalist>
         </div>
         <!-- Ingredients -->
-        <h5>Ingredients:</h5>
+        <h5>Ингредиенты:</h5>
         <!-- Restoration of entered ingredients -->
         {% if data['ingreds']['names'] %}{% for prod in data['ingreds']['names'] %}
             <div class="form-group" id="repeate_{{loop.index0}}">
                 <!-- Ingredient name -->
-                <label for="name_{{loop.index0}}">Name</label>
-                <input list="products" name="name_{{loop.index0}}" class="form-control" placeholder="1 product name" id="product" 
+                <label for="name_{{loop.index0}}">Название 1-го продукта</label>
+                <input list="products" name="name_{{loop.index0}}" class="form-control" placeholder="Название продукта" id="product" 
                         value="{{ data['ingreds']['names'][loop.index0] }}"></input>
                 <datalist id="products">
                     {% for product in prods %}
@@ -54,7 +55,7 @@
                     {% endfor %}
                 </datalist>
                 <!-- Ingredient weight -->
-                <label for="weight_{{loop.index0}}">Weight (gram)</label>
+                <label for="weight_{{loop.index0}}">Количество</label>
                 <input type="number" step="0.01" name="weight_{{loop.index0}}"
                     placeholder="0.00" class="form-control"
                         value="{{ data['ingreds']['weights'][loop.index0] }}"></input>
@@ -62,16 +63,16 @@
         {% endfor %}{% else %} <!-- Starting fields for first ingredient -->
             <div class="form-group">
                 <!-- Ingredient name -->
-                <label for="name_0">Name</label>
+                <label for="name_0">Название 1-го продукта</label>
                 <input list="products" name="name_0" class="form-control" 
-                    placeholder="1 product name"></input>  
+                    placeholder="Название продукта"></input>  
                 <datalist id="products">
                     {% for product in prods %}
                         <option value="{{product['name']}} [{{product['shop']}}]"></option>
                     {% endfor %}
                 </datalist>
                 <!-- Ingredient weight -->
-                <label for="weight_0">Weight (gram)</label>
+                <label for="weight_0">Количество</label>
                 <input type="number" step="0.01" name="weight_0"
                     placeholder="0.00" class="form-control"></input>
             </div>
@@ -79,17 +80,17 @@
         <!-- Place for adding ingredients and button for it -->
         <div id="ingredientAdd"></div>
         <div class="form-group">
-            <button id="add" type="button" class="btn btn-secondary">Add ingredient</button>
+            <button id="add" type="button" class="btn btn-secondary">Добавить ингредиент</button>
         </div>
         <!-- Recipe description -->
         <div class="form-group">
-            <label for="descr">Description</label>
-            <textarea name="descr" placeholder="Recipe description"
+            <label for="descr">Приготовление</label>
+            <textarea name="descr" placeholder="Описание приготовления рецепта"
                 class="form-control">{{ data['descr'] }}</textarea>
         </div>
         <!-- Button for submiting form -->
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Create Recipe</button>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
         </div>
         <!-- Modal for creating new products used in recipe -->
         {% if errors %}  
@@ -118,34 +119,34 @@
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
                                         <input type="hidden" name="formType" value="product" style="display:none">
-                                        <span>You have some products not in list. Please add the information about them.<br>Click "Next" for starting.</span>
+                                        <span>Некоторые продукты, необходимые для этого рецепта отсутствуют в вашем списке продуктов. Пожалйста, добавьте их.<br>Нажмите "Следующий", чтобы начать.</span>
                                     </div>
                                     <!-- Slides with form for each product -->
                                     {% for error in errors %}
                                         <div class="carousel-item">
                                             <!-- Product name -->
                                             <div class="form-group">
-                                                <label for="p_name_{{loop.index0}}">Name</label>
+                                                <label for="p_name_{{loop.index0}}">Название</label>
                                                 <input type="text" name="p_name_{{loop.index0}}"
-                                                    placeholder="Product name" class="form-control"
+                                                    placeholder="Название продукта" class="form-control"
                                                     value="{{error}}"></input>
                                             </div>
                                             <!-- Product weight -->
                                             <div class="form-group">
-                                                <label for="p_weight_{{loop.index0}}">Weight (gram)</label>
+                                                <label for="p_weight_{{loop.index0}}">Количество</label>
                                                 <input type="number" step="0.01" name="p_weight_{{loop.index0}}" placeholder="0.00"
                                                         class="form-control"></input>
                                             </div>
                                             <!-- Product price -->
                                             <div class="form-group">
-                                                <label for="p_price_{{loop.index0}}">Price (rubles)</label>
+                                                <label for="p_price_{{loop.index0}}">Цена</label>
                                                 <input type="number" step="0.01" name="p_price_{{loop.index0}}" placeholder="0.00"
                                                         class="form-control"></input>
                                             </div>
                                             <!-- Product shop -->
                                             <div class="form-group">
-                                                <label for="p_shop_{{loop.index0}}">Shop</label>
-                                                <input list="shops" name="p_shop_{{loop.index0}}" class="form-control" placeholder="Shop name"></input>
+                                                <label for="p_shop_{{loop.index0}}">Магазин</label>
+                                                <input list="shops" name="p_shop_{{loop.index0}}" class="form-control" placeholder="Название магазина"></input>
                                                 <datalist id="shops">
                                                     {% for shop in shops %}
                                                         <option value="{{shop['name']}}"></option>
@@ -159,9 +160,9 @@
                         </div>
                         <!-- Controls with submiting form button -->
                         <div class="modal-footer">
-                            <a href="#carousel" role="button" data-slide="prev">Previous</a>
-                            <a href="#carousel" role="button" data-slide="next">Next</a>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <a href="#carousel" role="button" data-slide="prev">Следующий</a>
+                            <a href="#carousel" role="button" data-slide="next">Предыдущий</a>
+                            <button type="submit" class="btn btn-primary">Готово</button>
                         </div>
                     </div>
                 </div>

@@ -4,7 +4,7 @@
     <!-- Product name -->
     <h1>{% block title %} {{product['name']}} {% endblock %}</h1>
     <!-- Product info -->
-    <div class="prod-info">
+    <div class="info">
         <span>
             <b>Информация:</b> {{ product['weight'] }} {{ product['weightType']}}{% if product['price'] != ''%} - {{ product['price'] }} &#8381{% endif %}{% if product['shop'] != 'unknown'%} [{{ product['shop'] }}]{% endif %}
         </span>
@@ -13,13 +13,13 @@
         <div style="width: 300px;">
             {% if recipes %}
             <h6>Рецепты с использованием этого продукта:</h6>
-            <ul class="list-group list-group-flush">
-                {% for recipe in recipes %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{recipe['name']}} ({{ recipe['type'] }})
-                        </li>
-                {% endfor %}
-            </ul>
+            {% for recipe in recipes %}
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="{{url_for('recipe', recipe_id=recipe['id'])}}" style="color: black;">
+                        {{recipe['name']}} ({{ recipe['type'] }})
+                    </a>
+                </div>
+            {% endfor %}
             {% else %}
             <div id="empty-recipe-list">
                 <p>Пока этот продукт не используется в ваших рецептах.</p>

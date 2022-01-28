@@ -2,6 +2,7 @@
 <!-- Styles -->
 {% block style %}
     <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/create_style.css">
 {% endblock %}
 <!-- Scripts-->
 {% block script %}
@@ -18,12 +19,12 @@
         </p>
     {% endif %}
     <!-- Title -->
-    <h1>{% block title %} Edit "{{ recipe['r_name'] }}" {% endblock %}</h1>
+    <h1>{% block title %}Редактирование рецепта<br>"{{ recipe['r_name'] }}" {% endblock %}</h1>
     <!-- Form for recipe detiels (if it has new products, then after refreshing all data will be on it's place) -->
     <form method="post">
         <!-- Text field for recipe name-->
         <div class="form-group">
-            <label for="r_name">Name</label>
+            <label for="r_name">Название</label>
             <input type="text" name="r_name" placeholder="Recipe name" 
                 class="form-control" value="{{recipe['r_name']}}"></input>
         </div>

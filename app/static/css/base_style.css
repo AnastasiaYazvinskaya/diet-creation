@@ -120,6 +120,19 @@ h1 {
     font-weight: 600;
 }
 
+
+.info {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 5px;
+}
+.align-items-center {
+    margin-left: 20px;
+}
+a {
+    color: black;
+}
+
 /* Products */
 .container img, .container #delete {
     width: 20px;
@@ -202,11 +215,6 @@ td a{
 }
 
 /* Product */
-.prod-info {
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-    padding: 5px;
-}
 #empty-recipe-list p {
     margin-bottom: 0;
 }
@@ -235,11 +243,15 @@ td a{
 .recipe-info h4 {
     text-align: center;
 }
-.recipe-info div {
-    text-align: right;
+
+.recipe-type {
+    text-align: center;
+    margin-top: -10px;
+    font-size: 0.8em;
 }
 
 .heart {
+    text-align: right;
     margin: -15px 5px 5px 0;
     font-size: 2em;
     line-height: 30px;
