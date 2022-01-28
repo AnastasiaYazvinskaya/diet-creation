@@ -1,16 +1,44 @@
 {% extends "base.html" %}
+{% block style %}
+<link rel="stylesheet" href="static/css/create_style.css">
+{% endblock %}
+{% block script %}
+    <script>
+        function openHint() {
+            var hint = document.getElementById("hint");
+            //toggle adds a class if it's not there or removes it if it is.
+            hint.classList.toggle("open-hint");
+        }
+    </script>
+{% endblock %}
 <!-- Content for starting page -->
 {% block name %}<a id="cname" href="{{ url_for('index')}}">DietCreation</a>{% endblock %}
 {% block content %}
     <!-- Welcome title -->
     <h1>{% block title %}О нас{% endblock %}</h1>
-    
-        <br><br><br><br><br><br><br><br><br><br>
-        <br><br><br><br><br><br><br><br><br><br>
-        <br><br><br><br><br><br><br><br><br><br>
-        <br><br><br><br><br><br><br><br><br><br>
-        <br><br><br><br><br><br><br><br><br><br>
-        <br><br><br><br><br><br><br><br><br><br>
-    
-    <p>Конец</p>
+    <p id="hint" class="hint">Сообщение отправляется полностью анонимно.<br>Будем рады конструктивной критике.</p>
+    <div class="list-icons">
+        <div class="show-hint">
+            <img id="show-hint" src="../static/images/black-hint.svg" alt="Hint icon"
+                onclick="openHint()">
+        </div>
+    </div>
+    <form method="post" style="margin-top: 30px;">
+        <!-- Text field for subject of email -->
+        <div class="form-group">
+            <label for="subject">Тема</label>
+            <input type="text" id="subject" name="subject"
+                   class="form-control" value="Отзывы и предложения">
+        </div>
+        <!-- Textarea for message -->
+        <div class="form-group">
+            <label for="message">Сообщение</label>
+            <textarea id="message" name="message"
+                   class="form-control" placeholder="Здесь вы можете написать что вам понравилось или не понравилось в использовании этого приложения. А также оставить свои пожелания для его усовершенствования."
+                   rows="6" cols="10"></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </div>
+    </form>
 {% endblock %}

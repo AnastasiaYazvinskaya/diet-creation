@@ -129,10 +129,12 @@ class RecipeAct:
 def recipes():
     conn = c.get_db_connection()
     recipes = conn.execute('''SELECT r.id AS id, r.name AS name, rt.type AS type, r.descr AS descr
-    FROM recipes r JOIN recipeTypes rt
-    ON r.type_id = rt.id''').fetchall()
+                            FROM recipes r JOIN recipeTypes rt
+                            ON r.type_id = rt.id''').fetchall()
+    ingreds = conn.execute('''SELECT i.rec_id AS rec_id, i.prod_id AS prod_id, p.name AS prod_name
+                            FROM ingredients i JOIN products p ON i.prod_id = p.id''').fetchall()
     conn.close()
-    return c.render_template('recipes.html', recipes = recipes)
+    return c.render_template('recipes.html', recipes = recipes, ingredients=ingreds)
 # Recipe information page (open)
 @app.route('/recipe<int:recipe_id>')
 def recipe(recipe_id):

@@ -1,15 +1,54 @@
 {% extends "base.html" %}
+{% block script %}
+    <script>
+        function openHint() {
+            var hint = document.getElementById("hint");
+            //toggle adds a class if it's not there or removes it if it is.
+            hint.classList.toggle("open-hint");
+        }
+    </script>
+{% endblock %}
 {% block name %}<a id="cname" href="{{ url_for('index')}}">DietCreation</a>{% endblock %}
 <!-- Content for displaying list of recipes -->
 {% block content %}
 <!-- Title -->
-    <h1>{% block title %} List of Recipes {% endblock %}</h1>
+    <h1>{% block title %}Список рецептов{% endblock %}</h1>
+    <p id="hint" class="hint">Создайте книгу своих любимых рецептов или добавьте понравившийся из общего списка.<br>Вы так же можете посмотреть всю информацию о рецепте нажав на него.</p>
     <!-- Badge (button) for creating new product -->
-    <a href="{{url_for('create_r')}}">
-        <span class="badge badge-primary">New Recipe</span>
-    </a>
-    <br>
+    <div class="list-icons">
+        <a href="{{url_for('create_r')}}">
+            <img src="../static/images/add.svg" alt="Add new item icon">
+        </a>
+        {#
+        <div id="search">
+            <img src="../static/images/search.svg" alt="Search icon">
+            <span type="button" class="badge badge-primary">S</span>
+            <input></input>
+        </div>
+        #}
+        <div class="show-hint">
+            <img id="show-hint" src="../static/images/black-hint.svg" alt="Hint icon"
+                onclick="openHint()">
+        </div>
+    </div>
     <!-- Displaying a list of recipes in a table (col: name, type, actions)-->
+    <div class="recipes-header">
+        <span>Мои рецепты</span>
+        <span>Все рецепты</span>
+    </div>
+    <!-- For each recipe in data create a new block -->
+    {% for recipe in recipes %}
+        <div class="recipe-info">
+            <h4>{{ recipe['name'] }}</h4>
+            <p>Ингредиенты: 
+                {% for ingredient in ingredients if ingredient['rec_id'] == recipe['id'] %}
+                    {{ ingredient['prod_name'] }}
+                {% endfor %}
+            </p>
+            {#<div class="heart">&#9829;</div>#}
+        </div>
+    {% endfor %}
+    {#
     <table class="table">
         <!-- Table head -->
         <thead class="thead-light">
@@ -44,4 +83,5 @@
             {% endfor %}
         </tbody>
     </table>
+    #}
 {% endblock %}

@@ -3,12 +3,13 @@ from app import app
 # Class for creating and editing product information
 class ProductAct:
     def __init__(self, product_id=None):
+        self.product_id = product_id
         self.conn = c.get_db_connection()
         self.shops = self.conn.execute('SELECT * FROM shops').fetchall()
         self.data = {'name': '', 'weight': '', 'weight-type': '', 'price': '', 'shop': 'unknown'}
         self.prod_exist = None
         if product_id:
-            self.product = get_product(product_id)
+            self.product = get_product(self.product_id)
             self.data = {'name': self.product['name'], 
                          'weight': self.product['weight'],
                          'weight-type': self.product['weightType'], 
@@ -29,8 +30,6 @@ class ProductAct:
                                          ON p.shop_id = s.id 
                                          WHERE p.name=? AND s.name=?''',
                                         (self.data['name'], self.data['shop'])).fetchall()
-            if len(self.prod_exist):
-                print("len(self.prod_exist)= ",len(self.prod_exist))
             try:
                 if self.prod_exist:
                     new = c.request.form['exist'] # id or 'new'
@@ -39,11 +38,9 @@ class ProductAct:
             except c.BadRequest:
                 pass
             # If one of the REQUIRED field is empty then refresh page with saving data in the fields
-            print("new= ",new)
             if not self.data['name'] or not self.data['weight'] or not self.data['weight-type']:
                 c.flash('Name and weight information is requered!')
-            elif new == 'new' or (new == '' and not len(self.prod_exist)):
-                print("add new")
+            elif new == 'new' or (new == '' and (not len(self.prod_exist) or len(self.prod_exist)==1 and self.prod_exist[0]['id']==self.product_id)):
                 if self.data['shop']:
                     shop_exist = self.conn.execute('SELECT id FROM shops WHERE name=?',
                                                 (self.data['shop'],)).fetchone()
@@ -56,7 +53,6 @@ class ProductAct:
                 else:
                     finish = func()
             elif new.isnumeric():
-                "cancel adding"
                 finish = True
         return finish
     def create(self, shop_id=1):
@@ -68,7 +64,6 @@ class ProductAct:
         return True
     def edit(self, shop_id=None):
         # Updating product information
-        print("Updated")
         self.conn.execute('''UPDATE products SET name=?, weight=?, weightType=?, price=?, shop_id=?
                             WHERE id=?''',
                          (self.data['name'], self.data['weight'], self.data['weight-type'], self.data['price'], shop_id, self.product['id']))
@@ -115,18 +110,18 @@ def create_p():
         return c.redirect(c.url_for('products'))
     return c.render_template('create_p.html', shops=productAct.shops, data=productAct.data, prod_exist=productAct.prod_exist)
 # Edit product page (open, form handling)
-@app.route('/<int:id>_product_edit', methods=('GET', 'POST'))
-def edit_p(id):
-    productAct = ProductAct(id)
+@app.route('/<int:product_id>_product_edit', methods=('GET', 'POST'))
+def edit_p(product_id):
+    productAct = ProductAct(product_id)
     if productAct.act(productAct.edit):
         return c.redirect(c.url_for('products'))
     return c.render_template('edit_p.html', shops=productAct.shops, product=productAct.data)
 # Delete product
-@app.route('/<int:id>/delete_product', methods=('POST',))
-def delete_p(id):
-    product = get_product(id)
+@app.route('/<int:product_id>/delete_product', methods=('POST',))
+def delete_p(product_id):
+    product = get_product(product_id)
     conn = c.get_db_connection()
-    conn.execute('DELETE FROM products WHERE id = ?', (id,))
+    conn.execute('DELETE FROM products WHERE id = ?', (product_id,))
     conn.commit()
     conn.close()
     c.flash('"{}" was successfully deleted!'.format(product['name']))

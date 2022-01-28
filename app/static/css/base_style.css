@@ -207,3 +207,41 @@ td a{
     border-radius: 10px;
     padding: 5px;
 }
+#empty-recipe-list p {
+    margin-bottom: 0;
+}
+.btn-primary {
+    padding: 3px;
+}
+
+/* Recipes */
+.recipes-header {
+    text-align: center;
+    padding-top: 10px;
+    background-color: rgba(253, 255, 127, 0.8);
+    height: 50px;
+}
+.recipes-header span:nth-of-type(1) {
+    font-weight: 700;
+}
+.recipes-header span:nth-of-type(2) {
+    margin-left: 15%;
+}
+.recipe-info {
+    background-color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 10px;
+    padding-bottom: 2px;
+}
+.recipe-info h4 {
+    text-align: center;
+}
+.recipe-info div {
+    text-align: right;
+}
+
+.heart {
+    margin: -15px 5px 5px 0;
+    font-size: 2em;
+    line-height: 30px;
+    color: rgba(61, 61, 61, 0.2);
+}

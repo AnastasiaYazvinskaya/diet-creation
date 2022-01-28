@@ -17,7 +17,7 @@
     {% if prod_exist %}
         <p class="border border-danger text-center" style="margin: 5px 30%;"> Продукт с таким же названием уже существует в вашем списке.
             <button type="button" class="btn btn-link" data-toggle="modal" data-target="#Modal">
-                Смотри больше.
+                Смотри больше
             </button>
         </p>
     {% endif %}
@@ -61,7 +61,7 @@
         <!-- Text field for product shop with a list of availiable items -->
         <div class="form-group">
             <label for="shop">Магазин</label>
-            {% if product['shop'] != "None" %}
+            {% if product['shop'] != "unknown" %}
             <input list="shops" name="shop" class="form-control"
                 placeholder="Название магазина" value="{{ product['shop'] }}"></input>
             {% else %}
@@ -69,7 +69,7 @@
                 placeholder="Название магазина" value=""></input>
             {% endif %}
             <datalist id="shops">
-                {% for shop in shops %}
+                {% for shop in shops if shop['id'] != 1 %}
                     <option value="{{shop['name']}}"></option>
                 {% endfor %}
             </datalist>
@@ -85,7 +85,7 @@
                     <div class="modal-content">
                         <!-- Modal header with close button -->
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">{{data['name']}} ({{data['weight']}}) - {{data['price']}} [{{data['shop']}}]</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">{{data['name']}} ({{data['weight']}} {{data['weight-type']}}){% if data['price'] != ''  %} - {{data['price']}} &#8381{% endif %}{% if data['shop'] != 'unknown' %} [{{data['shop']}}]{% endif %}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -97,7 +97,7 @@
                                 {% for product in prod_exist %}
                                     <input type="radio" name="exist" id="{{product['id']}}"
                                         value="{{product['id']}}"></input>
-                                    <label for="{{product['id']}}">{{product['name']}} ({{product['weight']}}) - {{product['price']}} [{{product['shop']}}]</label>
+                                    <label for="{{product['id']}}">{{product['name']}} ({{product['weight']}} {{product['weightType']}}){% if data['price'] != ''  %} - {{product['price']}} &#8381{% endif %}{% if data['shop'] != 'unknown' %} [{{product['shop']}}]{% endif %}</label>
                                     <br>
                                 {% endfor %}
                                 <input type="radio" name="exist" id="new"
@@ -107,7 +107,7 @@
                         </div>
                         <!-- Controls with submiting form button -->
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Continue</button>
+                            <button type="submit" class="btn btn-primary">Продолжить</button>
                         </div>
                     </div>
                 </div>

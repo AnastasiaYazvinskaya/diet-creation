@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block style %}
+
+{% endblock %}
+<!-- Content for starting page -->
+{% block name %}<a id="cname" href="{{ url_for('index')}}">DietCreation</a>{% endblock %}
+{% block content %}
+    <!-- Welcome title -->
+    <h1>{% block title %}Спасибо за отзыв{% endblock %}</h1>
+    <br>
+    <p style="background-color: rgba(255, 255, 255, 0.8); border-radius: 10px; padding: 5px;">Благодарим вас за то, что помогаете нам становиться лучше. Мы уже получили ваш отзыв и постараемся учесть все пожелания и недочеты.</p>
+{% endblock %}
