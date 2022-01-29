@@ -17,18 +17,20 @@ body {
     */
 }
 #background img {
-    width: 100vw;
-    height: auto;
-    min-height: 50vh;
+    width: auto;
+    height: 100vh;
+    min-width: 100vw;
     /*background-image: url("../images/bg.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
     */
+    transform: rotate(90);
     position: fixed;
     z-index: -1;
     top: 0;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .menu-icon {
@@ -119,7 +121,6 @@ h1 {
     font-family: 'Comfortaa', cursive;
     font-weight: 600;
 }
-
 
 .info {
     background-color: rgba(255, 255, 255, 0.8);
