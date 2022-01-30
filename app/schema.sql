@@ -1,4 +1,3 @@
-
 -- Products INFO
 DROP TABLE IF EXISTS shops;
 CREATE TABLE shops (
@@ -19,6 +18,13 @@ CREATE TABLE products (
     shop_id INTEGER REFERENCES shops (id)
 );
 
+DROP TABLE IF EXISTS usersProducts;
+CREATE TABLE usersProducts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES users (id),
+    prod_id INTEGER REFERENCES products (id)
+);
+
 -- Recipes INFO
 DROP TABLE IF EXISTS recipeTypes;
 CREATE TABLE recipeTypes (
@@ -32,7 +38,8 @@ CREATE TABLE recipes (
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     name TEXT NOT NULL,
     type_id INTEGER REFERENCES recipeTypes (id),
-    descr TEXT NOT NULL
+    descr TEXT NOT NULL,
+    user_id INTEGER REFERENCES users (id)
 );
 
 DROP TABLE IF EXISTS ingredients;
@@ -42,33 +49,31 @@ CREATE TABLE ingredients (
     prod_id INTEGER REFERENCES products (id),
     weight NUMERIC(10, 4) NOT NULL
 );
+DROP TABLE IF EXISTS usersRecipes;
+CREATE TABLE usersRecipes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES users (id),
+    rec_id INTEGER REFERENCES recipes (id)
+);
 
 -- Menu INFO
 DROP TABLE IF EXISTS menu;
 CREATE TABLE menu (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    menu_name TEXT NOT NULL
-);
-
-DROP TABLE IF EXISTS week;
-CREATE TABLE week (
-    id INTEGER PRIMARY KEY AUTOINCREMENT
-    --week_num INTEGER NOT NULL,
-    --menu_id INTEGER REFERENCES menu (id)
+    menu_name TEXT NOT NULL,
+    user_id INTEGER REFERENCES users (id)
 );
 
 DROP TABLE IF EXISTS week_day;
 CREATE TABLE week_day (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     weekday TEXT NOT NULL
-    --week_id INTEGER REFERENCES week (id)
 );
 
 DROP TABLE IF EXISTS meal;
 CREATE TABLE meal (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     rec_id INTEGER REFERENCES recipеs (id),
-    --recipe TEXT,
     weekday_id INTEGER REFERENCES week_day (id),
     week INTEGER NOT NULL,
     menu_id INTEGER REFERENCES menu (id),

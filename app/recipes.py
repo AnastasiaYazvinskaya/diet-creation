@@ -1,11 +1,19 @@
 import app.connect as c
 from app import app
+from flask_login import login_required, current_user
+
+#JOIN usersRecipes u
+#    ON u.rec_id = r.id
+#    WHERE r.id = ? AND u.user_id=?, (recipe_id, current_user.id)
+
 # Get recipe information by id (id, name, type, description)
 def get_recipe(recipe_id):
     conn = c.get_db_connection()
-    recipe = conn.execute('''SELECT r.id AS id, r.name AS name, rt.type AS type, r.descr AS descr
+    recipe = conn.execute('''SELECT r.id AS id, u.user_id AS user_id, r.name AS name, rt.type AS type, r.descr AS descr
     FROM recipes r JOIN recipeTypes rt
     ON r.type_id = rt.id
+    JOIN usersRecipes u
+    ON u.rec_id = r.id
     WHERE r.id = ?''', (recipe_id,)).fetchone()
     conn.close()
     if recipe is None:
@@ -15,9 +23,12 @@ class RecipeAct:
     def __init__(self, recipe_id=None):
         self.conn = c.get_db_connection()
         self.types = self.conn.execute('SELECT * FROM recipeTypes').fetchall()
-        self.prods = self.conn.execute('''SELECT p.id AS id, p.name AS name, p.weight AS weight, p.price AS price, s.name AS shop
+        self.prods = self.conn.execute('''SELECT p.id AS id, u.user_id AS user_id, p.name AS name, p.weight AS weight, p.price AS price, s.name AS shop
             FROM products p JOIN shops s
-            ON p.shop_id = s.id''').fetchall()
+            ON p.shop_id = s.id
+            JOIN usersProducts u
+            ON u.prod_id = p.id
+            WHERE u.user_id=?''', (current_user.id,)).fetchall()
         self.shops = self.conn.execute('SELECT * FROM shops').fetchall()
         self.data = {'r_name': '', 'type': '', 'descr': '', 
                     'ingreds': {'names' : [],
@@ -92,8 +103,10 @@ class RecipeAct:
             except c.BadRequest:
                 pass
             for ingred in self.data['ingreds']['names']:
-                prod_exist = self.conn.execute('SELECT * FROM products WHERE name=?',
-                                                (ingred,)).fetchone()
+                prod_exist = self.conn.execute('''SELECT * FROM products p
+                                                 JOIN usersProducts u ON p.id=u.prod_id
+                                                 WHERE p.name=? AND u.user_id=?''',
+                                                (ingred, current_user.id)).fetchone()
                 if not prod_exist:
                     self.error_p.append(ingred)
             # If one of the fields was not filled in, the existing data is saved and the page is reloaded
@@ -103,15 +116,16 @@ class RecipeAct:
                 finish = func(type_id)
         return finish
     def create(self, type_id):
-        self.conn.execute('INSERT INTO recipes (name, type_id, descr) VALUES (?, ?, ?)',
-                    (self.data['r_name'], type_id[0], self.data['descr']))
+        self.conn.execute('INSERT INTO recipes (name, type_id, descr, user_id) VALUES (?, ?, ?, ?)',
+                    (self.data['r_name'], type_id[0], self.data['descr'], current_user.id))
         rec_id = self.conn.execute('SELECT id FROM recipes WHERE name=?',
                             (self.data['r_name'],)).fetchone()
-        rec_id = rec_id[0]
+        self.conn.execute('INSERT INTO usersRecipes (user_id, rec_id) VALUES (?, ?)',
+                    (current_user.id, rec_id[0]))
         for i in range(len(self.data['ingreds']['names'])):
-            prod_id =self.conn.execute('SELECT id FROM products WHERE name=?', (self.data['ingreds']['names'][i],)).fetchone()
+            prod_id =self.conn.execute('SELECT p.id FROM products p JOIN usersProducts u WHERE p.name=? AND u.user_id=?', (self.data['ingreds']['names'][i], current_user.id)).fetchone()
             self.conn.execute('INSERT INTO ingredients (rec_id, prod_id, weight) VALUES (?, ?, ?)',
-                        (rec_id , prod_id[0], self.data['ingreds']['weights'][i]))
+                        (rec_id[0], prod_id[0], self.data['ingreds']['weights'][i]))
         self.conn.commit()
         self.conn.close()
         return True
@@ -129,13 +143,17 @@ class RecipeAct:
         self.conn.commit()
         self.conn.close()
         return True
+    def add(self, type_id):
+        pass
 # List of recipes page (open)
 @app.route('/recipes')
 def recipes():
     conn = c.get_db_connection()
-    recipes = conn.execute('''SELECT r.id AS id, r.name AS name, rt.type AS type, r.descr AS descr
+    recipes = conn.execute('''SELECT r.id AS id, u.user_id AS user_id, r.name AS name, rt.type AS type, r.descr AS descr
                             FROM recipes r JOIN recipeTypes rt
-                            ON r.type_id = rt.id''').fetchall()
+                            ON r.type_id = rt.id
+                            JOIN usersRecipes u
+                            ON u.rec_id = r.id''').fetchall()
     ingreds = conn.execute('''SELECT i.rec_id AS rec_id, i.prod_id AS prod_id, p.name AS prod_name
                             FROM ingredients i JOIN products p ON i.prod_id = p.id''').fetchall()
     conn.close()
@@ -153,6 +171,7 @@ def recipe(recipe_id):
     return c.render_template('recipe.html', recipe=recipe, ingreds=ingreds)
 # Create recipe page (open, form handling)
 @app.route('/create_recipe', methods=('GET', 'POST'))
+@login_required
 def create_r():
     recipeAct = RecipeAct()
     if recipeAct.act(recipeAct.create):
@@ -160,19 +179,35 @@ def create_r():
     return c.render_template('create_r.html', prods=recipeAct.prods, types=recipeAct.types, shops=recipeAct.shops, data=recipeAct.data, errors=recipeAct.error_p)
 # Edit recipe (open, form handling)
 @app.route('/<int:recipe_id>_recipe_edit', methods=('GET', 'POST'))
+@login_required
 def edit_r(recipe_id):
-    recipeAct = RecipeAct(recipe_id)
-    if recipeAct.act(recipeAct.edit):
+    conn = c.get_db_connection()
+    rec_id_exist = conn.execute('SELECT id FROM usersRecipes WHERE user_id=? AND rec_id=?', (current_user.id, recipe_id)).fetchone()
+    if not rec_id_exist:
+        conn.commit()
+        conn.close()
         return c.redirect(c.url_for('recipes'))
-    return c.render_template('edit_r.html', prods=recipeAct.prods, types=recipeAct.types, shops=recipeAct.shops, recipe=recipeAct.data, errors=recipeAct.error_p)
+    else:
+        recipeAct = RecipeAct(recipe_id)
+        if recipeAct.act(recipeAct.edit):
+            return c.redirect(c.url_for('recipes'))
+        return c.render_template('edit_r.html', prods=recipeAct.prods, types=recipeAct.types, shops=recipeAct.shops, recipe=recipeAct.data, errors=recipeAct.error_p)
 # Delete recipe
 @app.route('/<int:recipe_id>/delete_recipe', methods=('POST',))
+@login_required
 def delete_r(recipe_id):
-    recipe = get_recipe(recipe_id)
     conn = c.get_db_connection()
-    conn.execute('DELETE FROM recipes WHERE id = ?', (recipe_id,))
-    conn.execute('DELETE FROM ingredients WHERE rec_id=?', (recipe_id,))
-    conn.commit()
-    conn.close()
-    c.flash('"{}" was successfully deleted!'.format(recipe['name']))
-    return c.redirect(c.url_for('recipes'))
+    rec_id_exist = conn.execute('SELECT id FROM usersRecipes WHERE user_id=? AND rec_id=?', (current_user.id, recipe_id)).fetchone()
+    if not rec_id_exist:
+        conn.commit()
+        conn.close()
+        return c.redirect(c.url_for('recipes'))
+    else:
+        recipe = get_recipe(recipe_id)
+        conn.execute('DELETE FROM usersRecipes WHERE user_id=? AND rec_id = ?', (current_user.id, recipe_id))
+        #conn.execute('DELETE FROM recipes WHERE id = ?', (recipe_id,))
+        #conn.execute('DELETE FROM ingredients WHERE rec_id=?', (recipe_id,))
+        conn.commit()
+        conn.close()
+        c.flash('"{}" was successfully deleted!'.format(recipe['name']))
+        return c.redirect(c.url_for('recipes'))

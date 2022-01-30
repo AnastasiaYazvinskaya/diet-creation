@@ -21,6 +21,15 @@
     {% endif %}
     <!-- Title -->
     <h1>{% block title %} Новый рецепт {% endblock %}</h1>
+    <p id="hint" class="hint"><br></p>
+    <div class="list-icons">
+        <div class="show-hint">
+            <!--<img id="show-hint" src="../static/images/black-hint.svg" alt="Hint icon"
+                onclick="openHint()">-->
+
+            <img id="delete" src="../static/images/delete.svg" alt="delete icon">
+        </div>
+    </div>
     <!-- Form for recipe detiels (if it has new products, then after refreshing all data will be on it's place) -->
     <form method="post">
         <!-- Text field for recipe name-->

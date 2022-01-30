@@ -34,7 +34,7 @@ $(document).ready(function() {
         // Changing index
         i += 1;
         // Hide adding button if 30 ingredients was added
-        if (i = 30) {
+        if (i >= 30) {
             $(this).hide();
         }
     });

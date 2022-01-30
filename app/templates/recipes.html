@@ -13,6 +13,7 @@
 {% block content %}
 <!-- Title -->
     <h1>{% block title %}Список рецептов{% endblock %}</h1>
+    {% if current_user.is_authenticated %}
     <p id="hint" class="hint">Создайте книгу своих любимых рецептов или добавьте понравившийся из общего списка.<br>Вы так же можете посмотреть всю информацию о рецепте нажав на него.</p>
     <!-- Badge (button) for creating new product -->
     <div class="list-icons">
@@ -51,6 +52,32 @@
             {#<div class="heart">&#9829;</div>#}
         </div>
     {% endfor %}
+    {% else %}
+    <p>Вам необходимо <a href="{{url_for('login')}}" style="color: blue;">авторизоваться</a>, чтобы вы могли создавать и сохранять рецепты.</p>
+    <div class="recipes-header">
+        <span>Все рецепты</span>
+    </div>
+    {% if recipes %}
+    <!-- For each recipe in data create a new block -->
+    {% for recipe in recipes %}
+        <div class="recipe-info">
+            <h4><a href="{{url_for('recipe', recipe_id=recipe['id'])}}">
+                {{ recipe['name'] }}
+            </a></h4>
+            <div class="recipe-type">{{ recipe['type'] }}</div>
+            <p>Ингредиенты: 
+                {% for ingredient in ingredients if ingredient['rec_id'] == recipe['id'] %}
+                    {{ ingredient['prod_name'] }}
+                {% endfor %}
+            </p>
+        </div>
+    {% endfor %}
+    {% else %}
+    <div class="recipe-info">
+    <p>Пока что в нашей базе нет ни одного рецепта</p>
+    </div>
+    {% endif %}
+    {% endif %}
     {#
     <table class="table">
         <!-- Table head -->

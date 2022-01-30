@@ -13,6 +13,7 @@
 {% block content %}
     <!-- Title -->
     <h1>{% block title %}Список продуктов{% endblock %}</h1>
+    {% if current_user.is_authenticated %}
     <p id="hint" class="hint">Создайте список продуктов, которыми вы пользуетесь, указав их название и информацию о них.<br>Вы так же можете посмотреть всю информацию о продукте нажав на него.</p>
     <!-- Badge (button) for creating new product -->
     <div class="list-icons">
@@ -49,7 +50,7 @@
                     <td> {{ product['weight'] }} {{ product['weightType'] }} </td>
                     <td class="buttons"> 
                         <form action="{{ url_for('delete_p', product_id=product['id']) }}" method="POST">
-                            <input type="image" src="../static/images/trash.svg" value="Удалить" id="delete"
+                            <input type="image" src="../static/images/delete2.svg" value="Удалить" id="delete"
                                     onclick="return confirm('Подтвердите удаление')">
                         </form>
                         <a href="{{ url_for('edit_p', product_id=product['id']) }}">
@@ -67,4 +68,9 @@
             {% endif %}
         </tbody>
     </table>
+    {% else %}
+    <br>
+    <br>
+    <p>Вам необходимо <a href="{{url_for('login')}}" style="color: blue;">авторизоваться</a>, чтобы вы могли создать список продуктов.</p>
+    {% endif %}
 {% endblock %}

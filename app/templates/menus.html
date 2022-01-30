@@ -4,6 +4,7 @@
 {% block content %}
     <!-- Title -->
     <h1>{% block title %} Menu {% endblock %}</h1>
+    {% if current_user.is_authenticated %}
     <!-- Badge (button) for creating new product -->
     <a href="{{url_for('create_m')}}">
         <span class="badge badge-primary">New Menu</span>
@@ -42,4 +43,8 @@
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <br>
+    <p>Вам необходимо <a href="{{url_for('login')}}" style="color: blue;">авторизоваться</a>, чтобы вы могли создавать меню.</p>
+    {% endif %}
 {% endblock %}

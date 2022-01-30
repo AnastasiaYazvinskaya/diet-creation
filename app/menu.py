@@ -1,5 +1,6 @@
 import app.connect as c
 from app import app
+from flask_login import login_required, current_user
 # Menu
 class Menu:
     def __init__(self):
@@ -63,7 +64,7 @@ class MenuAct:
 # Get menu information by id (id, name)
 def get_menu(menu_id):
     conn = c.get_db_connection()
-    menu = conn.execute('SELECT * FROM menu m WHERE m.id = ?', (menu_id,)).fetchone()
+    menu = conn.execute('SELECT * FROM menu m WHERE m.id = ? AND user_id=?', (menu_id, current_user.id)).fetchone()
     conn.close()
     if menu is None:
         c.abort(404)
@@ -85,40 +86,50 @@ def get_weeks(info):
 # List of menu page (open)
 @app.route('/menus')
 def menus():
-    conn = c.get_db_connection()
-    menus = conn.execute('SELECT * FROM menu').fetchall()
-    conn.close()
+    menus = None
+    if current_user.is_authenticated:
+        conn = c.get_db_connection()
+        menus = conn.execute('SELECT * FROM menu WHERE user_id=?', (current_user.id,)).fetchall()
+        conn.close()
     return c.render_template('menus.html', menus=menus)
 # Menu information page (open)
 @app.route('/menu<int:menu_id>')
+@login_required
 def menu(menu_id):
-    menu = get_menu(menu_id)
     conn = c.get_db_connection()
-    menus = conn.execute("SELECT * FROM menu").fetchall()
-    menu_info = conn.execute("""SELECT m.id AS id, r.name AS recipe, m.weekday_id AS weekday_id, m.week AS week, m.menu_id AS menu_id, m.type AS type, m.place AS place, m.rec_id AS rec_id
-                                FROM meal m JOIN recipes r  ON m.rec_id = r.id WHERE m.menu_id=?""", (menu_id,)).fetchall()
-    weeks = get_weeks(menu_info)
-    products = conn.execute("""SELECT m.week AS week, m.rec_id AS rec_id, p.id AS prod_id, p.name AS prod_name, SUM(i.weight) AS weight, 
-                                p.price*SUM(i.weight)/p.weight AS price, s.name AS shop_name
-                                FROM meal m JOIN ingredients i ON m.rec_id=i.rec_id
-                                JOIN products p ON i.prod_id=p.id
-                                JOIN shops s ON p.shop_id=s.id
-                                WHERE m.menu_id=?
-                                GROUP BY m.week, p.id""", (menu_id,)).fetchall()
-    total_price = [0, 0, 0, 0]
-    for product in products:
-        if product['week'] == 1:
-            total_price[0] += product['price']
-        elif product['week'] == 2:
-            total_price[1] += product['price']
-        elif product['week'] == 3:
-            total_price[2] += product['price']
-        elif product['week'] == 4:
-            total_price[3] += product['price']
-    conn.close()
-    return c.render_template('menu.html', menus=menus, menu=menu, menu_info=menu_info, weeks=weeks, products=products, price=total_price)
+    menu_id_exist = conn.execute('SELECT id FROM menus WHERE user_id=? AND id=?', (current_user.id, menu_id)).fetchone()
+    if not menu_id_exist:
+        conn.commit()
+        conn.close()
+        return c.redirect(c.url_for('menus'))
+    else:
+        menu = get_menu(menu_id)
+        menus = conn.execute("SELECT * FROM menu WHERE user_id=?", (current_user.id,)).fetchall()
+        menu_info = conn.execute("""SELECT m.id AS id, r.name AS recipe, m.weekday_id AS weekday_id, m.week AS week, m.menu_id AS menu_id, m.type AS type, m.place AS place, m.rec_id AS rec_id
+                                    FROM meal m JOIN recipes r  ON m.rec_id = r.id WHERE m.menu_id=? AND m.user_id=?""", (menu_id, current_user.id)).fetchall()
+        weeks = get_weeks(menu_info)
+        products = conn.execute("""SELECT m.week AS week, m.rec_id AS rec_id, p.id AS prod_id, p.name AS prod_name, SUM(i.weight) AS weight, 
+                                    p.price*SUM(i.weight)/p.weight AS price, s.name AS shop_name
+                                    FROM meal m JOIN ingredients i ON m.rec_id=i.rec_id
+                                    JOIN products p ON i.prod_id=p.id
+                                    JOIN shops s ON p.shop_id=s.id
+                                    WHERE m.menu_id=?
+                                    GROUP BY m.week, p.id""", (menu_id,)).fetchall()
+        total_price = [0, 0, 0, 0]
+        for product in products:
+            if product['week'] == 1:
+                total_price[0] += product['price']
+            elif product['week'] == 2:
+                total_price[1] += product['price']
+            elif product['week'] == 3:
+                total_price[2] += product['price']
+            elif product['week'] == 4:
+                total_price[3] += product['price']
+        conn.close()
+        return c.render_template('menu.html', menus=menus, menu=menu, menu_info=menu_info, weeks=weeks, products=products, price=total_price)
 # Create menu
 @app.route('/create_menu', methods=('GET', 'POST'))
+@login_required
 def create_m():
     conn = c.get_db_connection()
     recipes = conn.execute('''SELECT r.id AS id, r.name AS name, rt.type AS type, r.descr AS descr
@@ -128,28 +139,42 @@ def create_m():
     return c.render_template('create_m.html', recipes=recipes, types=types)
 # Edit menu
 @app.route('/<int:id>_menu_edit', methods=('GET', 'POST'))
+@login_required
 def edit_m(id):
     conn = c.get_db_connection()
-    recipes = conn.execute('''SELECT r.id AS id, r.name AS name, rt.type AS type, r.descr AS descr
-            FROM recipes r JOIN recipeTypes rt
-            ON r.type_id = rt.id''').fetchall()
-    types = conn.execute('SELECT * FROM recipeTypes').fetchall()
-    menu = get_menu(id)
-    menu_info = conn.execute("""SELECT m.id AS id, r.name AS recipe, m.weekday_id AS weekday_id, m.week AS week, m.menu_id AS menu_id, m.type AS type, m.place AS place, m.rec_id AS rec_id
-                                FROM meal m JOIN recipes r  ON m.rec_id = r.id WHERE m.menu_id = ?""", (id,)).fetchall()
-    weeks = get_weeks(menu_info)
-    return c.render_template('edit_m.html', recipes=recipes, types=types, menu=menu, menu_info=menu_info, weeks=weeks)
+    menu_id_exist = conn.execute('SELECT id FROM menus WHERE user_id=? AND id=?', (current_user.id, menu_id)).fetchone()
+    if not menu_id_exist:
+        conn.commit()
+        conn.close()
+        return c.redirect(c.url_for('menus'))
+    else:
+        recipes = conn.execute('''SELECT r.id AS id, r.name AS name, rt.type AS type, r.descr AS descr
+                FROM recipes r JOIN recipeTypes rt
+                ON r.type_id = rt.id''').fetchall()
+        types = conn.execute('SELECT * FROM recipeTypes').fetchall()
+        menu = get_menu(id)
+        menu_info = conn.execute("""SELECT m.id AS id, r.name AS recipe, m.weekday_id AS weekday_id, m.week AS week, m.menu_id AS menu_id, m.type AS type, m.place AS place, m.rec_id AS rec_id
+                                    FROM meal m JOIN recipes r  ON m.rec_id = r.id WHERE m.menu_id = ?""", (id,)).fetchall()
+        weeks = get_weeks(menu_info)
+        return c.render_template('edit_m.html', recipes=recipes, types=types, menu=menu, menu_info=menu_info, weeks=weeks)
 # Delete menu
 @app.route('/<int:id>/delete_menu', methods=('POST',))
+@login_required
 def delete_m(id):
-    menu = get_menu(id)
     conn = c.get_db_connection()
-    conn.execute('DELETE FROM menu WHERE id = ?', (id,))
-    conn.execute('DELETE FROM meal WHERE menu_id=?', (id,))
-    conn.commit()
-    conn.close()
-    c.flash('"{}" was successfully deleted!'.format(menu['menu_name']))
-    return c.redirect(c.url_for('menus'))
+    menu_id_exist = conn.execute('SELECT id FROM menus WHERE user_id=? AND id=?', (current_user.id, id)).fetchone()
+    if not menu_id_exist:
+        conn.commit()
+        conn.close()
+        return c.redirect(c.url_for('menus'))
+    else:
+        menu = get_menu(id)
+        conn.execute('DELETE FROM menu WHERE id = ?', (id,))
+        conn.execute('DELETE FROM meal WHERE menu_id=?', (id,))
+        conn.commit()
+        conn.close()
+        c.flash('"{}" was successfully deleted!'.format(menu['menu_name']))
+        return c.redirect(c.url_for('menus'))
 
 @app.route("/update_menu",methods=('GET', 'POST'))
 def update_m():

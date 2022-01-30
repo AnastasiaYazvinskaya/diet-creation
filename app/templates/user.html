@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block name %}<a id="cname" href="{{ url_for('index')}}">DietCreation</a>{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="static/css/user_style.css">
+{% endblock %}
+<!-- Content for starting page -->
+{% block content %}
+    <!-- Welcome title -->
+    <!--<p>{{username}}</p>-->
+    <h1>{% block title %} {{username}} {% endblock %}</h1>
+    <a href="{{ url_for('logout') }}">Logout</a>
+    <!-- Look at the products list -->
+    <div>
+        <h5><a href="{{url_for('products')}}">Продукты</a></h5>
+        {% if data['products'] != 0 %}
+            <p>В вашем списке - {{data['products']}} продуктов</p>
+        {% else %}
+            <p>Пока что вы не добавили ни один продукт.<br>
+                <a href="{{url_for('create_p')}}">
+                    <span class="badge badge-primary">Добавить продукт</span>
+                </a>
+            </p>
+        {% endif %}
+    </div>
+    <!-- Look at the recipes list -->
+    <div>
+        <h5><a href="{{url_for('recipes')}}">Рецепты</a></h5>
+        {% if data['recipes'] != 0 %}
+            <p>В вашем списке - {{data['recipes']}} рецептов</p>
+        {% else %}
+            <p>Пока что вы не добавили ни одного рецепта.<br>
+                <a href="{{url_for('create_r')}}">
+                    <span class="badge badge-primary">Создать рецепт</span>
+                </a>
+                <a href="{{url_for('recipes')}}">
+                    <span class="badge badge-primary">Выбрать из базы</span>
+                </a>
+            </p>
+        {% endif %}
+    </div>
+    <!-- Look at the menu -->
+    <div>
+        <h5><a href="{{url_for('menus')}}">Меню</a></h5>
+        {% if data['menus'] != 0 %}
+            <p>В вашем списке - {{data['menus']}} возможных меню</p>
+        {% else %}
+            <p>Пока что вы не создали ни одного меню.<br>
+                <a href="{{url_for('create_m')}}">
+                    <span class="badge badge-primary">Создать меню</span>
+                </a>
+            </p>
+        {% endif %}
+    </div>
+{% endblock %}
