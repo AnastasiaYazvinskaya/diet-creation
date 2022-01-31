@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg x="29.5pt" y="14.5pt" width="46pt" height="46pt" viewBox="29.5 14.5 46 46" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <title>Path</title>
+    <g id="1">
+      <defs>
+        <path id="2" d="M51.4146,15.8692 C58.4007,15.4577,62.3039,23.8788,67.0147,35.2423 C72.856,49.3329,62.0549,59.8913,52.1935,59.1428 C41.9726,58.3669,34.5326,50.3925,37.3723,37.5648 C39.437,28.2383,43.3026,16.347,51.4146,15.8692 z"/>
+      </defs>
+      <use xlink:href="#2" style="fill:#546828;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+      <use xlink:href="#2" style="fill:none;opacity:1;stroke:#54682e;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:1;"/>
+    </g>
+  </defs>
+  <use xlink:href="#1"/>
+  <defs>
+    <title>Path</title>
+    <g id="3">
+      <defs>
+        <path id="4" d="M51.4146,16.8116 C58.6759,16.8116,64.4484,27.8943,67.0147,38.5 C70.3696,52.3651,60.0131,58.6118,51.995,58.4869 C43.3946,58.3531,35.3915,50.9347,37.7364,38.8363 C39.8134,28.1205,44.1533,16.8116,51.4146,16.8116 z"/>
+      </defs>
+      <use xlink:href="#4" style="fill:#90c439;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+      <use xlink:href="#4" style="fill:none;opacity:1;stroke:#8ec440;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:0.5;"/>
+    </g>
+  </defs>
+  <use xlink:href="#3"/>
+  <defs>
+    <title>Path</title>
+    <g id="5">
+      <defs>
+        <path id="6" d="M51.4146,19.3119 C56.8723,19.0383,63.7096,27.4903,65.2982,39.1217 C67.3269,53.9758,55.4576,55.8717,52.4036,56.1679 C47.8061,56.6138,38.5937,53.9861,39.8051,38.13 C40.6174,27.4979,46.3214,19.5673,51.4146,19.3119 z"/>
+      </defs>
+      <use xlink:href="#6" style="fill:#c6dc6c;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+      <use xlink:href="#6" style="fill:none;opacity:1;stroke:#c6dc6c;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:0.5;"/>
+    </g>
+  </defs>
+  <use xlink:href="#5"/>
+  <defs>
+    <title>Path</title>
+    <g id="7">
+      <defs>
+        <path id="8" d="M51.8624,37.3717 C55.1582,37.3717,56.8589,40.8474,57.83,44.8682 C58.6834,48.4012,55.3957,52.1388,51.8624,52.3647 C48.4467,52.5831,45.1737,49.3443,45.8948,44.8682 C46.5531,40.7824,48.5666,37.3717,51.8624,37.3717 z"/>
+      </defs>
+      <use xlink:href="#8" style="fill:#bf924b;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+      <use xlink:href="#8" style="fill:none;opacity:1;stroke:#bf924a;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:0.5;"/>
+    </g>
+  </defs>
+  <use xlink:href="#7"/>
+  <defs>
+    <title>Path</title>
+    <g id="9">
+      <defs>
+        <path id="10" d="M51.7241,39.0534 C52.3318,39.0534,52.589,39.196,52.589,39.6447 C52.589,40.0933,51.9801,40.3373,51.4874,40.6988 C50.75,41.2399,50.3864,40.6415,50.5429,39.9795 C50.646,39.5433,51.1165,39.0534,51.7241,39.0534 z"/>
+      </defs>
+      <use xlink:href="#10" style="fill:#e3b172;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+      <use xlink:href="#10" style="fill:none;opacity:1;stroke:#e2b173;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:0.1;"/>
+    </g>
+  </defs>
+  <use xlink:href="#9"/>
+  <defs>
+    <title>Path</title>
+    <g id="11">
+      <defs>
+        <path id="12" d="M50.0145,40.8707 C51.2974,41.1091,49.7857,42.7315,49.0113,43.9949 C48.1243,45.442,48.2316,46.7593,47.3085,46.7593 C46.3853,46.7593,46.6786,44.798,47.2112,43.1812 C47.7611,41.5119,49.286,40.7353,50.0145,40.8707 z"/>
+      </defs>
+      <use xlink:href="#12" style="fill:#e2b075;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+      <use xlink:href="#12" style="fill:none;opacity:1;stroke:#e1b075;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:0.1;"/>
+    </g>
+  </defs>
+  <use xlink:href="#11"/>
+  <defs>
+    <title>Shape 1</title>
+    <g id="13">
+      <defs>
+        <path id="14" d="M53.4735,32.3381 C53.1726,32.9615,52.4869,33.4143,51.8144,33.3762 C51.0206,33.3313,50.2584,32.7884,50.1319,32.1893"/>
+      </defs>
+      <use xlink:href="#14" style="fill:none;opacity:1;stroke:#383b09;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:0.5;"/>
+    </g>
+  </defs>
+  <use xlink:href="#13"/>
+  <defs>
+    <title>Path</title>
+    <g id="15">
+      <defs>
+        <path id="16" d="M44.9327,29.6105 C46.2645,29.6105,47.3441,30.7239,47.3441,32.0974 C47.3441,33.4709,46.2645,34.5844,44.9327,34.5844 C43.6009,34.5844,42.5213,33.4709,42.5213,32.0974 C42.5213,30.7239,43.6009,29.6105,44.9327,29.6105 z"/>
+      </defs>
+      <use xlink:href="#16" style="fill:#3da8f4;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+      <use xlink:href="#16" style="fill:none;opacity:1;stroke:#383b09;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:0.5;"/>
+    </g>
+  </defs>
+  <use xlink:href="#15"/>
+  <defs>
+    <title>Compound Group</title>
+    <g id="17">
+      <defs>
+        <path id="18" d="M45.0861,30.6914 C45.0708,30.6909,45.0553,30.6906,45.0398,30.6906 C44.2526,30.6906,43.6145,31.3461,43.6145,32.1547 C43.6145,32.9633,44.2526,33.6187,45.0398,33.6187 C45.827,33.6187,46.4651,32.9633,46.4651,32.1547 C46.4651,31.8935,46.3985,31.6483,46.2818,31.4359 C46.2818,31.4359,45.0861,32.1917,45.0861,32.1917 C45.0861,32.1917,45.0861,30.6914,45.0861,30.6914 z"/>
+      </defs>
+      <use xlink:href="#18" style="fill:#000000;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+    </g>
+  </defs>
+  <use xlink:href="#17"/>
+  <defs>
+    <title>Path Copy</title>
+    <g id="19">
+      <defs>
+        <path id="20" d="M59.2146,29.4 C60.5464,29.4,61.626,30.5135,61.626,31.887 C61.626,33.2605,60.5464,34.3739,59.2146,34.3739 C57.8828,34.3739,56.8032,33.2605,56.8032,31.887 C56.8032,30.5135,57.8828,29.4,59.2146,29.4 z"/>
+      </defs>
+      <use xlink:href="#20" style="fill:#3da8f4;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+      <use xlink:href="#20" style="fill:none;opacity:1;stroke:#383b08;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:0.5;"/>
+    </g>
+  </defs>
+  <use xlink:href="#19"/>
+  <defs>
+    <title>Compound Group Copy</title>
+    <g id="21">
+      <defs>
+        <path id="22" d="M59.368,30.4809 C59.3527,30.4804,59.3372,30.4802,59.3217,30.4802 C58.5345,30.4802,57.8964,31.1357,57.8964,31.9442 C57.8964,32.7528,58.5345,33.4083,59.3217,33.4083 C60.1089,33.4083,60.747,32.7528,60.747,31.9442 C60.747,31.683,60.6804,31.4378,60.5637,31.2255 C60.5637,31.2255,59.368,31.9812,59.368,31.9812 C59.368,31.9812,59.368,30.4809,59.368,30.4809 z"/>
+      </defs>
+      <use xlink:href="#22" style="fill:#000000;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+    </g>
+  </defs>
+  <use xlink:href="#21"/>
+  <defs>
+    <title>Path</title>
+    <g id="23">
+      <defs>
+        <path id="24" d="M52.5,15 C64.9264,15,75,25.0736,75,37.5 C75,49.9264,64.9264,60,52.5,60 C40.0736,60,30,49.9264,30,37.5 C30,25.0736,40.0736,15,52.5,15 z"/>
+      </defs>
+      <use xlink:href="#24" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:1;"/>
+    </g>
+  </defs>
+  <use xlink:href="#23"/>
+</svg>

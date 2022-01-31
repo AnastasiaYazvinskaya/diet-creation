@@ -4,11 +4,12 @@ import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(UserMixin):
-     def __init__(self, id, username, email, password):
+     def __init__(self, id, username, email, password, icon):
           self.id = id
           self.username = username
           self.email = email
           self.password = password
+          self.icon = icon
           self.authenticated = False
          
      def set_password(self, password):
@@ -36,4 +37,4 @@ def load_user(user_id):
      if user is None:
           return None
      else:
-          return User(int(user[0]), user[1], user[2], user[3])
+          return User(int(user[0]), user[1], user[2], user[3], user[4])

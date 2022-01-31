@@ -42,7 +42,7 @@ def user(user_id):
     menus = conn.execute('''SELECT COUNT(*) FROM menu m
                               WHERE user_id=?''', (current_user.id,)).fetchone()
     data['menus'] = menus[0]
-    return c.render_template('user.html', username=current_user.username, data=data)
+    return c.render_template('user.html', data=data)
 
 @app.route('/about', methods=('GET', 'POST'))
 def about():
@@ -84,7 +84,7 @@ def login():
             if user_exist:
                 for user in user_exist:
                     if check_password_hash(user[3], password):
-                        userLog = User(int(user[0]), user[1], user[2], user[3])
+                        userLog = User(int(user[0]), user[1], user[2], user[3], user[4])
                         login_user(userLog, remember=remember_me)
                         return c.redirect(c.url_for('user', user_id=userLog.get_id()))
     return c.render_template('login.html', title='Sign In', form=form)

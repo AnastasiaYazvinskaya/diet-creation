@@ -12,8 +12,8 @@ with open('app/schema.sql') as f:
 cur2 = connection2.cursor()
 cur = connection.cursor()
 
-connection2.execute('INSERT INTO users (username, email, password) VALUES (?,?,?)',
-                    ("TestUser", "diet.creation.sendler@gmail.com", generate_password_hash("TestUserCreated001")))
+connection2.execute('INSERT INTO users (username, email, password, icon) VALUES (?,?,?,?)',
+                    ("TestUser", "diet.creation.sendler@gmail.com", generate_password_hash("TestUserCreated001"), "../static/images/user_1.svg"))
 
 recipeTypes = ["Завтрак", "Обед", "Ужин"]
 connection.execute('INSERT INTO recipeTypes (id, type) VALUES (?, ?), (?, ?), (?, ?)',
