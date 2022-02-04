@@ -92,8 +92,9 @@ body {
     right: 0;
     top: 0;
 }
-a img {
+a img, .navbar-brand img {
     width: 45px;
+    height: 45px;
 }
 footer {
     font-size: small;
@@ -258,4 +259,39 @@ td a{
     font-size: 2em;
     line-height: 30px;
     color: rgba(61, 61, 61, 0.2);
+}
+
+/* Registration & User */
+.input-hidden {
+    position: absolute;
+    display: none;
+}
+input[type=radio] + label>img{
+    width: 45px;
+    height: 45px;
+}
+input[type=radio]:checked + label>img {
+    border: 1px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 3px 3px rgba(82, 255, 82, 0.747);
+    width: 50px;
+    height: 50px;
+}
+.hide-selection {
+    display: none;
+}
+.open-selection {
+    display: block;
+}
+.choose-avatar-icon {
+    cursor: pointer;
+}
+.choose-avatar button {
+    width: 45px;
+    border: none;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+.choose-avatar button:focus {
+    border-radius: 50%;
 }

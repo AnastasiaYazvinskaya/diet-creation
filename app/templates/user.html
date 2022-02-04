@@ -3,8 +3,39 @@
 {% block style %}
 <link rel="stylesheet" href="static/css/user_style.css">
 {% endblock %}
+{% block script %}
+<script>
+    function selectAvatar() {
+        var selection = document.getElementById("choose-avatar");
+        //toggle adds a class if it's not there or removes it if it is.
+        selection.classList.toggle("open-selection");
+        selection.classList.toggle("hide-selection");
+    }
+
+    $(".choose-avatar button").click(function(){
+        icon = $(this).attr("id");
+        $("div.navbar-brand").html("<img src ='"+icon+"' alt = 'User icon'/>");
+        
+        var data_string = 'data='+icon;
+        $.ajax({
+            method: "POST",
+            url: "/update_icon",
+            data: data_string,
+            cache: false
+        });
+    });
+</script>
+{% endblock %}
+{% block user_icon %}
+    {% if current_user.icon %}
+        <div class="navbar-brand choose-avatar-icon" onclick="selectAvatar()"><img src ="{{current_user.icon}}" alt = "User icon"/></div>
+    {% endif %}
+{% endblock %}
 <!-- Content for starting page -->
 {% block content %}
+    <div class="choose-avatar hide-selection" id="choose-avatar">{% for user_icon in user_icons %}
+        <button type="button" id="{{user_icon[1]}}"><img src ="{{user_icon[1]}}" alt = "Alternate user icon" style="height: 45px; width: 45px; margin: 0;"></button>
+    {% endfor %}</div>
     <!-- Welcome title -->
     <!--<p>{{username}}</p>-->
     <h1>{% block title %} {{current_user.username}} {% endblock %}</h1>

@@ -43,11 +43,13 @@
                 <a class="nav-link" href="{{url_for('menus')}}">Меню</a>
                 <a class="nav-link" href="{{url_for('about')}}">О нас</a>
             </div>
+            {% block user_icon %}
             {% if current_user.is_authenticated and current_user.icon %}
-                <a class="navbar-brand" href="{{url_for('user', user_id=current_user.id)}}"><img src ="../static/images/user-4.svg" alt = "User icon"></a>
+                <a class="navbar-brand" href="{{url_for('user', user_id=current_user.id)}}"><img src ="{{current_user.icon}}" alt = "User icon"></a>
             {% else %}
-            <a class="navbar-brand" href="{{url_for('login')}}"><img src ="../static/images/user-5.svg" alt = "LogIn icon"></a>
+            <a class="navbar-brand" href="{{url_for('login')}}"><img src ="../static/images/black-account.svg" alt = "LogIn icon"></a>
             {% endif %}
+            {% endblock %}
         </nav>
         {#
         <nav class="navbar navbar-expand-md navbar-light">

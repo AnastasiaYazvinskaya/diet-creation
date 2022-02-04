@@ -42,7 +42,16 @@ def user(user_id):
     menus = conn.execute('''SELECT COUNT(*) FROM menu m
                               WHERE user_id=?''', (current_user.id,)).fetchone()
     data['menus'] = menus[0]
-    return c.render_template('user.html', data=data)
+
+    con = sqlite3.connect('usersdb.db')
+    cur = con.cursor()
+    user_icons = cur.execute("SELECT * FROM user_icons").fetchall()
+    con.commit()
+    conn.commit()
+    conn.close()
+    con.close()
+
+    return c.render_template('user.html', data=data, user_icons=user_icons)
 
 @app.route('/about', methods=('GET', 'POST'))
 def about():
@@ -79,13 +88,15 @@ def login():
             con = sqlite3.connect('usersdb.db')
             cur = con.cursor()
 
-            user_exist = cur.execute("SELECT * FROM users WHERE username=?",
-                                     (name, )).fetchall()
+            user_exist = cur.execute("""SELECT u.id AS id, username, email, password, icon FROM users u 
+                                        JOIN user_icons ui ON u.icon_id=ui.id WHERE u.username=?""",(name, )).fetchall()
             if user_exist:
                 for user in user_exist:
                     if check_password_hash(user[3], password):
                         userLog = User(int(user[0]), user[1], user[2], user[3], user[4])
                         login_user(userLog, remember=remember_me)
+                        con.commit()
+                        con.close()
                         return c.redirect(c.url_for('user', user_id=userLog.get_id()))
     return c.render_template('login.html', title='Sign In', form=form)
 
@@ -94,11 +105,18 @@ def register():
     form = RegisterForm()
     con = sqlite3.connect('usersdb.db')
     cur = con.cursor()
+    user_icons = cur.execute("SELECT * FROM user_icons").fetchall()
+
+    for icon in user_icons:
+        print(f"{icon[0]}. {icon[1]}")
+
+
     if c.request.method == 'POST':
         if c.request.form['username'] != "" and c.request.form['password'] != "" and c.request.form['email'] != "":
             name = c.request.form['username']
             email = c.request.form['email']
             password = c.request.form['password']
+            icon = c.request.form['icon']
 
             username_exist = cur.execute("SELECT id, password FROM users WHERE username=?",
                                      (name,)).fetchone()
@@ -112,18 +130,28 @@ def register():
                 c.flash('Email Exist!')
                 print("Email Exist")
             else:
-                cur.execute("INSERT INTO users (username, email, password) VALUES (?,?,?)",
-                            (name, email, generate_password_hash(password)))
+                cur.execute("INSERT INTO users (username, email, password, icon_id) VALUES (?,?,?,?)",
+                            (name, email, generate_password_hash(password), int(icon)))
                 users = cur.execute("SELECT * FROM users").fetchall()
-                for user in users:
-                    print(f"{user[0]} | {user[1]} | {user[2]} | {user[3]}")
                 con.commit()
                 con.close()
                 return c.redirect(c.url_for('login'))
 
-    return c.render_template('register.html', title='New user registration', form=form)
+    return c.render_template('register.html', title='New user registration', form=form, user_icons=user_icons)
 
 @app.route('/logout')
 def logout():
     logout_user()
     return c.redirect(url_for('index'))
+
+@app.route('/update_icon', methods=('GET', 'POST'))
+def update_icon():
+    if c.request.method == "POST":
+        icon = c.request.form['data']
+        con = sqlite3.connect('usersdb.db')
+        cur = con.cursor()
+        icon_id = cur.execute("SELECT id FROM user_icons WHERE icon=?", (icon,)).fetchone()
+        cur.execute("UPDATE users SET icon_id=? WHERE id=?", (icon_id[0],current_user.id))
+    con.commit()
+    con.close()
+    return "Success"

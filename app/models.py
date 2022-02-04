@@ -33,7 +33,8 @@ class User(UserMixin):
 def load_user(user_id):
      conn = sqlite3.connect('usersdb.db')
      curs = conn.cursor()
-     user = curs.execute("SELECT * FROM users WHERE id=?",(user_id,)).fetchone()
+     user = curs.execute("""SELECT u.id AS id, username, email, password, icon FROM users u 
+                         JOIN user_icons ui ON u.icon_id=ui.id WHERE u.id=?""",(user_id,)).fetchone()
      if user is None:
           return None
      else:

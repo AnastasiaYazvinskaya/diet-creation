@@ -4,6 +4,11 @@
     <h1>Регистрация</h1>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
+        <span>Аватар</span><br>
+        {% for user_icon in user_icons%}
+        <input type="radio" name="icon" id="icon_{{loop.index}}" class="input-hidden" value="{{user_icon[0]}}"/>
+        <label for="icon_{{loop.index}}"><img src ="{{user_icon[1]}}" alt = "User icon"></label>
+        {% endfor %}
         <p>
             {{ form.username.label }}<br>
             {{ form.username(size=32) }}<br>
