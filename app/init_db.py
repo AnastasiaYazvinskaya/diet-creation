@@ -13,8 +13,8 @@ cur2 = connection2.cursor()
 cur = connection.cursor()
 
 connection2.execute('''INSERT INTO user_icons (icon) VALUES
-                      (?),(?),(?)''',
-                      ("../static/images/user-3.png", "../static/images/user-4.svg", "../static/images/user-5.svg"))
+                      (?),(?),(?),(?)''',
+                      ("../static/images/user-3.svg", "../static/images/user-4.svg", "../static/images/user-5.svg", "../static/images/user-6.svg"))
 
 connection2.execute('INSERT INTO users (username, email, password, icon_id) VALUES (?,?,?,?)',
                     ("TestUser", "diet.creation.sendler@gmail.com", generate_password_hash("TestUserCreated001"), 1))
