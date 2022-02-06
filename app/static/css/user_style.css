@@ -1,10 +1,30 @@
-.container img {
-    width: 90px;
-    height: 90px;
-}
-.container div {
+
+.container div.data, .choose-avatar {
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
     padding: 5px;
     margin: 10px 0;
+}
+
+#choose-avatar {
+    margin: 0 auto;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+}
+.choose-avatar img {
+    height: 45px;
+    width: 45px;
+    margin: 5px;
+}
+.hide-selection {
+    display: none;
+}
+.open-selection {
+    display: block;
+}
+.choose-avatar-icon {
+    cursor: pointer;
 }

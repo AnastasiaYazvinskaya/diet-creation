@@ -11,9 +11,7 @@
         selection.classList.toggle("open-selection");
         selection.classList.toggle("hide-selection");
     }
-
-    $(".choose-avatar button").click(function(){
-        icon = $(this).attr("id");
+    function changeIcon(icon) {
         $("div.navbar-brand").html("<img src ='"+icon+"' alt = 'User icon'/>");
         
         var data_string = 'data='+icon;
@@ -23,7 +21,7 @@
             data: data_string,
             cache: false
         });
-    });
+    }
 </script>
 {% endblock %}
 {% block user_icon %}
@@ -34,14 +32,14 @@
 <!-- Content for starting page -->
 {% block content %}
     <div class="choose-avatar hide-selection" id="choose-avatar">{% for user_icon in user_icons %}
-        <button type="button" id="{{user_icon[1]}}"><img src ="{{user_icon[1]}}" alt = "Alternate user icon" style="height: 45px; width: 45px; margin: 0;"></button>
+        <div><img src ="{{user_icon[1]}}" alt = "Alternate user icon" onclick="changeIcon('{{user_icon[1]}}')"></div>
     {% endfor %}</div>
     <!-- Welcome title -->
     <!--<p>{{username}}</p>-->
     <h1>{% block title %} {{current_user.username}} {% endblock %}</h1>
     <a href="{{ url_for('logout') }}">Logout</a>
     <!-- Look at the products list -->
-    <div>
+    <div class="data">
         <h5><a href="{{url_for('products')}}">Продукты</a></h5>
         {% if data['products'] != 0 %}
             <p>В вашем списке - {{data['products']}} продуктов</p>
@@ -54,7 +52,7 @@
         {% endif %}
     </div>
     <!-- Look at the recipes list -->
-    <div>
+    <div class="data">
         <h5><a href="{{url_for('recipes')}}">Рецепты</a></h5>
         {% if data['recipes'] != 0 %}
             <p>В вашем списке - {{data['recipes']}} рецептов</p>
@@ -70,7 +68,7 @@
         {% endif %}
     </div>
     <!-- Look at the menu -->
-    <div>
+    <div class="data">
         <h5><a href="{{url_for('menus')}}">Меню</a></h5>
         {% if data['menus'] != 0 %}
             <p>В вашем списке - {{data['menus']}} возможных меню</p>
