@@ -1,4 +1,3 @@
-from flask import jsonify
 import app.connect as c
 from app import app
 from flask_login import login_required, current_user
@@ -194,4 +193,4 @@ def read_barcode():
             break
     camera.release()
     cv2.destroyAllWindows()
-    return jsonify(data)
+    return c.jsonify(data)
