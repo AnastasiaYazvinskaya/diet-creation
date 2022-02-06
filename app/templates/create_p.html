@@ -8,6 +8,20 @@
             $("#adding-info").show();
             $(this).hide();
         });
+
+        function readBarcode() {
+            $.ajax({
+                method: "POST",
+                url: "/read_barcode",
+                data: {'data': true},
+                cache: false,
+                success: function(data) {
+                    barcode_id = document.getElementById('barcode');
+                    barcode_id.setAttribute("value", data['barcode']);
+                    //$("#barcode").val(data['barcode'])
+                }
+            });
+        }
     </script>
 {% endblock %}
 {% block name %}<a id="cname" href="{{ url_for('index')}}">DietCreation</a>{% endblock %}
@@ -62,6 +76,12 @@
             </div>
         </div>
         <div class="form-group">
+            <label for="barcode">Barcode</label>
+            <input id="barcode" type="number" step="0.01" name="barcode" placeholder="1234567890123"
+                    class="form-control" value="{{data['barcode']}}"></input>
+            <div onclick="readBarcode()">Scan</div>
+        </div>
+        <div class="form-group">
             <button type="button" class="btn btn-link" id="add-info">Дополнительные сведения</button>
         </div>
         <div id="adding-info" style="display: none;">
@@ -74,7 +94,7 @@
             <!-- Text field for product shop with a list of availiable items -->
             <div class="form-group">
                 <label for="shop">Магазин</label>
-                {% if data['shop'] %}
+                {% if data['shop'] and data['shop'] != "unknown" %}
                 <input list="shops" name="shop" class="form-control"
                     placeholder="Название магазина" value="{{data['shop']}}"></input>
                 {% else %}
@@ -82,7 +102,7 @@
                     placeholder="Название магазина" value=""></input>
                 {% endif %}
                 <datalist id="shops">
-                    {% for shop in shops %}
+                    {% for shop in shops if shop['id'] != 1 %}
                         <option value="{{shop['name']}}"></option>
                     {% endfor %}
                 </datalist>

@@ -1,6 +1,11 @@
+from flask import jsonify
 import app.connect as c
 from app import app
 from flask_login import login_required, current_user
+
+import cv2
+from pyzbar import pyzbar
+from pyzbar.pyzbar import decode
 # Class for creating and editing product information
 class ProductAct:
     def __init__(self, product_id=None):
@@ -167,3 +172,26 @@ def delete_p(product_id):
         conn.close()
         c.flash('"{}" was successfully deleted!'.format(product['name']))
         return c.redirect(c.url_for('products'))
+
+
+def read_barcodes(frame, data):
+    barcodes = decode(frame)
+    for barcode in barcodes:
+        barcode_info = barcode.data.decode('utf-8')
+        data['barcode'] = barcode_info  
+    return frame
+@app.route('/read_barcode', methods=('GET', 'POST'))
+@login_required
+def read_barcode():
+    data={'barcode': None}
+    camera = cv2.VideoCapture(0)
+    ret, frame = camera.read()
+    while ret:
+        ret, frame = camera.read()
+        frame = read_barcodes(frame, data)
+        cv2.imshow('Barcode/QR code reader', frame)
+        if data['barcode']:
+            break
+    camera.release()
+    cv2.destroyAllWindows()
+    return jsonify(data)
