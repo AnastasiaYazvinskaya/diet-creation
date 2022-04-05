@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% block name %}<a id="cname" href="{{ url_for('index')}}">DietCreation</a>{% endblock %}
 <!-- Content for displaying chosen product -->
 {% block content %}
     <!-- Product name -->
@@ -6,8 +7,9 @@
     <!-- Product info -->
     <div class="info">
         <span>
-            <b>Информация:</b> {{ product['weight'] }} {{ product['weightType']}}{% if product['price'] != ''%} - {{ product['price'] }} &#8381{% endif %}{% if product['shop'] != 'unknown'%} [{{ product['shop'] }}]{% endif %}
+            <b>Информация:</b> {{ product['weight'] }} {{ product['weight_type']}}{% if product['price'] != ''%} - {{ product['price'] }} &#8381{% endif %}{% if product['shop'] != 'unknown'%} [{{ product['shop'] }}]{% endif %}
         </span>
+        {#
         <br><br>
         <!-- List of recipes where this product is used -->
         <div style="width: 300px;">
@@ -27,15 +29,15 @@
             </div>
             {% endif %}
         </div>
+        #}
         <br>
-        <div>
-            <form action="{{ url_for('delete_p', product_id=product['id']) }}" method="POST"style="display: inline-block;">
-                <input type="submit" value="Удалить"
-                        class="btn btn-outline-danger btn-sm"
+        <div class="buttons">
+            <form action="{{ url_for('delete_p', product_id=product['id']) }}" method="POST">
+                <input type="image" src="../static/images/delete2.svg" value="Удалить" id="delete"
                         onclick="return confirm('Подтвердите удаление')">
             </form>
-            <a href="{{ url_for('edit_p', product_id=product['id']) }}" style="display: inline-block;">
-                <span class="btn btn-outline-warning btn-sm">Изменить</span>
+            <a href="{{ url_for('edit_p', product_id=product['id']) }}">
+                <img id="edit" src="../static/images/edit.svg" alt="Edit icon">
             </a>
         </div>
     </div>

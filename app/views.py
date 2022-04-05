@@ -2,7 +2,7 @@ import sqlite3
 from flask import flash, render_template, request, url_for
 import app.recipes as r
 import app.products as p
-import app.menu as m
+#import app.menu as m
 #import app.test as t
 from app.forms import LoginForm, RegisterForm
 import app.connect as c
@@ -31,27 +31,26 @@ def user(user_id):
     conn = c.get_db_connection()
     products = conn.execute('''SELECT COUNT(*)
                               FROM products p JOIN usersProducts u
-                              ON u.prod_id = p.id
+                              ON u.product_id = p.id
                               WHERE u.user_id=?''', (current_user.id,)).fetchone()
     data['products'] = products[0]
     recipes = conn.execute('''SELECT COUNT(*)
                               FROM recipes r JOIN usersRecipes u
-                              ON u.rec_id = r.id
+                              ON u.recipe_id = r.id
                               WHERE u.user_id=?''', (current_user.id,)).fetchone()
     data['recipes'] = recipes[0]
-    menus = conn.execute('''SELECT COUNT(*) FROM menu m
-                              WHERE user_id=?''', (current_user.id,)).fetchone()
-    data['menus'] = menus[0]
+    #menus = conn.execute('''SELECT COUNT(*) FROM menu m
+    #                          WHERE user_id=?''', (current_user.id,)).fetchone()
+    #data['menus'] = menus[0]
 
-    con = sqlite3.connect('usersdb.db')
-    cur = con.cursor()
-    user_icons = cur.execute("SELECT * FROM user_icons").fetchall()
-    con.commit()
+    #con = c.get_users_db_connection()
+    #user_icons = con.execute("SELECT * FROM user_icons").fetchall()
+    #con.commit()
     conn.commit()
     conn.close()
-    con.close()
+    #con.close()
 
-    return c.render_template('user.html', data=data, user_icons=user_icons)
+    return c.render_template('user.html', data=data)#, user_icons=user_icons)
 
 @app.route('/about', methods=('GET', 'POST'))
 def about():
@@ -85,15 +84,14 @@ def login():
             except c.BadRequest:
                 remember_me = False
 
-            con = sqlite3.connect('usersdb.db')
-            cur = con.cursor()
+            con = c.get_users_db_connection()
 
-            user_exist = cur.execute("""SELECT u.id AS id, username, email, password, icon FROM users u 
+            user_exist = con.execute("""SELECT u.id AS id, role, username, email, password, icon FROM users u 
                                         JOIN user_icons ui ON u.icon_id=ui.id WHERE u.username=?""",(name, )).fetchall()
             if user_exist:
                 for user in user_exist:
-                    if check_password_hash(user[3], password):
-                        userLog = User(int(user[0]), user[1], user[2], user[3], user[4])
+                    if check_password_hash(user[4], password):
+                        userLog = User(int(user[0]), user[1], user[2], user[3], user[4], user[5])
                         login_user(userLog, remember=remember_me)
                         con.commit()
                         con.close()
@@ -103,13 +101,8 @@ def login():
 @app.route('/registration', methods = ['GET', 'POST'])
 def register():
     form = RegisterForm()
-    con = sqlite3.connect('usersdb.db')
-    cur = con.cursor()
-    user_icons = cur.execute("SELECT * FROM user_icons").fetchall()
-
-    for icon in user_icons:
-        print(f"{icon[0]}. {icon[1]}")
-
+    con = c.get_users_db_connection()
+    user_icons = con.execute("SELECT * FROM user_icons").fetchall()
 
     if c.request.method == 'POST':
         if c.request.form['username'] != "" and c.request.form['password'] != "" and c.request.form['email'] != "":
@@ -118,21 +111,19 @@ def register():
             password = c.request.form['password']
             icon = c.request.form['icon']
 
-            username_exist = cur.execute("SELECT id, password FROM users WHERE username=?",
+            username_exist = con.execute("SELECT id, password FROM users WHERE username=?",
                                      (name,)).fetchone()
-            email_exist = cur.execute("SELECT id, password FROM users WHERE email=?",
+            email_exist = con.execute("SELECT id, password FROM users WHERE email=?",
                                      (email,)).fetchone()
 
             if username_exist:
                 c.flash('Username Exist!')
-                print("Username Exist")
             elif email_exist:
                 c.flash('Email Exist!')
-                print("Email Exist")
             else:
-                cur.execute("INSERT INTO users (username, email, password, icon_id) VALUES (?,?,?,?)",
+                con.execute("INSERT INTO users (username, email, password, icon_id) VALUES (?,?,?,?)",
                             (name, email, generate_password_hash(password), int(icon)))
-                users = cur.execute("SELECT * FROM users").fetchall()
+                users = con.execute("SELECT * FROM users").fetchall()
                 con.commit()
                 con.close()
                 return c.redirect(c.url_for('login'))
@@ -144,14 +135,32 @@ def logout():
     logout_user()
     return c.redirect(url_for('index'))
 
+@app.route('/choose_avatar', methods=('GET', 'POST'))
+def choose_avatar():
+    if c.request.method == "POST":
+        con = c.get_users_db_connection()
+        user_icons = con.execute('SELECT * FROM user_icons').fetchall()
+        icons = {
+            'id': [],
+            'icon': []
+        }
+        for icon in user_icons:
+            icons['id'].append(icon['id'])
+            icons['icon'].append(icon['icon'])
+        con.commit()
+        con.close()
+    return c.jsonify(icons)
+
 @app.route('/update_icon', methods=('GET', 'POST'))
 def update_icon():
     if c.request.method == "POST":
         icon = c.request.form['data']
-        con = sqlite3.connect('usersdb.db')
-        cur = con.cursor()
-        icon_id = cur.execute("SELECT id FROM user_icons WHERE icon=?", (icon,)).fetchone()
-        cur.execute("UPDATE users SET icon_id=? WHERE id=?", (icon_id[0],current_user.id))
-    con.commit()
-    con.close()
-    return "Success"
+        con = c.get_users_db_connection()
+        con.execute("UPDATE users SET icon_id=? WHERE id=?", (icon,current_user.id))
+        icon_text = con.execute("SELECT icon FROM user_icons WHERE id=?", (icon,)).fetchone()
+        icon = {
+            'icon': icon_text[0]
+        }
+        con.commit()
+        con.close()
+    return c.jsonify(icon)

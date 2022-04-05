@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg x="135pt" y="120pt" width="45pt" height="45pt" viewBox="135 120 45 45" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g id="1">
+    <title>Group</title>
+    <g id="2">
+      <title>Group</title>
+      <defs>
+        <title>Shape 8</title>
+        <g id="3">
+          <defs>
+            <path id="4" d="M142.484,156.733 C137.623,152.355,135.052,149.616,135,139.272 C134.964,132.062,138.895,130.142,144.023,126.53 C149.389,120.132,160.344,119.087,167.018,120.631 C175.438,122.579,180,127.94,180,133.834 C180,136.068,179.061,138.281,177.526,140.167 C174.286,146.706,178.415,149.278,178.79,154.641 C179.006,157.718,174.867,164.307,160.596,164.968 C153.531,165.295,146.296,163.169,142.484,156.733 z"/>
+          </defs>
+          <use xlink:href="#4" style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+        </g>
+      </defs>
+      <use xlink:href="#3"/>
+      <defs>
+        <title>Path</title>
+        <g id="5">
+          <defs>
+            <path id="6" d="M157.896,130.796 C163.422,130.796,167.902,135.138,167.902,140.494 C167.902,145.85,163.422,150.192,157.896,150.192 C152.369,150.192,147.889,145.85,147.889,140.494 C147.889,135.138,152.369,130.796,157.896,130.796 z"/>
+          </defs>
+          <use xlink:href="#6" style="fill:#fbd821;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+        </g>
+      </defs>
+      <use xlink:href="#5"/>
+    </g>
+    <g id="7">
+      <title>Face Copy</title>
+      <defs>
+        <title>Shape 67</title>
+        <g id="8">
+          <defs>
+            <path id="9" d="M160.508,142.666 C160.508,144.654,159.405,145.82,157.583,145.82 C155.76,145.82,154.65,144.657,154.65,142.669"/>
+          </defs>
+          <use xlink:href="#9" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:0.5;"/>
+        </g>
+      </defs>
+      <use xlink:href="#8"/>
+      <defs>
+        <title>Shape 30</title>
+        <g id="10">
+          <defs>
+            <path id="11" d="M148.288,135.095 C150.043,135.095,151.463,136.518,151.463,138.272 C151.463,140.026,150.043,141.448,148.288,141.448 C146.533,141.448,145.113,140.026,145.113,138.272 C145.113,136.518,146.533,135.095,148.288,135.095 z"/>
+          </defs>
+          <use xlink:href="#11" style="fill:#000000;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+          <use xlink:href="#11" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:1;"/>
+        </g>
+      </defs>
+      <use xlink:href="#10"/>
+      <defs>
+        <title>Shape 35</title>
+        <g id="12">
+          <defs>
+            <path id="13" d="M149.045,135.395 C148.594,135.833,148.856,135.814,148.805,135.971 C148.834,136.095,148.863,136.248,148.914,136.426 C149.009,136.784,149.162,137.241,149.308,137.699 C149.461,138.158,149.635,138.606,149.766,138.951 C149.839,139.123,149.897,139.266,149.956,139.379 C150.094,139.472,149.868,139.618,150.502,139.69 C151.004,139.278,150.771,139.084,150.771,138.69 C150.713,138.317,150.589,137.839,150.415,137.324 C150.247,136.81,150.058,136.357,149.876,136.022 C149.628,135.713,149.701,135.414,149.045,135.395 z"/>
+          </defs>
+          <use xlink:href="#13" style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;opacity:1;stroke:none;"/>
+        </g>
+      </defs>
+      <use xlink:href="#12"/>
+      <defs>
+        <title>Shape 28</title>
+        <g id="14">
+          <defs>
+            <path id="15" d="M166.712,135 C168.467,135,169.887,136.422,169.887,138.176 C169.887,139.931,168.467,141.353,166.712,141.353 C164.957,141.353,163.537,139.931,163.537,138.176 C163.537,136.422,164.957,135,166.712,135 z"/>
+          </defs>
+          <use xlink:href="#15" style="fill:#000000;fill-opacity:1;fill-rule:evenodd;opacity:1;stroke:none;"/>
+          <use xlink:href="#15" style="fill:none;opacity:1;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-width:1;"/>
+        </g>
+      </defs>
+      <use xlink:href="#14"/>
+      <defs>
+        <title>Shape 37</title>
+        <g id="16">
+          <defs>
+            <path id="17" d="M167.863,135.395 C167.411,135.833,167.673,135.814,167.622,135.971 C167.644,136.095,167.68,136.248,167.731,136.426 C167.826,136.784,167.972,137.241,168.125,137.699 C168.278,138.158,168.452,138.606,168.584,138.951 C168.649,139.123,168.715,139.266,168.773,139.379 C168.911,139.472,168.685,139.618,169.312,139.69 C169.821,139.278,169.588,139.084,169.588,138.69 C169.523,138.317,169.406,137.839,169.232,137.324 C169.057,136.81,168.867,136.357,168.693,136.022 C168.445,135.713,168.518,135.414,167.863,135.395 z"/>
+          </defs>
+          <use xlink:href="#17" style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;opacity:1;stroke:none;"/>
+        </g>
+      </defs>
+      <use xlink:href="#16"/>
+    </g>
+  </g>
+</svg>

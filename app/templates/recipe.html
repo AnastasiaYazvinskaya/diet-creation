@@ -11,24 +11,19 @@
         <!-- List of ingredients-->
         <div style="width: 300px;">
             <h5>Ингредиенты:</h5>
-            {% for ingred in ingreds %}
+            {% for ingredient in ingredients %}
                 <div class="d-flex justify-content-between align-items-center">
-                    {% if current_user.is_authenticated and recipe['user_id']==current_user.id %}
-                    <a href="{{url_for('product', product_id=ingred['prod_id'])}}" style="color: black;">
-                        {{ingred['name']}}
-                    </a>
-                    {% else %}
-                    <span>{{ ingred['name'] }}</span>
-                    {% endif %}
-                    <span class="badge badge-primary badge-pill">{{ingred['weight']}} {{ingred['weight_type']}}</span>
+                    <span class="upper-first">{{ ingredient['name'] }}</span>
+                    <span class="weight badge badge-primary badge-pill">{{ingredient['weight']}} {{ingredient['weight_type']}}</span>
                 </div>
             {% endfor %}
         </div>
         <hr>
         <!-- Recipe description -->
         <h5>Приготовление:</h5>
-        <p>{{recipe['descr']}}</p>
-        <br>
+        {% for step in description %}
+            <p>{{loop.index}}. {{step}}</p>
+        {% endfor %}
         {% if recipe['user_id']==current_user.id %}
         <div>
             <form action="{{ url_for('delete_r', recipe_id=recipe['id']) }}" method="POST"style="display: inline-block;">

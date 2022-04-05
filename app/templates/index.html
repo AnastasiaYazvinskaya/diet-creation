@@ -8,23 +8,27 @@
     <h1>{% block title %} DietCreation {% endblock %}</h1>
     <!-- Look at the products list -->
     <div>
-        <a href="{{url_for('products')}}">
+        <a href="#">{#{{url_for('products')}}#}
             <h2>Продукты</h2>
+            <p style="font-size: small; line-height: 2px; margin-bottom: 10px; color: red;">(Эта функция пока недоступна)</p>
             <p>Сохраните список продуктов, которые вы используете.</p>
         </a>
     </div>
     <!-- Look at the recipes list -->
     <div>
-        <a href="{{url_for('recipes')}}">
+        <a href="{{url_for('recipes')}}">{#{{url_for('recipes')}}#}
             <h2>Рецепты</h2>
+            {#<p style="font-size: small; line-height: 2px; margin-bottom: 10px; color: red;">(Эта функция пока недоступна)</p>#}
             <p>Создайте книгу своих рецептов.</p>
         </a>
     </div>
     <!-- Look at the menu -->
     <div>
-        <a href="{{url_for('menus')}}">
+        <a href="#">{# {{url_for('menus')}} #}
             <h2>Меню</h2>
+            <p style="font-size: small; line-height: 2px; margin-bottom: 10px; color: red;">(Эта функция пока недоступна)</p>
             <p>Создавайте меню на неделю, две или целый месяц.</p>
+            
         </a>
     </div>
     {#

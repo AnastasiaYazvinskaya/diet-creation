@@ -1,182 +1,121 @@
 {% extends 'base.html' %}
-<!-- Styles -->
+{#<!-- Styles -->#}
 {% block style %}
     <link rel="stylesheet" href="static/css/style.css">
     <link rel="stylesheet" href="static/css/create_style.css">
 {% endblock %}
-<!-- Scripts-->
+{#<!-- Scripts -->#}
 {% block script %}
     <script src="static/js/recipeCreate_script.js"></script>
 {% endblock %}
+{#<!-- App name (link to the home page) -->#}
 {% block name %}<a id="cname" href="{{ url_for('index')}}">DietCreation</a>{% endblock %}
-<!-- Content for creating new recipe -->
+{#<!-- Content for creating new recipe -->#}
 {% block content %}
-    <!-- Button trigger modal -->
-    {% if errors %}
-        <p class="border border-danger text-center" style="margin: 5px 30%;"> Some products are not listed
-            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#Modal">
-                Add products
-            </button>
-        </p>
-    {% endif %}
-    <!-- Title -->
+    {#<!-- Main header (title) -->#}
     <h1>{% block title %} Новый рецепт {% endblock %}</h1>
+    {#<!-- Hint -->#}
     <p id="hint" class="hint"><br></p>
+    {#<!-- Hint icon for open/close a hint -->#}
     <div class="list-icons">
         <div class="show-hint">
-            <!--<img id="show-hint" src="../static/images/black-hint.svg" alt="Hint icon"
-                onclick="openHint()">-->
-
-            <img id="delete" src="../static/images/delete.svg" alt="delete icon">
+            <img id="show-hint" src="../static/images/black-hint.svg" alt="Hint icon"
+                onclick="openHint()">
         </div>
     </div>
-    <!-- Form for recipe detiels (if it has new products, then after refreshing all data will be on it's place) -->
-    <form method="post">
-        <!-- Text field for recipe name-->
-        <div class="form-group">
-            <label for="r_name">Название</label>
+    {#<!-- Form for recipe detiles (if it has new products, then after refreshing all data will be on it's place) -->#}
+    <form method="post" class="form">
+        {#<!-- Text field for recipe name -->#}
+        <div id="recipeName" class="form-group">
+            <label for="r_name">Название<span style="color: red;">*</span></label>
             <input type="text" name="r_name" placeholder="Название рецепта" 
-                class="form-control" value="{{data['r_name']}}"></input>
+                class="form-control" value="" required></input>
         </div>
-        <!-- Text field for recipe type with list of availiable variants -->
-        <div class="form-group">
-            <label for="type">Тип</label>
-            <input list="types" name="type" class="form-control" 
-                placeholder="Завтрак/Обед/Ужин/Напиток/другое" 
-                value="{{data['type']}}"></input>
-            <datalist id="types">
-                {% for type in types %}
-                    <option value="{{type['type']}}"></option>
-                {% endfor %}
-            </datalist>
-        </div>
-        <!-- Ingredients -->
-        <h5>Ингредиенты:</h5>
-        <!-- Restoration of entered ingredients -->
-        {% if data['ingreds']['names'] %}{% for prod in data['ingreds']['names'] %}
-            <div class="form-group" id="repeate_{{loop.index0}}">
-                <!-- Ingredient name -->
-                <label for="name_{{loop.index0}}">Название 1-го продукта</label>
-                <input list="products" name="name_{{loop.index0}}" class="form-control" placeholder="Название продукта" id="product" 
-                        value="{{ data['ingreds']['names'][loop.index0] }}"></input>
-                <datalist id="products">
-                    {% for product in prods %}
-                        <option value="{{product['name']}} [{{product['shop']}}]"></option>
+        {#<!-- Text field for recipe type with list of availiable variants -->#}
+        <div id="types">
+            <div class="form-group">
+                <label for="dishtype">Тип блюда</label>
+                <input list="dishtypes" name="dishtype" class="form-control" 
+                    placeholder="Суп/Второе блюдо/Десерт/Закуска/Напиток/другое" 
+                    value=""></input>
+                <datalist id="dishtypes">
+                    {% for type in types if type['recipe_type']==1 %}
+                        <option value="{{type['type'] | capitalize}}"></option>
                     {% endfor %}
                 </datalist>
-                <!-- Ingredient weight -->
-                <label for="weight_{{loop.index0}}">Количество</label>
-                <input type="number" step="0.01" name="weight_{{loop.index0}}"
-                    placeholder="0.00" class="form-control"
-                        value="{{ data['ingreds']['weights'][loop.index0] }}"></input>
+                <div id="typesAdd"></div>
+                <div><button id="addTypes" type="button" class="btn btn-secondary">Дополнительные типы</button></div>
             </div>
-        {% endfor %}{% else %} <!-- Starting fields for first ingredient -->
+        </div>
+        {#<!-- Ingredients -->#}
+        <div id="ingredients">
+            <h5>Ингредиенты<span style="color: red;">*</span>:</h5>
+            {#<!-- Starting fields for first ingredient -->#}
             <div class="form-group">
-                <!-- Ingredient name -->
+                {#<!-- Ingredient name -->#}
                 <label for="name_0">Название 1-го продукта</label>
                 <input list="products" name="name_0" class="form-control" 
-                    placeholder="Название продукта"></input>  
+                    placeholder="Название продукта" value="" required></input>  
                 <datalist id="products">
-                    {% for product in prods %}
-                        <option value="{{product['name']}} [{{product['shop']}}]"></option>
+                    {% for product in products %}
+                        <option value="{{product['name'] | capitalize}}"></option>
+                    {% endfor %}
+                    {% for product in r_products %}
+                        <option value="{{product['name']}}"></option>
                     {% endfor %}
                 </datalist>
-                <!-- Ingredient weight -->
-                <label for="weight_0">Количество</label>
-                <input type="number" step="0.01" name="weight_0"
-                    placeholder="0.00" class="form-control"></input>
-            </div>
-        {% endif %}
-        <!-- Place for adding ingredients and button for it -->
-        <div id="ingredientAdd"></div>
-        <div class="form-group">
-            <button id="add" type="button" class="btn btn-secondary">Добавить ингредиент</button>
-        </div>
-        <!-- Recipe description -->
-        <div class="form-group">
-            <label for="descr">Приготовление</label>
-            <textarea name="descr" placeholder="Описание приготовления рецепта"
-                class="form-control">{{ data['descr'] }}</textarea>
-        </div>
-        <!-- Button for submiting form -->
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Сохранить</button>
-        </div>
-        <!-- Modal for creating new products used in recipe -->
-        {% if errors %}  
-            <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <!-- Modal header with close button -->
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Creating new products</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <!-- Modal body - carousel with indicators -->
-                        <div class="modal-body">
-                            <!-- Carousel -->
-                            <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
-                                <!-- Indicators -->
-                                <ol class="carousel-indicators">
-                                    <li data-target="#carousel" data-slide-to="0" class="active" style="display: none;"></li>
-                                    {% for error in errors %}
-                                    <li data-target="#carousel" data-slide-to="{{loop.index}}"></li>
-                                    {% endfor %}
-                                </ol>
-                                <!-- Wrapper for slides -->
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <input type="hidden" name="formType" value="product" style="display:none">
-                                        <span>Некоторые продукты, необходимые для этого рецепта отсутствуют в вашем списке продуктов. Пожалйста, добавьте их.<br>Нажмите "Следующий", чтобы начать.</span>
-                                    </div>
-                                    <!-- Slides with form for each product -->
-                                    {% for error in errors %}
-                                        <div class="carousel-item">
-                                            <!-- Product name -->
-                                            <div class="form-group">
-                                                <label for="p_name_{{loop.index0}}">Название</label>
-                                                <input type="text" name="p_name_{{loop.index0}}"
-                                                    placeholder="Название продукта" class="form-control"
-                                                    value="{{error}}"></input>
-                                            </div>
-                                            <!-- Product weight -->
-                                            <div class="form-group">
-                                                <label for="p_weight_{{loop.index0}}">Количество</label>
-                                                <input type="number" step="0.01" name="p_weight_{{loop.index0}}" placeholder="0.00"
-                                                        class="form-control"></input>
-                                            </div>
-                                            <!-- Product price -->
-                                            <div class="form-group">
-                                                <label for="p_price_{{loop.index0}}">Цена</label>
-                                                <input type="number" step="0.01" name="p_price_{{loop.index0}}" placeholder="0.00"
-                                                        class="form-control"></input>
-                                            </div>
-                                            <!-- Product shop -->
-                                            <div class="form-group">
-                                                <label for="p_shop_{{loop.index0}}">Магазин</label>
-                                                <input list="shops" name="p_shop_{{loop.index0}}" class="form-control" placeholder="Название магазина"></input>
-                                                <datalist id="shops">
-                                                    {% for shop in shops %}
-                                                        <option value="{{shop['name']}}"></option>
-                                                    {% endfor %}
-                                                </datalist>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Controls with submiting form button -->
-                        <div class="modal-footer">
-                            <a href="#carousel" role="button" data-slide="prev">Следующий</a>
-                            <a href="#carousel" role="button" data-slide="next">Предыдущий</a>
-                            <button type="submit" class="btn btn-primary">Готово</button>
-                        </div>
+                {#<!-- Ingredient weight -->#}
+                <div id="weight">
+                    <div class="form-group">
+                        <label for="weight_0">Количество</label>
+                        <input type="number" step="0.01" name="weight_0" placeholder="0.00"
+                            class="form-control" value="" required></input>
+                    </div>
+                    <div class="form-group">
+                        <label for="weight-type_0">Измерение</label>
+                        <input list="weight-types" name="weight-type_0" placeholder="кг, г, л, мл, шт и т.д."
+                            class="form-control" value="" required></input>
+                        <datalist id="weight-types">
+                            <option value="кг"></option>
+                            <option value="г"></option>
+                            <option value="л"></option>
+                            <option value="мл"></option>
+                            <option value="шт"></option>
+                        </datalist>
                     </div>
                 </div>
             </div>
-        {% endif %}
+            {#<!-- Place for adding ingredients -->#}
+            <div id="ingredientAdd"></div>
+            {#<!-- Button for adding ingredients -->#}
+            <div class="form-group">
+                <button id="add" type="button" class="btn btn-secondary">Добавить ингредиент</button>
+            </div>
+        </div>
+        {#<!-- Recipe description -->#}
+        <div id="description">
+            <h5>Приготовление<span style="color: red;">*</span>:</h5>
+            <div class="form-group">
+                <label for="step_0">Шаг 1<span style="color: red;">*</span></label>
+                <textarea name="step_0" placeholder="Описание приготовления рецепта" required
+                    class="form-control"></textarea>
+            </div>
+            <div id="stepAdd"></div>
+            <div class="form-group">
+                <button id="addStep" type="button" class="btn btn-secondary">Добавить шаг</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="checkbox" name="recipe_as_product" id="recipe_as_product" value="1" onclick="choose_type()"/>
+            <label for="recipe_as_product">Отметить как отдельный ингредиент</label>
+        </div>
+        {#<div id="additional-info">
+            <div id="additional-infoAdd"></div>
+            <div><button id="add-additional-info" type="button" class="btn btn-secondary">Дополнительная информация</button></div>
+        </div>#}
+        {#<!-- Button for submiting form -->#}
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
     </form>
 {% endblock %}

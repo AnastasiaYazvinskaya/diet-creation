@@ -1,117 +1,130 @@
+
 {% extends "base.html" %}
-{% block script %}
-    <script>
-        function openHint() {
-            var hint = document.getElementById("hint");
-            //toggle adds a class if it's not there or removes it if it is.
-            hint.classList.toggle("open-hint");
-        }
-    </script>
-{% endblock %}
-{% block name %}<a id="cname" href="{{ url_for('index')}}">DietCreation</a>{% endblock %}
-<!-- Content for displaying list of recipes -->
+{#<!-- Script -->#}
+    {% block script %}
+        <script src="static/js/recipes.js"></script>
+    {% endblock %}
+{#<!-- App name (link to the home page) -->#}
+    {% block name %}<a id="cname" href="{{ url_for('index')}}">DietCreation</a>{% endblock %}
+{#<!-- Content for displaying list of recipes -->#}
 {% block content %}
-<!-- Title -->
+    {#<!-- Main header (title)-->#}
     <h1>{% block title %}Список рецептов{% endblock %}</h1>
+    {#<!-- If user is authenticated then show users panel -->#}
     {% if current_user.is_authenticated %}
-    <p id="hint" class="hint">Создайте книгу своих любимых рецептов или добавьте понравившийся из общего списка.<br>Вы так же можете посмотреть всю информацию о рецепте нажав на него.</p>
-    <!-- Badge (button) for creating new product -->
-    <div class="list-icons">
-        <a href="{{url_for('create_r')}}">
-            <img src="../static/images/add.svg" alt="Add new item icon">
-        </a>
-        {#
-        <div id="search">
-            <img src="../static/images/search.svg" alt="Search icon">
-            <span type="button" class="badge badge-primary">S</span>
-            <input></input>
+        {#<!-- Hint text for this page-->#}
+        <p id="hint" class="hint">Создайте книгу своих любимых рецептов или добавьте понравившийся из общего списка.<br>Вы так же можете посмотреть всю информацию о рецепте нажав на него.</p>
+        {#<!-- List (line) with general icons -->#}
+        <div class="list-icons">
+            {#<!-- Add icon (button) for creating new recipe -->#}
+            <a href="{{url_for('create_r')}}">
+                <img src="../static/images/add.svg" alt="Add new item icon">
+            </a>
+            {#<!-- Search icon (button) for searching recipes -->#}
+            <div id="search">
+                <img src="../static/images/search.svg" alt="Search icon">
+                <span type="button" class="badge badge-primary">S</span>
+                <input></input>
+            </div>
+            {#<!-- Hint icon (button) for open/hide a hint -->#}
+            {#<div class="show-hint">
+                <img id="show-hint" src="../static/images/black-hint.svg" alt="Hint icon"
+                    onclick="openHint()">
+            </div>#}
         </div>
-        #}
-        <div class="show-hint">
-            <img id="show-hint" src="../static/images/black-hint.svg" alt="Hint icon"
-                onclick="openHint()">
-        </div>
-    </div>
-    <!-- Displaying a list of recipes in a table (col: name, type, actions)-->
-    <div class="recipes-header">
-        <span>Мои рецепты</span>
-        <span>Все рецепты</span>
-    </div>
-    <!-- For each recipe in data create a new block -->
-    {% for recipe in recipes %}
-        <div class="recipe-info">
-            <h4><a href="{{url_for('recipe', recipe_id=recipe['id'])}}">
-                {{ recipe['name']}}
-            </a></h4>
-            <div class="recipe-type">{{ recipe['type'] }}</div>
-            <p>Ингредиенты: 
-                {% for ingredient in ingredients if ingredient['rec_id'] == recipe['id'] %}
-                    {{ ingredient['prod_name'] }}
-                {% endfor %}
-            </p>
-            {#<div class="heart">&#9829;</div>#}
-        </div>
-    {% endfor %}
+    {#<!-- If user is not authenticated then let him know to login -->#}
     {% else %}
-    <p>Вам необходимо <a href="{{url_for('login')}}" style="color: blue;">авторизоваться</a>, чтобы вы могли создавать и сохранять рецепты.</p>
+        <p>Вам необходимо <a href="{{url_for('login')}}" style="color: blue;">авторизоваться</a>, чтобы вы могли создавать и сохранять рецепты.</p>
+    {% endif %}
+    {#<!-- Header of the list (with buttons) -->#}
     <div class="recipes-header">
-        <span>Все рецепты</span>
+        {% if current_user.is_authenticated %}
+            {% if my_recipes %}
+                <span id="my" class="show-recipes" onclick="recipes('{{current_user.id}}', '{{current_user.id}}')">Мои рецепты</span>
+            {% else %}
+                <span id="my" onclick="recipes('{{current_user.id}}', '{{current_user.id}}')">Мои рецепты</span>
+            {% endif %}
+        {% endif %}
+        {% if my_recipes %}
+            <span id="total" onclick="recipes(0, '{{current_user.id}}')">Все рецепты</span>
+        {% else %}
+            <span id="total" class="show-recipes" onclick="recipes(0, '{{current_user.id}}')">Все рецепты</span>
+        {% endif %}
     </div>
-    {% if recipes %}
-    <!-- For each recipe in data create a new block -->
-    {% for recipe in recipes %}
-        <div class="recipe-info">
-            <h4><a href="{{url_for('recipe', recipe_id=recipe['id'])}}">
-                {{ recipe['name'] }}
-            </a></h4>
-            <div class="recipe-type">{{ recipe['type'] }}</div>
-            <p>Ингредиенты: 
-                {% for ingredient in ingredients if ingredient['rec_id'] == recipe['id'] %}
-                    {{ ingredient['prod_name'] }}
-                {% endfor %}
-            </p>
-        </div>
-    {% endfor %}
-    {% else %}
-    <div class="recipe-info">
-    <p>Пока что в нашей базе нет ни одного рецепта</p>
-    </div>
-    {% endif %}
-    {% endif %}
-    {#
-    <table class="table">
-        <!-- Table head -->
-        <thead class="thead-light">
-            <tr>
-                <th scope="col"> Name </th>
-                <th scope="col"> Type </th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <!-- Table body -->
-        <tbody>
-            <!-- For each recipe in data create a new row in a table -->
-            {% for recipe in recipes %}
-                <tr>
-                    <td scope="row">
+    {#<!-- List of recipes (total/own). If there is any recipe in data then show them all. -->#}
+    <div id="list-of-recipes">
+        {% if my_recipes %}
+        <div id="my-recipes">
+            {#<!-- For each recipe in data create a new block -->#}
+            {% if my_recipes %}
+                {% for recipe in my_recipes %}
+                    <div class="recipe-info my-recipe">
                         <a href="{{url_for('recipe', recipe_id=recipe['id'])}}">
-                            {{ recipe['name']}}
+                        <h4>{{ recipe['name'] }}</h4>
+                        <div class="recipe-type">{% if recipe['type'] != "general" %}{{ recipe['type'] }}{% else %}<br>{% endif %}</div>
+                        <p>Ингредиенты: 
+                            {{ recipe['ingredients'] }}
+                        </p>
                         </a>
-                    </td>
-                    <td> {{ recipe['type'] }} </td>
-                    <td>
-                        <form action="{{ url_for('delete_r', id=recipe['id']) }}" method="POST" style="display: inline-block;">
-                            <input type="submit" value="Delete"
-                                    class="btn btn-outline-danger btn-sm"
-                                    onclick="return confirm('Are you sure you want to delete this recipe?')">
-                        </form>
-                        <a href="{{ url_for('edit_r', id=recipe['id']) }}" style="display: inline-block;">
-                            <span class="btn btn-outline-warning btn-sm">Edit</span>
+                        {% if current_user.is_authenticated %}
+                            {% if current_user.id != recipe['createdBy'] %}
+                                {% if my_heart['heart'][loop.index0] %}
+                                    <div  id="recipe_{{ recipe['id']}}" class='heart' onclick="like(1,'{{current_user.id}}', '{{recipe[0]}}')" style="color: red;">&#9829;</div>
+                                {% else %}
+                                    <div  id="recipe_{{ recipe['id']}}" class='heart' onclick="like(1,'{{current_user.id}}', '{{recipe[0]}}')">&#9829;</div>
+                                {% endif %}
+                            {% else %}
+                                <div class="acts">
+                                    <form action="{{ url_for('delete_r', recipe_id=recipe['id']) }}" method="POST">
+                                        <input type="image" src="../static/images/delete2.svg" value="Удалить" id="delete"
+                                                onclick="return confirm('Подтвердите удаление')">
+                                    </form> 
+                                    <a href="{{ url_for('edit_r', recipe_id=recipe['id']) }}">
+                                        <img src="../static/images/edit.svg" alt="Edit icon">
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {#<!-- If there is no recipe in data then let user know. -->#}
+            {% else %}
+                <div class="recipe-info">
+                    <p style="text-align: center;">Пока что в нашей базе нет ни одного рецепта</p>
+                    <a href='{{url_for("create_r")}}'><span class='badge badge-primary'>Добавить рецепт</span></a>
+                </div>
+            {% endif %}
+        </div>
+        {% else %}
+        <div id="total-recipes">
+            {#<!-- For each recipe in data create a new block -->#}
+            {% if recipes %}
+                {% for recipe in recipes %}
+                    <div class="recipe-info">
+                        <a href="{{url_for('recipe', recipe_id=recipe['id'])}}">
+                        <h4>{{ recipe['name'] }}</h4>
+                        <div class="recipe-type">{% if recipe['type'] != "general" %}{{ recipe['type'] }}{% else %}<br>{% endif %}</div>
+                        <p>Ингредиенты: 
+                            {{ recipe['ingredients'] }}
+                        </p>
                         </a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    #}
+                        {% if current_user.is_authenticated and current_user.id != recipe['createdBy'] %}
+                            {% if total_heart['heart'][loop.index0] %}
+                                <div  id="recipe_{{ recipe['id']}}" class='heart' onclick="like(1,'{{current_user.id}}', '{{recipe[0]}}')" style="color: red;">&#9829;</div>
+                            {% else %}
+                            <div  id="recipe_{{ recipe['id']}}" class='heart' onclick="like(1,'{{current_user.id}}', '{{recipe[0]}}')">&#9829;</div>
+                            {% endif %}
+                            
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {#<!-- If there is no recipe in data then let user know. -->#}
+            {% else %}
+                <div class="recipe-info">
+                    <p style="text-align: center;">Пока что в нашей базе нет ни одного рецепта</p>
+                </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
 {% endblock %}

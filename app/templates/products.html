@@ -14,7 +14,7 @@
     <!-- Title -->
     <h1>{% block title %}Список продуктов{% endblock %}</h1>
     {% if current_user.is_authenticated %}
-    <p id="hint" class="hint">Создайте список продуктов, которыми вы пользуетесь, указав их название и информацию о них.<br>Вы так же можете посмотреть всю информацию о продукте нажав на него.</p>
+    <p id="hint" class="hint">Создайте список продуктов, которыми вы пользуетесь, указав их название и информацию о них. Старайтесь избегать общих названий типа - Хлеб, Яйца. Этот список продуктов будет использоваться для составления подробного списка продуктов для покупок.<br>Вы так же можете посмотреть всю информацию о продукте нажав на него.</p>
     <!-- Badge (button) for creating new product -->
     <div class="list-icons">
         <a href="{{url_for('create_p')}}">
@@ -47,7 +47,7 @@
             {% for product in products %}
                 <tr>
                     <td scope="row"><a href="{{url_for('product', product_id=product['id'])}}">{{ product['name'] }}</a></td>
-                    <td> {{ product['weight'] }} {{ product['weightType'] }} </td>
+                    <td> {{ product['weight'] }} {{ product['weight_type'] }} </td>
                     <td class="buttons"> 
                         <form action="{{ url_for('delete_p', product_id=product['id']) }}" method="POST">
                             <input type="image" src="../static/images/delete2.svg" value="Удалить" id="delete"

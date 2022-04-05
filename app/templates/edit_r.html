@@ -11,147 +11,186 @@
 {% block name %}<a id="cname" href="{{ url_for('index')}}">DietCreation</a>{% endblock %}
 <!-- Content for creating new recipe -->
 {% block content %}
-    <!-- Button trigger modal -->
-    {% if errors %}
-        <p class="border border-danger text-center" style="margin: 5px 30%;"> Some products are not listed
-            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#Modal">
-                Add products
-            </button>
-        </p>
-    {% endif %}
     <!-- Title -->
-    <h1>{% block title %}Редактирование рецепта<br>"{{ recipe['r_name'] }}" {% endblock %}</h1>
-    <!-- Form for recipe detiels (if it has new products, then after refreshing all data will be on it's place) -->
-    <form method="post">
-        <!-- Text field for recipe name-->
-        <div class="form-group">
-            <label for="r_name">Название</label>
-            <input type="text" name="r_name" placeholder="Recipe name" 
-                class="form-control" value="{{recipe['r_name']}}"></input>
+    <h1>{% block title %}Редактирование рецепта<br>"{{ recipe['name'] }}" {% endblock %}</h1>
+    {#<!-- Hint -->#}
+    <p id="hint" class="hint"><br></p>
+    {#<!-- Hint icon for open/close a hint -->#}
+    <div class="list-icons">
+        <div class="show-hint">
+            <img id="show-hint" src="../static/images/black-hint.svg" alt="Hint icon"
+                onclick="openHint()">
         </div>
-        <!-- Text field for recipe type with list of availiable variants -->
-        <div class="form-group">
-            <label for="type">Type</label>
-            <input list="types" name="type" class="form-control" 
-                placeholder="Завтрак/Обед/Ужин/Напиток/другое" 
-                value="{{recipe['type']}}"></input>
-            <datalist id="types">
-                {% for type in types %}
-                    <option value="{{type['type']}}"></option>
-                {% endfor %}
-            </datalist>
+    </div>
+    {#<!-- Form for recipe detiles (if it has new products, then after refreshing all data will be on it's place) -->#}
+    <form method="post" class="form">
+        {#<!-- Text field for recipe name -->#}
+        <div id="recipeName" class="form-group">
+            <label for="r_name">Название<span style="color: red;">*</span></label>
+            <input type="text" name="r_name" placeholder="Название рецепта" 
+                class="form-control" value="{{recipe['name']}}" required></input>
         </div>
-        <!-- Ingredients -->
-        <h5>Ingredients:</h5>
-        <!-- Restoration of entered ingredients -->
-        {% for prod in recipe['ingreds']['names'] %}
-            <div class="form-group" id="repeate_{{loop.index0}}">
-                <!-- Ingredient name -->
-                <label for="name_{{loop.index0}}">Name</label>
-                <input list="products" name="name_{{loop.index0}}" class="form-control" placeholder="{{loop.index}} product name" id="product" 
-                        value="{{ recipe['ingreds']['names'][loop.index0] }}"></input>
-                <datalist id="products">
-                    {% for product in prods %}
-                        <option value="{{product['name']}} [{{product['shop']}}]"></option>
+        {#<!-- Text field for recipe type with list of availiable variants -->#}
+        <div id="types">
+            <div class="form-group">
+                <label for="dishtype">Тип блюда</label>
+                {% if recipe['dish_type'] %}
+                <input list="dishtypes" name="dishtype" class="form-control" 
+                    placeholder="Суп/Второе блюдо/Десерт/Закуска/Напиток/другое" 
+                    value="{{recipe['dish_type'] | capitalize}}"></input>
+                {% else %}
+                <input list="dishtypes" name="dishtype" class="form-control" 
+                    placeholder="Суп/Второе блюдо/Десерт/Закуска/Напиток/другое" 
+                    value=""></input>
+                {% endif %}
+                <datalist id="dishtypes">
+                    {% for type in types if type['recipe_type']==1 %}
+                        <option value="{{type['type'] | capitalize}}"></option>
                     {% endfor %}
                 </datalist>
-                <!-- Ingredient weight -->
-                <label for="weight_{{loop.index0}}">Weight (gram)</label>
-                <input type="number" step="0.01" name="weight_{{loop.index0}}"
-                    placeholder="0.00" class="form-control"
-                        value="{{ recipe['ingreds']['weights'][loop.index0] }}"></input>
+                {% if recipe['meal_type'] or recipe['kitchen_type'] or recipe['other_type'] %}
+                    <label for="mealtype">Прием пищи</label>
+                    {% if recipe['dish_type'] %}
+                    <input list="mealtypes" name="mealtype" class="form-control" 
+                        placeholder="Завтрак/Перекус/Обед/Полдник/Ужин/другое"
+                        value="{{recipe['meal_type'] | capitalize}}"></input>
+                    {% else %}
+                    <input list="mealtypes" name="mealtype" class="form-control" 
+                        placeholder="Завтрак/Перекус/Обед/Полдник/Ужин/другое"
+                        value=""></input>
+                    {% endif %}
+                    <datalist id="mealtypes">
+                        {% for type in types if type['recipe_type']==2 %}
+                            <option value="{{type['type'] | capitalize}}"></option>
+                        {% endfor %}
+                    </datalist>
+
+                    <label for="kitchentype">Кухня</label>
+                    {% if recipe['kitchen_type'] %}
+                    <input list="kitchentypes" name="kitchentype" class="form-control" 
+                        placeholder="Русская/Украинская/Китайская/Французская/другое" 
+                        value="{{recipe['kitchen_type'] | capitalize}}"></input>
+                    {% else %}
+                    <input list="kitchentypes" name="kitchentype" class="form-control" 
+                        placeholder="Русская/Украинская/Китайская/Французская/другое" 
+                        value=""></input>
+                    {% endif %}
+                    <datalist id="kitchentypes">
+                        {% for type in types if type['recipe_type']==3 %}
+                            <option value="{{type['type'] | capitalize}}"></option>
+                        {% endfor %}
+                    </datalist>
+
+                    <label for="othertype">Прочее</label>
+                    {% if recipe['other_type'] %}
+                    <input list="othertypes" name="othertype" class="form-control" 
+                        placeholder="Рыба/Мясо/Диетическое/другое" 
+                        value="{{recipe['other_type'] | capitalize}}"></input>
+                    {% else %}
+                    <input list="othertypes" name="othertype" class="form-control" 
+                        placeholder="Рыба/Мясо/Диетическое/другое" 
+                        value=""></input>
+                    {% endif %}
+                    <datalist id="othertypes">
+                        {% for type in types if type['recipe_type']==4 %}
+                            <option value="{{type['type'] | capitalize}}"></option>
+                        {% endfor %}
+                    </datalist>
+                {% else %}
+                    <div id="typesAdd"></div>
+                    <div><button id="addTypes" type="button" class="btn btn-secondary">Дополнительные типы</button></div>
+                {% endif %}
             </div>
-        {% endfor %}
-        <!-- Place for adding ingredients and button for it -->
-        <div id="ingredientAdd"></div>
-        <div class="form-group">
-            <button id="add" type="button" class="btn btn-secondary">Add ingredient</button>
         </div>
-        <!-- Recipe description -->
-        <div class="form-group">
-            <label for="descr">Description</label>
-            <textarea name="descr" placeholder="Recipe description"
-                class="form-control">{{ recipe['descr'] }}</textarea>
-        </div>
-        <!-- Button for submiting form -->
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Save changes</button>
-        </div>
-        <!-- Modal for creating new products used in recipe -->
-        {% if errors %}  
-            <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <!-- Modal header with close button -->
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Creating new products</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+        {#<!-- Ingredients -->#}
+        <div id="ingredients">
+            <h5>Ингредиенты<span style="color: red;">*</span>:</h5>
+            {#<!-- Restoration of entered ingredients -->#}
+            {% for ingredient in recipe['ingredients']['name'] %}
+                <div class="form-group" id="repeate_{{loop.index0}}">
+                    <!-- Ingredient name -->
+                    <label for="name_{{loop.index0}}">Название {{loop.index}}-ого продукта</label>
+                    <input list="products" name="name_{{loop.index0}}" class="form-control" placeholder="Название продукта"
+                            value="{{ ingredient | capitalize }}"></input>
+                    <datalist id="products">
+                        {% for product in products %}
+                            <option value="{{product['name'] | capitalize}}"></option>
+                        {% endfor %}
+                        {% for product in r_products %}
+                            <option value="{{product['name'] | capitalize}}"></option>
+                        {% endfor %}
+                    </datalist>
+                    {#<!-- Ingredient weight -->#}
+                    <div id="weight">
+                        <div class="form-group">
+                            <label for="weight_{{loop.index0}}">Количество</label>
+                            <input type="number" step="0.01" name="weight_{{loop.index0}}" placeholder="0.00"
+                                class="form-control" value="{{recipe['ingredients']['weight'][loop.index0]}}" required></input>
                         </div>
-                        <!-- Modal body - carousel with indicators -->
-                        <div class="modal-body">
-                            <!-- Carousel -->
-                            <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
-                                <!-- Indicators -->
-                                <ol class="carousel-indicators">
-                                    <li data-target="#carousel" data-slide-to="0" class="active" style="display: none;"></li>
-                                    {% for error in errors %}
-                                    <li data-target="#carousel" data-slide-to="{{loop.index}}"></li>
-                                    {% endfor %}
-                                </ol>
-                                <!-- Wrapper for slides -->
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <input type="hidden" name="formType" value="product" style="display:none">
-                                        <span>You have some products not in list. Please add the information about them.<br>Click "Next" for starting.</span>
-                                    </div>
-                                    <!-- Slides with form for each product -->
-                                    {% for error in errors %}
-                                        <div class="carousel-item">
-                                            <!-- Product name -->
-                                            <div class="form-group">
-                                                <label for="p_name_{{loop.index0}}">Name</label>
-                                                <input type="text" name="p_name_{{loop.index0}}"
-                                                    placeholder="Product name" class="form-control"
-                                                    value="{{error}}"></input>
-                                            </div>
-                                            <!-- Product weight -->
-                                            <div class="form-group">
-                                                <label for="p_weight_{{loop.index0}}">Weight (gram)</label>
-                                                <input type="number" step="0.01" name="p_weight_{{loop.index0}}" placeholder="0.00"
-                                                        class="form-control"></input>
-                                            </div>
-                                            <!-- Product price -->
-                                            <div class="form-group">
-                                                <label for="p_price_{{loop.index0}}">Price (rubles)</label>
-                                                <input type="number" step="0.01" name="p_price_{{loop.index0}}" placeholder="0.00"
-                                                        class="form-control"></input>
-                                            </div>
-                                            <!-- Product shop -->
-                                            <div class="form-group">
-                                                <label for="p_shop_{{loop.index0}}">Shop</label>
-                                                <input list="shops" name="p_shop_{{loop.index0}}" class="form-control" placeholder="Shop name"></input>
-                                                <datalist id="shops">
-                                                    {% for shop in shops %}
-                                                        <option value="{{shop['name']}}"></option>
-                                                    {% endfor %}
-                                                </datalist>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Controls with submiting form button -->
-                        <div class="modal-footer">
-                            <a href="#carousel" role="button" data-slide="prev">Previous</a>
-                            <a href="#carousel" role="button" data-slide="next">Next</a>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="form-group">
+                            <label for="weight-type_{{loop.index0}}">Измерение</label>
+                            <input list="weight-types" name="weight-type_{{loop.index0}}" placeholder="кг, г, л, мл, шт и т.д."
+                                class="form-control" value="{{recipe['ingredients']['weight_type'][loop.index0]}}" required></input>
+                            <datalist id="weight-types">
+                                <option value="кг"></option>
+                                <option value="г"></option>
+                                <option value="л"></option>
+                                <option value="мл"></option>
+                                <option value="шт"></option>
+                            </datalist>
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endif %}
+            {% endfor %}
+            {% if recipe['ingredients']['name'].length != 30 %}
+                {#<!-- Place for adding ingredients -->#}
+                <div id="ingredientAdd"></div>
+                {#<!-- Button for adding ingredients -->#}
+                <div class="form-group">
+                    <button id="add" type="button" class="btn btn-secondary">Добавить ингредиент</button>
+                </div>
+            {% endif %}
+        </div>
+        {#<!-- Recipe description -->#}
+        <div id="description">
+            <h5>Приготовление<span style="color: red;">*</span>:</h5>
+            {% for step in recipe['description'] %}
+                <div class="form-group" id="step_repeate_{{loop.index0}}">
+                    <label for="step_{{loop.index0}}">Шаг {{loop.index}}<span style="color: red;">*</span></label>
+                    <textarea name="step_{{loop.index0}}" placeholder="Описание приготовления рецепта"
+                        class="form-control">{{step}}</textarea>
+                </div>
+            {% endfor %}
+            {% if recipe['description'].length != 30%}
+                <div id="stepAdd"></div>
+                <div class="form-group">
+                    <button id="addStep" type="button" class="btn btn-secondary">Добавить шаг</button>
+                </div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {% if recipe['as_product'] == 1 %}
+                <input type="checkbox" name="recipe_as_product" id="recipe_as_product" value="1" onclick="choose_type()" checked/>
+            {% else %}
+                <input type="checkbox" name="recipe_as_product" id="recipe_as_product" value="1" onclick="choose_type()"/>
+            {% endif %}
+            <label for="recipe_as_product">Отметить как отдельный ингредиент</label>
+        </div>
+        {#<div id="additional-info">
+            {% if recipe['portions'] %}
+                <div class="form-group">
+                    <label for="portions">Количество порций</label>
+                    <input type="number" step="0.5" name="portions" placeholder="1"
+                        class="form-control" value="1"></input>
+                </div>
+            {% else %}
+                <div id="additional-infoAdd"></div>
+                <div><button id="add-additional-info" type="button" class="btn btn-secondary">Дополнительная информация</button></div>
+            {% endif %}
+        </div>#}
+        {#<!-- Button for submiting form -->#}
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
     </form>
 {% endblock %}

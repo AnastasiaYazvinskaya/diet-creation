@@ -4,25 +4,7 @@
 <link rel="stylesheet" href="static/css/user_style.css">
 {% endblock %}
 {% block script %}
-<script>
-    function selectAvatar() {
-        var selection = document.getElementById("choose-avatar");
-        //toggle adds a class if it's not there or removes it if it is.
-        selection.classList.toggle("open-selection");
-        selection.classList.toggle("hide-selection");
-    }
-    function changeIcon(icon) {
-        $("div.navbar-brand").html("<img src ='"+icon+"' alt = 'User icon'/>");
-        
-        var data_string = 'data='+icon;
-        $.ajax({
-            method: "POST",
-            url: "/update_icon",
-            data: data_string,
-            cache: false
-        });
-    }
-</script>
+    <script src="static/js/user_script.js"></script>
 {% endblock %}
 {% block user_icon %}
     {% if current_user.icon %}
@@ -31,53 +13,45 @@
 {% endblock %}
 <!-- Content for starting page -->
 {% block content %}
-    <div class="choose-avatar hide-selection" id="choose-avatar">{% for user_icon in user_icons %}
-        <div><img src ="{{user_icon[1]}}" alt = "Alternate user icon" onclick="changeIcon('{{user_icon[1]}}')"></div>
-    {% endfor %}</div>
+    <div class="choose-avatar"></div>
     <!-- Welcome title -->
     <!--<p>{{username}}</p>-->
     <h1>{% block title %} {{current_user.username}} {% endblock %}</h1>
-    <a href="{{ url_for('logout') }}">Logout</a>
-    <!-- Look at the products list -->
+    <!-- Overview of the user's data -->
     <div class="data">
-        <h5><a href="{{url_for('products')}}">Продукты</a></h5>
-        {% if data['products'] != 0 %}
-            <p>В вашем списке - {{data['products']}} продуктов</p>
+        {#<!-- Products -->#}
+        <p><a class="user-data" href="#" >{#{{url_for('products')}}#}Продукты</a>: Эта функция пока недоступна.
+        {#{% if data['products'] != 0 %}
+            {{data['products']}}
         {% else %}
-            <p>Пока что вы не добавили ни один продукт.<br>
-                <a href="{{url_for('create_p')}}">
+            0<a href="{{url_for('create_p')}}">
                     <span class="badge badge-primary">Добавить продукт</span>
                 </a>
-            </p>
-        {% endif %}
+        {% endif %}#}
+        </p>
+        {#<!-- Recipes -->#}
+        <p><a class="user-data" href="{{url_for('recipes')}}">{#{{url_for('recipes')}}#}Рецепты</a>: {#Эта функция пока недоступна.#}
+            {% if data['recipes'] != 0 %}
+                {{data['recipes']}}
+            {% else %}
+                0<a href="{{url_for('create_r')}}">
+                        <span class="badge badge-primary">Создать рецепт</span>
+                    </a>
+                    <a href="{{url_for('recipes')}}">
+                        <span class="badge badge-primary">Выбрать из базы</span>
+                    </a>
+            {% endif %}
+        </p>
+        {#<!-- Menus -->#}
+        <p><a class="user-data" href="#">{#{{url_for('menus')}}#}Меню</a>: Эта функция пока недоступна.
+            {#{% if data['menus'] != 0 %}
+                {{data['menus']}}
+            {% else %}
+                0<a href="{{url_for('create_m')}}">
+                        <span class="badge badge-primary">Создать рецепт</span>
+                    </a>
+            {% endif %}#}
+        </p>
     </div>
-    <!-- Look at the recipes list -->
-    <div class="data">
-        <h5><a href="{{url_for('recipes')}}">Рецепты</a></h5>
-        {% if data['recipes'] != 0 %}
-            <p>В вашем списке - {{data['recipes']}} рецептов</p>
-        {% else %}
-            <p>Пока что вы не добавили ни одного рецепта.<br>
-                <a href="{{url_for('create_r')}}">
-                    <span class="badge badge-primary">Создать рецепт</span>
-                </a>
-                <a href="{{url_for('recipes')}}">
-                    <span class="badge badge-primary">Выбрать из базы</span>
-                </a>
-            </p>
-        {% endif %}
-    </div>
-    <!-- Look at the menu -->
-    <div class="data">
-        <h5><a href="{{url_for('menus')}}">Меню</a></h5>
-        {% if data['menus'] != 0 %}
-            <p>В вашем списке - {{data['menus']}} возможных меню</p>
-        {% else %}
-            <p>Пока что вы не создали ни одного меню.<br>
-                <a href="{{url_for('create_m')}}">
-                    <span class="badge badge-primary">Создать меню</span>
-                </a>
-            </p>
-        {% endif %}
-    </div>
+    <a href="{{ url_for('logout') }}" class="logout btn btn-danger">Logout</a>
 {% endblock %}

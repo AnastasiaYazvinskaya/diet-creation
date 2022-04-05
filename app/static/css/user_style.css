@@ -1,5 +1,5 @@
 
-.container div.data, .choose-avatar {
+.container div.data, #choose-avatar {
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
     padding: 5px;
@@ -14,17 +14,23 @@
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
 }
-.choose-avatar img {
+#choose-avatar img {
     height: 45px;
     width: 45px;
     margin: 5px;
-}
-.hide-selection {
-    display: none;
-}
-.open-selection {
-    display: block;
+    cursor: pointer;
 }
 .choose-avatar-icon {
     cursor: pointer;
+}
+
+.user-data {
+    font-weight: 600;
+}
+.logout {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(252, 110, 110, 0.8);
+    border-color: rgba(252, 110, 110, 0.8);
 }

@@ -17,6 +17,7 @@
         <title>{% block title %} {% endblock %}</title>
         <!-- Favicon -->
         <link rel = "shortcut icon" href = "static/images/favicon.ico">
+        {{ JSGlue.include() }}
         <script>
             function toggleNav() {
                 var updateElement = document.getElementById("menu-icon");
@@ -38,16 +39,19 @@
             </div>
             <div class="sidebar" id="sidebar">
                 <a class="nav-link" href="{{ url_for('index')}}">Домашняя</a>
-                <a class="nav-link" href="{{url_for('products')}}">Продукты</a>
-                <a class="nav-link" href="{{url_for('recipes')}}">Рецепты</a>
-                <a class="nav-link" href="{{url_for('menus')}}">Меню</a>
-                <a class="nav-link" href="{{url_for('about')}}">О нас</a>
+                <a class="nav-link" href="#">{#{{url_for('products')}}#}Продукты<span style="font-size: small; color: red;"> (Эта функция пока недоступна)</span></a>
+                <a class="nav-link" href="{{url_for('recipes')}}">{#{{url_for('recipes')}}#}Рецепты{#<span style="font-size: small; color: red;"> (Эта функция пока недоступна)</span>#}</a>
+                <a class="nav-link" href="#">{# {{url_for('menus')}} #}Меню<span style="font-size: small; color: red;"> (Эта функция пока недоступна)</span></a>
+                <a class="nav-link" href="{{url_for('about')}}">Отзывы</a>
+                {% if current_user.role == "admin" %}
+                <a class="nav-link" href="#">{#{{url_for('adminIndex')}}#}Администрирование<span style="font-size: small; color: red;"> (Эта функция пока недоступна)</span></a>
+                {% endif %}
             </div>
             {% block user_icon %}
             {% if current_user.is_authenticated and current_user.icon %}
                 <a class="navbar-brand" href="{{url_for('user', user_id=current_user.id)}}"><img src ="{{current_user.icon}}" alt = "User icon"></a>
             {% else %}
-            <a class="navbar-brand" href="{{url_for('login')}}"><img src ="../static/images/black-account.svg" alt = "LogIn icon"></a>
+                <a class="navbar-brand" href="{{url_for('login')}}"><img src ="../static/images/LoginIcon2.svg" alt = "LogIn icon"></a>
             {% endif %}
             {% endblock %}
         </nav>
@@ -88,11 +92,11 @@
         <div class="container">
             {% block content %} {% endblock %}
         </div>
-        <footer>
+        {#<footer>
             <hr>
             <div >
                 &copy 2022 DietCreation by Anastasia Yazvinskaya and Valentina Kovalenko
-                {#
+                <!--
                 <a id="face" href = "https://www.facebook.com/nastya.kudasova">
                   <img src ="assets/facebook.png" 
                        alt = "facebook">
@@ -105,9 +109,9 @@
                   <img src = "assets/pinterest.png" 
                        alt = "pinterest">
                 </a>
-                #}
+                -->
               </div>
-        </footer>
+        </footer>#}
         {#<br><br><br><br><br><br><br><br><br><span>End of page</span>#}
         
     </body>

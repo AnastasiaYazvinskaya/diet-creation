@@ -6,7 +6,7 @@
         {{ form.hidden_tag() }}
         <span>Аватар</span><br>
         {% for user_icon in user_icons%}
-        <input type="radio" name="icon" id="icon_{{loop.index}}" class="input-hidden" value="{{user_icon[0]}}"/>
+        <input type="radio" name="icon" id="icon_{{loop.index}}" class="input-hidden radio" value="{{user_icon[0]}}"/>
         <label for="icon_{{loop.index}}"><img src ="{{user_icon[1]}}" alt = "User icon"></label>
         {% endfor %}
         <p>

@@ -86,6 +86,10 @@ body {
     background-color: #bacaad91;
     color: black;
 }
+
+.upper-first::first-letter {
+    text-transform: capitalize;
+}
 /* Login */
 .navbar-brand {
     position: absolute;
@@ -123,7 +127,7 @@ h1 {
     font-weight: 600;
 }
 
-.info, form {
+.info, .form {
     background-color: rgba(255, 255, 255, 0.6);
     border-radius: 10px;
     padding: 5px;
@@ -163,6 +167,9 @@ a {
 .show-hint {
     position: absolute;
     right: 13px;
+}
+#search, .show-hint {
+    display: none;
 }
 .hint {
     display: none;
@@ -231,34 +238,63 @@ td a{
     background-color: rgba(253, 255, 127, 0.8);
     height: 50px;
 }
-.recipes-header span:nth-of-type(1) {
+.recipes-header span {
     font-weight: 400;
 }
 .recipes-header span:nth-of-type(2) {
     margin-left: 15%;
+}
+.recipes-header span.show-recipes {
     font-weight: 700;
 }
 .recipe-info {
     background-color: rgba(255, 255, 255, 0.8);
     margin-bottom: 10px;
-    padding-bottom: 2px;
+    padding-bottom: 4px;
+}
+.recipe-info.my-recipe {
+    position: relative;
 }
 .recipe-info h4 {
     text-align: center;
 }
-
 .recipe-type {
     text-align: center;
     margin-top: -10px;
     font-size: 0.8em;
 }
+.recipe-info p {
+    padding-bottom: 3px;
+}
 
 .heart {
     text-align: right;
-    margin: -15px 5px 5px 0;
+    margin: -37px 5px -12px 0;
+    padding: 0;
     font-size: 2em;
-    line-height: 30px;
     color: rgba(61, 61, 61, 0.2);
+    cursor: pointer;
+}
+.acts {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+}
+.acts form {
+    margin-top: 4px;
+}
+
+.add-btn {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -10px;
+}
+
+/* Recipe */
+.weight {
+    width: 60px;
 }
 
 /* Registration & User */
@@ -266,11 +302,11 @@ td a{
     position: absolute;
     display: none;
 }
-input[type=radio] + label>img{
+input[type=radio].radio + label>img{
     width: 45px;
     height: 45px;
 }
-input[type=radio]:checked + label>img {
+input[type=radio].radio:checked + label>img {
     border: 1px solid #fff;
     border-radius: 50%;
     box-shadow: 0 0 3px 3px rgba(82, 255, 82, 0.747);
